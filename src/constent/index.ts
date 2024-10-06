@@ -1,5 +1,5 @@
 export const genderOptions=[
-    {value:"Male",label:"Male"},
-    {value:"Female",label:"Female"},
-    {value:"Other",label:"Other"}
+    {key:"Male",label:"Male"},
+    {key:"Female",label:"Female"},
+    {key:"Other",label:"Other"}
 ]

@@ -17,20 +17,21 @@ export default function TTTZInput({
   variant = "bordered",
   label,
   size = "md",
-  isRequired = false,
+  
   placeholder,
 }: IProps) {
-  const { register } = useFormContext();
+  const { register,formState:{errors} } = useFormContext();
+ 
   return (
     <Input
       {...register(name)}
+      errorMessage={errors[name]?(errors[name].message as string):""}
+      isInvalid={!!errors[name]}
       type={type}
       variant={variant}
       label={label}
-      size={size}
-      isRequired={isRequired}
-      radius="sm"
-      placeholder={placeholder}
+
+    
     />
   );
 }

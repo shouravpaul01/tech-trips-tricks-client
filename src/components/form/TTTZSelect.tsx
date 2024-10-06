@@ -10,7 +10,7 @@ interface IProps {
   size?: "sm" | "md" | "lg";
   isRequired?: boolean;
   placeholder?: string;
-  options:{value:string,label:string}[]
+  options:{key:string,label:string}[]
 }
 export default function TTTZSelect({
   name,
@@ -22,11 +22,12 @@ export default function TTTZSelect({
   placeholder,
   options
 }: IProps) {
-  const { register } = useFormContext();
+  const { register,formState:{errors} } = useFormContext();
   return (
     <Select 
     {...register(name)}
-    
+    errorMessage={errors[name]?(errors[name].message as string):""}
+    isInvalid={!!errors[name]}
     variant={variant}
     label={label}
     size={size}
@@ -34,8 +35,8 @@ export default function TTTZSelect({
     radius="sm"
     placeholder={placeholder}
           >
-            {options.map((option,index:number) => (
-              <SelectItem value={option.value} key={index}>
+            {options.map((option) => (
+              <SelectItem  key={option.key}>
                 {option.label}
               </SelectItem>
             ))}
