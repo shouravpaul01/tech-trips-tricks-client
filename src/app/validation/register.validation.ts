@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
 import { z } from "zod";
 
 export const registerValidation=z.object({
