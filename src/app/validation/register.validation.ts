@@ -3,7 +3,7 @@ import timezone from "dayjs/plugin/timezone";
 import { z } from "zod";
 
 export const registerValidation=z.object({
-    // name:z.string().nonempty("The field is required."),
+    name:z.string().nonempty("The field is required."),
     email:z.string().nonempty("The field is required.").email({message:"Enter a valid Email."}),
     gender:z.string().nonempty("The field is required."),
     dateOfBirth: z.preprocess((value) => {

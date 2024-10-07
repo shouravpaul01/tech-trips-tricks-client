@@ -9,7 +9,7 @@ export default function layout({ children }: { children: ReactNode }) {
         <div className="w-full md:w-1/2 flex items-center">
           <div className="">
             
-          <Image src="/ttt-zone-logo.png" width={400} height={400} alt="icon"/>
+          <Image src="/ttt-zone-logo.png" width={400} height={400} alt="icon" priority={false} />
           </div>
         </div>
         <div className="border border-dashed border-secondary-200 hidden md:block"></div>
