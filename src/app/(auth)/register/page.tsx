@@ -16,7 +16,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { registerValidation } from "../../validation/register.validation";
-import registerUser from "../../services/AuthService";
+import {registerUser} from "../../services/AuthService";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { TErrorMessage } from "@/src/types";
