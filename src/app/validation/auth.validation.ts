@@ -1,6 +1,17 @@
 import dayjs from "dayjs";
 import { z } from "zod";
 
+export const loginValidation = z.object({
+  email: z
+    .string()
+    .nonempty("The field is required.")
+    .email({ message: "Enter a valid Email." }),
+
+  password: z
+    .string()
+    .nonempty("The field is required.")
+    .min(6, { message: "Password mus be six charecters." }),
+});
 export const registerValidation=z.object({
     name:z.string().nonempty("The field is required."),
     email:z.string().nonempty("The field is required.").email({message:"Enter a valid Email."}),
@@ -23,4 +34,15 @@ export const registerValidation=z.object({
 }).refine((data:any) => data.password == data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"], 
+  });
+
+  export const useIdValidation = z.object({
+    email: z
+    .string()
+    .nonempty("The field is required.")
+    .email({ message: "Enter a valid Email." }),
+    userId: z
+      .string()
+      .nonempty("The field is required.")
+    
   });

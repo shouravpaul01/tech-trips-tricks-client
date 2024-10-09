@@ -8,8 +8,9 @@ export default function MenuItems() {
     " text-xl text-default-500 pointer-events-none  flex-shrink-0";
   return (
     <div className="font-semibold">
-      <Listbox variant="faded" aria-label="Listbox menu with icons">
+      <Listbox color="secondary" variant="flat"  aria-label="Listbox menu with icons">
         <ListboxItem
+        href="/"
           key="Home"
           classNames={{
             

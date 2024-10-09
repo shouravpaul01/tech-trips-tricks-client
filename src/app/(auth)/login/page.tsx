@@ -8,11 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { loginValidation } from "../../validation/login.validation";
+import { loginValidation } from "../../validation/auth.validation";
 import { loginUser } from "../../services/AuthService";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
+
 
 
 export default function LoginPage() {

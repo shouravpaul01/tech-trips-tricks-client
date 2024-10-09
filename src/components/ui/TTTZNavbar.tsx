@@ -16,13 +16,14 @@ import { useState } from "react";
 import { BarIcon, SearchIcon } from "../icons";
 import { Avatar } from "@nextui-org/avatar";
 import { motion } from 'framer-motion';
+import MenuItems from "./MenuItems";
 
 export default function TTTZNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   return (
     <>
-    {<Navbar isBordered >
+    {<Navbar isBordered classNames={{wrapper:"max-w-6xl"}}>
       <NavbarBrand>
       <div className="me-2 block md:hidden">
       <Button isIconOnly color="secondary" variant="flat" radius="full" onClick={()=>setIsMenuOpen(prev=>!prev)}>
@@ -65,12 +66,10 @@ export default function TTTZNavbar() {
     
     </Navbar>}
     {
-      isMenuOpen &&  <motion.div className="h-screen bg-red-500 block md:hidden z-[9999]" initial={{ y: -200, opacity: 0 }}
+      isMenuOpen &&  <motion.div className="h-screen  block md:hidden z-[9999]" initial={{ y: -200, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}>
-        <Button isIconOnly color="secondary" variant="flat" radius="full" onClick={()=>setIsMenuOpen(prev=>!prev)}>
-        {<BarIcon/>}
-      </Button> 
+       <MenuItems />
       </motion.div>
     }
     </>

@@ -9,20 +9,24 @@ import { genderOptions } from "@/src/constent";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
+import { registerValidation } from "../../validation/auth.validation";
 import {
   FieldValues,
   SubmitHandler,
-  useForm,
-  useFormContext,
 } from "react-hook-form";
-import { registerValidation } from "../../validation/register.validation";
+
 import {registerUser} from "../../services/AuthService";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { TErrorMessage } from "@/src/types";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/src/context/user.provider";
+
 
 export default function RegisterPage() {
+  const router=useRouter()
+  const {isLoading,setIsLoading }=useUser()
   const [errors, setErrors] = useState<TErrorMessage[]>([]);
 
   const {
@@ -36,14 +40,15 @@ export default function RegisterPage() {
       console.log("onSuccess", data);
       if (data?.status) {
         setErrors([])
-        toast.success(data?.message)
+        setIsLoading(true)
+        router.push(`/user_name`)
       }
       if (!!data?.errorMessages) {
         setErrors([...data?.errorMessages]);
       }
     },
   });
-  console.log(errors, "errors");
+ 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
     handleRegister(data);
