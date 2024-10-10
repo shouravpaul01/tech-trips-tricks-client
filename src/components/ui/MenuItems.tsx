@@ -1,16 +1,23 @@
 "use client";
-import { Listbox, ListboxSection, ListboxItem } from "@nextui-org/listbox";
+import { Listbox, ListboxItem } from "@nextui-org/listbox";
 import { HomeIcon, PremiumIcon, ProfileIcon } from "../icons";
 import { IconWrapper } from "./IconWrapper";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/src/context/user.provider";
+
 
 export default function MenuItems() {
+  const router=useRouter()
+  const {user}=useUser()
+
   const iconClasses =
     " text-xl text-default-500 pointer-events-none  flex-shrink-0";
+    
   return (
     <div className="font-semibold">
       <Listbox color="secondary" variant="flat"  aria-label="Listbox menu with icons">
         <ListboxItem
-        href="/"
+        onClick={()=>router.push("/")}
           key="Home"
           classNames={{
             
@@ -24,6 +31,7 @@ export default function MenuItems() {
         </ListboxItem>
         <ListboxItem
           key="Premium"
+         
           classNames={{
             
             title: "font-semibold text-md flex items-center",
@@ -36,6 +44,7 @@ export default function MenuItems() {
         </ListboxItem>
         <ListboxItem
           key="Profile"
+          onClick={()=>router.push(`/${user?.userId}`)}
           classNames={{
             
             title: "font-semibold text-md flex items-center",

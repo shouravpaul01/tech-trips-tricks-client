@@ -18,6 +18,7 @@ import { Avatar } from "@nextui-org/avatar";
 import { motion } from 'framer-motion';
 import MenuItems from "./MenuItems";
 import { useUser } from "@/src/context/user.provider";
+import { blankImage } from "@/src/constent";
 
 export default function TTTZNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,7 +61,7 @@ export default function TTTZNavbar() {
               <p className="font-bold">{user?.name}</p>
               <p className="text-gray-400 text-sm -mt-[4px]">@{user?.userId}</p>
             </div>
-          <Avatar isBordered color="primary" size="sm" src={user?.profileImage || "https://res.cloudinary.com/dcrui4h7s/image/upload/v1728573900/vm6kctldpgh85xgvy9m3.png"}  />
+          <Avatar isBordered color="primary" size="sm" src={user?.profileImage || blankImage}  />
           </div>
         </NavbarItem>
       </NavbarContent>

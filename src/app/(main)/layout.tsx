@@ -25,7 +25,7 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
           </div>
 
           {/* Main Content */}
-          <div className="w-full md:w-[572px] md:ms-[290px] p-5 h-screen border-x">
+          <div className="w-full md:w-[572px] md:ms-[290px]  h-screen border-x">
             {children}
           </div>
 
