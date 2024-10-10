@@ -17,10 +17,11 @@ import { BarIcon, SearchIcon } from "../icons";
 import { Avatar } from "@nextui-org/avatar";
 import { motion } from 'framer-motion';
 import MenuItems from "./MenuItems";
+import { useUser } from "@/src/context/user.provider";
 
 export default function TTTZNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+  const {user}=useUser()
   return (
     <>
     {<Navbar isBordered classNames={{wrapper:"max-w-6xl"}}>
@@ -54,12 +55,12 @@ export default function TTTZNavbar() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <div className="flex gap-2">
-            <div className="text-right">
-              <p className="font-bold">Shourav Paul</p>
-              <p className="text-gray-300 text-sm">@Shouravpaul</p>
+          <div className="flex items-center gap-2">
+            <div className="text-right ">
+              <p className="font-bold">{user?.name}</p>
+              <p className="text-gray-400 text-sm -mt-[4px]">@{user?.userId}</p>
             </div>
-          <Avatar isBordered color="primary" src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
+          <Avatar isBordered color="primary" size="sm" src={user?.profileImage || "https://res.cloudinary.com/dcrui4h7s/image/upload/v1728573900/vm6kctldpgh85xgvy9m3.png"}  />
           </div>
         </NavbarItem>
       </NavbarContent>

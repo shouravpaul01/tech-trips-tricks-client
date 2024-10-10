@@ -7,23 +7,42 @@ import { Button } from "@nextui-org/button";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useIdValidation } from "../../validation/auth.validation";
 import { useUser } from "@/src/context/user.provider";
-import { isExistsUserId } from "../../services/AuthService";
+import { isExistsUserId, updateUserId } from "../../services/AuthService";
 import { useState } from "react";
 import { TErrorMessage } from "@/src/types";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function UserNamePage() {
   const { user } = useUser();
+  const router = useRouter();
   const [userIdError, setUserIdError] = useState<TErrorMessage | {}>({});
-console.log(user)
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-  };
+  const { mutate: handleUserId,isPending } = useMutation({
+    mutationKey: ["USER_NAME"],
+    mutationFn: async (data: FieldValues) => await updateUserId(data),
+    onSuccess: (data) => {
+    
+      if (data?.status) {
+        
+        router.push("/");
+        toast.success(data?.message);
+      }
+      if (!!data?.errorMessages) {
+        setUserIdError(data.errorMessages[0]);
+      }
+    },
+  });
   const handleUserIdInput = async (value: string) => {
-    setUserIdError({})
+    setUserIdError({});
     const res = await isExistsUserId({ email: user?.email, userId: value });
     if (res?.errorMessages?.length > 0) {
       setUserIdError(res.errorMessages[0]);
     }
+  };
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data)
+    handleUserId(data);
   };
 
   return (
@@ -57,7 +76,7 @@ console.log(user)
         </div>
 
         <div className="mt-5 flex gap-3">
-          <Button color="secondary" variant="bordered" radius="sm">
+          <Button color="secondary" variant="bordered" radius="sm" onClick={()=> {router.push("/"),toast.success("Successfully Done.")}}>
             Skip Now
           </Button>
           <Button
@@ -66,8 +85,11 @@ console.log(user)
             variant="shadow"
             radius="sm"
             className=" text-white "
-            isDisabled={(userIdError as TErrorMessage).path == "available" ?true:false}
+            isDisabled={
+              (userIdError as TErrorMessage).path == "available" ? true : false
+            }
             startContent={<ArrowForwardIcon />}
+            
           >
             Next
           </Button>

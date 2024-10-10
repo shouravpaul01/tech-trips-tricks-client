@@ -26,18 +26,17 @@ import { useUser } from "@/src/context/user.provider";
 
 export default function RegisterPage() {
   const router=useRouter()
-  const {isLoading,setIsLoading }=useUser()
+  const {setIsLoading }=useUser()
   const [errors, setErrors] = useState<TErrorMessage[]>([]);
 
   const {
     mutate: handleRegister,
-    data,
-    error,
+    isPending
   } = useMutation({
     mutationKey: ["USER_RESTRATION"],
     mutationFn: async (data: FieldValues) => await registerUser(data),
     onSuccess: (data) => {
-      console.log("onSuccess", data);
+    
       if (data?.status) {
         setErrors([])
         setIsLoading(true)
@@ -48,9 +47,8 @@ export default function RegisterPage() {
       }
     },
   });
- 
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
     handleRegister(data);
   };
   return (
@@ -111,6 +109,7 @@ export default function RegisterPage() {
             radius="sm"
             className="w-full text-white"
             startContent={<AccountBox />}
+            isDisabled={isPending}
           >
             Register
           </Button>

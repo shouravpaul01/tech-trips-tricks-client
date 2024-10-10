@@ -4,15 +4,15 @@ import { getCurrentuser } from "./app/services/AuthService";
 type TRole = keyof typeof roleBasedRoutesAccess;
 const authRoutes = ["/login", "/register"];
 const roleBasedRoutesAccess = {
-  User: [/^\/about/],
+  User: [/^\/about/,/^/],
   Admin: [],
 };
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  const user: any = await getCurrentuser();
-
+console.log(pathname)
+  const user = await getCurrentuser();
+console.log(user,"user")
   if (Object.keys(user).length == 0) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
@@ -31,10 +31,10 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
   }
-  return NextResponse.redirect(new URL("/", request.url));
+   return NextResponse.redirect(new URL("/login", request.url));
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/about", "/login", "/register"],
+  matcher: ["/","/about", "/login", "/register","/user_name"],
 };

@@ -9,6 +9,7 @@ export type TErrorMessage={
 export type TCurrentUser={
   _id:string;
   name:string;
+  profileImage:string;
   userId:string;
   email:string;
   role:"User" | "Admin";

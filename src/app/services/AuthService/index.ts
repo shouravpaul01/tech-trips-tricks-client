@@ -26,6 +26,14 @@ export const isExistsUserId = async (query: FieldValues) => {
     return error?.response?.data;
   }
 };
+export const updateUserId = async (bodyData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.patch(`/users/update-userId?email=${bodyData?.email}`, {userId:bodyData?.userId});
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
 export const loginUser = async (bodyData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/auth/login", bodyData);
@@ -45,4 +53,8 @@ export const getCurrentuser = async() => {
     decodedResult = decoded;
   }
   return decodedResult;
+};
+export const logoutUser = async() => {
+  return cookies().delete("accessToken");
+  
 };

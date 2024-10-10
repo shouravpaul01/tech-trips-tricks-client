@@ -13,11 +13,13 @@ import { loginUser } from "../../services/AuthService";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/src/context/user.provider";
 
 
 
 export default function LoginPage() {
   const [authError, setAuthError] = useState<string>("");
+  const {setIsLoading}=useUser()
   const searchParams=useSearchParams()
   const router=useRouter()
 
@@ -26,6 +28,7 @@ export default function LoginPage() {
     if (res?.status) {
       toast.success(res?.message)
       setAuthError('')
+      setIsLoading(true)
       router.push(searchParams.get('redirect') || '/')
     }
     if (!res?.status && res?.errorMessages[0]?.path == "authError") {
