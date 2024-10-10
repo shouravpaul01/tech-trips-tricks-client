@@ -7,6 +7,7 @@ import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import dayjs from "dayjs";
 import Image from "next/image";
+import EditProfileModal from "../_components/EditProfileModal";
 
 export default async function Profile({
   params,
@@ -46,12 +47,7 @@ export default async function Profile({
       </div>
       <div className="px-4">
         <div className="flex justify-end mt-2 mb-4">
-          <Button
-            color="secondary"
-            startContent={<EditIcon width={20} height={20} />}
-          >
-            Edit Profile
-          </Button>
+          <EditProfileModal/>
         </div>
         <div>
           <div className="flex gap-3">

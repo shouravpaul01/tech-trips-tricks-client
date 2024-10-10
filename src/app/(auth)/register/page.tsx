@@ -66,14 +66,14 @@ export default function RegisterPage() {
           <TTTZInput
             name="name"
             type="text"
-            variant="underlined"
-            label="Full Name"
+            inputProps={{variant:"underlined",label:"Email"}}
+           
           />
           <TTTZInput
             name="email"
             type="email"
-            variant="underlined"
-            label="Email"
+            inputProps={{variant:"underlined",label:"Email"}}
+            
           />
           <div className="flex gap-5">
             <TTTZSelect

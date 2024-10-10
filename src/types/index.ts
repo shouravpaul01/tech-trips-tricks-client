@@ -6,6 +6,7 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 export type TErrorMessage={
   path: string; message: string
 }
+
 export type TCurrentUser={
   _id:string;
   name:string;

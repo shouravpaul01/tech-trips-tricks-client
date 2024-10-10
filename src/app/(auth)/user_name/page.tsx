@@ -58,14 +58,14 @@ export default function UserNamePage() {
         defaultValues={{ email: user?.email, userId: user?.userId }}
       >
         <div className="space-y-2">
-          <TTTZInput name="email" type="email" className="max-w-xs hidden" />
+          <TTTZInput name="email" type="email" inputProps={{className:"max-w-xs hidden"}} />
           <TTTZInput
             name="userId"
             type="text"
-            variant="underlined"
-            label="User Name"
-            className="max-w-xs "
-            onChange={(e) => handleUserIdInput(e.target.value)}
+            inputProps={{variant:"underlined",label:"User Name",className:"max-w-xs "}}
+            
+            
+            onValueChange={(value) => handleUserIdInput(value)}
           />
           {Object.keys(userIdError).length > 0 && (
             <p

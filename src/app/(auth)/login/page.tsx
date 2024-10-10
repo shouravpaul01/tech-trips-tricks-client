@@ -44,8 +44,7 @@ export default function LoginPage() {
           <TTTZInput
             name="email"
             type="email"
-            variant="underlined"
-            label="Email"
+            inputProps={{variant:"underlined",label:"Email"}}
           />
 
           <TTTZPasswordInput
