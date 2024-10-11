@@ -49,6 +49,7 @@ export default function RegisterPage() {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    
     handleRegister(data);
   };
   return (
@@ -66,7 +67,7 @@ export default function RegisterPage() {
           <TTTZInput
             name="name"
             type="text"
-            inputProps={{variant:"underlined",label:"Email"}}
+            inputProps={{variant:"underlined",label:"Name"}}
            
           />
           <TTTZInput
@@ -78,8 +79,7 @@ export default function RegisterPage() {
           <div className="flex gap-5">
             <TTTZSelect
               name="gender"
-              variant="underlined"
-              label="Gender"
+              selectProps={{variant:"underlined" ,label:"Gender"}}
               options={genderOptions}
             />
             <TTTZDatePicker

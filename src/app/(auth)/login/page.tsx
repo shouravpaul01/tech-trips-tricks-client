@@ -69,8 +69,7 @@ export default function LoginPage() {
         Forget Password
       </Link>
       <Button
-        href="/register"
-        as={Link}
+        onClick={()=>router.push("/register")}
         color="primary"
         variant="shadow"
         radius="sm"

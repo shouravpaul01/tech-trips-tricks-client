@@ -34,7 +34,7 @@ export type TUser = {
   userId: string;
   email: string;
   role:"User" | "Admin";
-  gerder:"Male" | "Female" | "Other",
+  gender:"Male" | "Female" | "Other",
   dateOfBirth:Date,
   phoneNumber: string;
   bio: string;

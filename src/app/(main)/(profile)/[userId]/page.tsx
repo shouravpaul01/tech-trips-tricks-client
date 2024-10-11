@@ -1,4 +1,4 @@
-import getSingleUserReq from "@/src/app/services/UserService";
+import {getSingleUserReq} from "@/src/app/services/UserService";
 import { CalenderIcon, EditIcon, VerifiedIcon } from "@/src/components/icons";
 import TTTZTabs from "@/src/components/ui/TTTZTabs";
 import envConfig from "@/src/config/envConfig";
@@ -47,7 +47,7 @@ export default async function Profile({
       </div>
       <div className="px-4">
         <div className="flex justify-end mt-2 mb-4">
-          <EditProfileModal/>
+          <EditProfileModal user={user}/>
         </div>
         <div>
           <div className="flex gap-3">
