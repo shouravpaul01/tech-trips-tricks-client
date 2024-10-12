@@ -5,3 +5,15 @@ export const genderOptions=[
     {key:"Female",label:"Female"},
     {key:"Other",label:"Other"}
 ]
+export const techBlogCategories = [
+    { key: "JavaScript", value: "JavaScript" },
+    { key: "TypeScript", value: "TypeScript" },
+    { key: "React", value: "React" },
+    { key: "Node.js", value: "Node.js" },
+    { key: "MongoDB", value: "MongoDB" },
+    { key: "Web Development", value: "Web Development" },
+    { key: "DevOps", value: "DevOps" },
+    { key: "Cloud Computing", value: "Cloud Computing" },
+    { key: "Machine Learning", value: "Machine Learning" },
+    { key: "AI and Robotics", value: "AI and Robotics" }
+  ];

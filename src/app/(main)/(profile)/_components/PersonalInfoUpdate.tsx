@@ -20,8 +20,8 @@ import { toast } from "sonner";
 export default function PersonalInfoUpdate({user}:{user:TUser}) {
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [errors, setErrors] = useState<string[] | null>(null);
-console.log(user)
+
+
   const { mutate: handleUpdateUser, isPending } = useMutation({
     mutationKey: ["UPDATE_USER"],
     mutationFn: async (data: FieldValues) => await updateUser(data),
@@ -30,12 +30,10 @@ console.log(user)
       if (data?.status) {
         toast.success(data?.message)
       }
-      if (!!data?.errorMessages) {
-        setErrors([...data?.errorMessages]);
-      }
+      
     },
   });
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleCoverImagePreview = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -49,7 +47,7 @@ console.log(user)
       setCoverImage(null);
     }
   };
-  const handleProfileImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleProfileImagePreview = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -97,7 +95,7 @@ console.log(user)
               )}
             </div>
           </div>
-          <TTTZImageInput name="coverImage" onChange={handleFileChange} />
+          <TTTZImageInput name="coverImage" onChange={handleCoverImagePreview} />
         </div>
         <div>
           <p>Profile Image</p>
@@ -113,7 +111,7 @@ console.log(user)
           <div className="max-w-sm mt-3">
             <TTTZImageInput
               name="profileImage"
-              onChange={handleProfileImageChange}
+              onChange={handleProfileImagePreview}
             />
           </div>
         </div>

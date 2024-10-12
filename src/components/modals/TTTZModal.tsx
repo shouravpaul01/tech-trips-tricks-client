@@ -9,7 +9,7 @@ import {
   ModalProps,
   useDisclosure,
 } from "@nextui-org/modal";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 
 type TProps = {
     headerTitle:string;
@@ -18,6 +18,7 @@ type TProps = {
   btnProps?: ButtonProps
   children: ReactNode;
   footerContent?: ReactNode;
+  isModalClose?:boolean
 } ;
 export default function TTTZModal({
     headerTitle,
@@ -25,9 +26,16 @@ export default function TTTZModal({
   btnProps,
   children,
   footerContent,
-  modalProps
+  modalProps,
+  isModalClose=false
 }: TProps) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange,onClose } = useDisclosure();
+
+  useEffect(()=>{
+    if (isModalClose) {
+      onClose()
+    }
+  },[isModalClose])
 
   return (
     <>

@@ -7,11 +7,13 @@ type TProps = {
   label?: string;
   name: string;
   onChange?:(e: ChangeEvent<HTMLInputElement>) => void;
+  multiple?:any
 };
 export default function TTTZImageInput({
   label = "Upload File",
   name,
-  onChange
+  onChange,
+  multiple=false
 }: TProps) {
   const {
     
@@ -21,13 +23,13 @@ export default function TTTZImageInput({
     formState: { errors },
   } = useFormContext();
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files // Get the first selected file
-
-    // Call external onChange function if provided
+    const file = e.target.files 
+    
     if (onChange) onChange(e);
 
-    // Set the file value in react-hook-form context
-    if (file) {
+    
+    if (file && !multiple) {
+
       setValue(name, file[0]); // Store the file in form state
     }
   };
@@ -47,7 +49,7 @@ export default function TTTZImageInput({
           id={name}
           type="file"
           className="hidden"
-          
+          multiple={multiple}
           onChange={handleFileChange}
         />
       </label>

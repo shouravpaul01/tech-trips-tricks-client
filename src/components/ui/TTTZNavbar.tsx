@@ -19,6 +19,7 @@ import { motion } from 'framer-motion';
 import MenuItems from "./MenuItems";
 import { useUser } from "@/src/context/user.provider";
 import { blankImage } from "@/src/constent";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 
 export default function TTTZNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -56,13 +57,26 @@ export default function TTTZNavbar() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <div className="flex items-center gap-2">
+        <Dropdown>
+      <DropdownTrigger>
+      <div className="flex items-center gap-2">
             <div className="text-right ">
               <p className="font-bold">{user?.name}</p>
               <p className="text-gray-400 text-sm -mt-[4px]">@{user?.userId}</p>
             </div>
           <Avatar isBordered color="primary" size="sm" src={user?.profileImage || blankImage}  />
           </div>
+      </DropdownTrigger>
+      <DropdownMenu aria-label="Static Actions">
+        <DropdownItem key="new">New file</DropdownItem>
+        <DropdownItem key="copy">Copy link</DropdownItem>
+        <DropdownItem key="edit">Edit file</DropdownItem>
+        <DropdownItem key="delete" className="text-danger" color="danger">
+          Delete file
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+          
         </NavbarItem>
       </NavbarContent>
     

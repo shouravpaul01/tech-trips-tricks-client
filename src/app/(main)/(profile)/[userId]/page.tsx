@@ -1,9 +1,7 @@
 import {getSingleUserReq} from "@/src/app/services/UserService";
-import { CalenderIcon, EditIcon, VerifiedIcon } from "@/src/components/icons";
+import { CalenderIcon, VerifiedIcon } from "@/src/components/icons";
 import TTTZTabs from "@/src/components/ui/TTTZTabs";
-import envConfig from "@/src/config/envConfig";
 import { blankImage } from "@/src/constent";
-import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import dayjs from "dayjs";
 import Image from "next/image";
