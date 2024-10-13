@@ -12,50 +12,59 @@ import {
 import React, { ReactNode, useEffect } from "react";
 
 type TProps = {
-    headerTitle:string;
-  btnTitle: string;
+  headerTitle: string;
+  btnTitle?: string;
   modalProps?: ModalProps | {};
-  btnProps?: ButtonProps
+  modalEvents?:MouseEvent;
+  btnProps?: ButtonProps;
   children: ReactNode;
   footerContent?: ReactNode;
-  isModalClose?:boolean
-} ;
+  isModalClose?: boolean;
+  isModalOpenCustom?: boolean;
+};
 export default function TTTZModal({
-    headerTitle,
+  headerTitle,
   btnTitle,
   btnProps,
   children,
   footerContent,
   modalProps,
-  isModalClose=false
+  modalEvents,
+  isModalClose = false,
+  isModalOpenCustom = false,
 }: TProps) {
-  const { isOpen, onOpen, onOpenChange,onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (isModalClose) {
-      onClose()
+      onClose();
     }
-  },[isModalClose])
-
+    if (isModalOpenCustom) {
+      onOpen();
+    }
+  }, [isModalClose, isModalOpenCustom]);
+  // console.log(isModalOpenCustom)
   return (
     <>
-      <Button
-        onPress={onOpen}
-        {...btnProps}
-      >
-      {btnTitle}
-      </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} {...modalProps}>
+      {btnTitle && (
+        <Button onPress={onOpen} {...btnProps}>
+          {btnTitle}
+        </Button>
+      )}
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} {...modalProps} {...modalEvents}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className="flex flex-col gap-1" >
                 {headerTitle}
               </ModalHeader>
               <ModalBody>{children}</ModalBody>
-              <ModalFooter>
-                {footerContent}
-              </ModalFooter>
+
+              {footerContent && (
+                <ModalFooter className="flex-col justify-normal ">
+                  {footerContent}
+                </ModalFooter>
+              )}
             </>
           )}
         </ModalContent>

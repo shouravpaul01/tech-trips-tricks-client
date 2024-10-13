@@ -1,11 +1,12 @@
 import "@/src/styles/globals.css";
-import { Metadata, Viewport } from "next";
+import { Metadata } from "next";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/src/config/site";
 import { fontSans } from "@/src/config/fonts";
+import TTTZNavbar from "../components/ui/TTTZNavbar";
 
 export const metadata: Metadata = {
   title: {
@@ -41,6 +42,7 @@ export default function RootLayout({
       >
         
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
+        <TTTZNavbar />
           {children}
         </Providers>
       </body>

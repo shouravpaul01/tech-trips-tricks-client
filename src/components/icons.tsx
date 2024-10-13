@@ -433,3 +433,12 @@ export const AddCommentkIcon: React.FC<IconSvgProps> = (props) => {
     width={width} fill={fill} viewBox="0 -960 960 960"  ><path d="M437-410h86v-122h122v-86H523v-122h-86v122H315v86h122v122ZM68-76.46v-729.23q0-41.03 28.64-69.67T166.31-904h627.38q41.03 0 69.67 28.64T892-805.69v463.38q0 41.03-28.64 69.67T793.69-244H235.54L68-76.46Z"/></svg>
   );
 };
+
+export const CommentSendkIcon: React.FC<IconSvgProps> = (props) => {
+  const { width = 24, height = 24 ,fill="#000000"} = props;
+
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" height={height}
+    width={width} fill={fill} viewBox="0 -960 960 960" ><path d="M696-156.23 551.23-302 611-361.77l85 85 170-170L925.77-386 696-156.23ZM68-76.46v-729.23q0-41.03 28.64-69.67T166.31-904h627.38q41.03 0 69.67 28.64T892-805.69V-523h-86v-282.69q0-4.62-3.85-8.46-3.84-3.85-8.46-3.85H166.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v522.08L200-330h277v86H235.54L68-76.46ZM154-330v27.69V-818v488Z"/></svg>
+  );
+};

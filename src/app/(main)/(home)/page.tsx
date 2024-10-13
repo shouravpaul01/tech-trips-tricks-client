@@ -12,7 +12,7 @@ const HomePage = () => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const limit = 10; // Set the number of items to load per scroll
-console.log(posts)
+
   useEffect(() => {
     loadMorePosts();
   }, []);
@@ -39,8 +39,8 @@ console.log(posts)
         endMessage={<p>No more posts</p>}
       >
         <div className="space-y-5">
-          {posts.map((post) => (
-            <PostCard post={post}/>
+          {posts.map((post,index) => (
+            <PostCard key={index} post={post}/>
           ))}
         </div>
       </InfiniteScroll>
