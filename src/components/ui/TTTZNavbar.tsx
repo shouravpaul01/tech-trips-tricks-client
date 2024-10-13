@@ -26,7 +26,7 @@ export default function TTTZNavbar() {
   const {user}=useUser()
   return (
     <>
-    {<Navbar isBordered classNames={{wrapper:"max-w-6xl"}}>
+    {<Navbar isBordered classNames={{wrapper:"max-w-6xl"}}  className="fixed">
       <NavbarBrand>
       <div className="me-2 block md:hidden">
       <Button isIconOnly color="secondary" variant="flat" radius="full" onClick={()=>setIsMenuOpen(prev=>!prev)}>

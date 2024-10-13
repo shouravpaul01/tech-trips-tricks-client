@@ -11,11 +11,11 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="">
       <TTTZNavbar />
-      <div className="my-container">
+      <div className="my-container mt-16">
         <div className="flex ">
           {/* Left Sidebar (Fixed) */}
 
-          <div className="w-[290px] flex flex-col fixed h-screen p-2">
+          <div className="w-[290px] flex flex-col fixed h-screen border-e p-2">
             {/* Scrollable Menu Items */}
            
             <div className="h-[80%] overflow-y-auto">
@@ -31,12 +31,16 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
           </div>
 
           {/* Main Content */}
-          <div className="w-full md:w-[572px] md:ms-[290px]  h-screen border-x">
+          <div className="w-full md:w-[572px] md:ms-[290px]  h-screen ">
+            <div className="h-full ">
             {children}
+            </div>
           </div>
 
           {/* Right Sidebar (Sticky) */}
-          <div className="w-[290px] hidden md:block"></div>
+          <div className="w-full md:w-[290px] md:ms-[862px] flex flex-col fixed h-screen  border-s">
+          <MenuItems />
+          </div>
         </div>
       </div>
     </div>

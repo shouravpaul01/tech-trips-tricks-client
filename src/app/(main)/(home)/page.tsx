@@ -31,14 +31,14 @@ console.log(posts)
   return (
     <div className="px-2 pt-2">
       <InfiniteScroll
-      className="bg-transparent"
+    
         dataLength={posts.length}
         next={loadMorePosts}
         hasMore={hasMore}
         loader={<TTTZLoading/>}
         endMessage={<p>No more posts</p>}
       >
-        <div className="space-y-4">
+        <div className="space-y-5">
           {posts.map((post) => (
             <PostCard post={post}/>
           ))}
