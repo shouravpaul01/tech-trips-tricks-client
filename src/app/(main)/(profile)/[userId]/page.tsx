@@ -7,11 +7,13 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import EditProfileModal from "../_components/EditProfileModal";
 
+
 export default async function Profile({
   params,
 }: {
   params: { userId: string };
 }) {
+
   const { userId } = params;
 
   const { data: user } = await getSingleUserReq(userId);

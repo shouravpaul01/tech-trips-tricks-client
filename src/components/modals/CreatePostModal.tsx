@@ -8,15 +8,17 @@ import TTTZModal from "./TTTZModal";
 import { Button } from "@nextui-org/button";
 import RadioInputForCategory from "../form/RadioInputForCategory";
 import TTTZImageInput from "../form/TTTZImageInput";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { postValidation } from "@/src/app/validation/post.validation";
 import { useMutation } from "@tanstack/react-query";
 import { createPost } from "@/src/app/services/PostService";
 import { toast } from "sonner";
 import { TErrorMessage } from "@/src/types";
+import { getCurrentuser } from "@/src/app/services/AuthService";
 
-export default function CreatePostModal() {
+
+export default  function CreatePostModal() {
   const [errors, setErrors] = useState<TErrorMessage[]>([]);
   const [imagesData, setImagesData] = useState<
     { file: File; preview: string }[]
@@ -25,7 +27,6 @@ export default function CreatePostModal() {
     mutationKey: ["UPDATE_USER"],
     mutationFn: async (data: FieldValues) => await createPost(data),
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status) {
         toast.success(data?.message);
       }
@@ -53,7 +54,9 @@ export default function CreatePostModal() {
     setImagesData((prev) => prev.filter((_, index) => index !== indexToDelete));
   };
 
-  const handleCreatePost: SubmitHandler<FieldValues> = (data) => {
+  const handleCreatePost: SubmitHandler<FieldValues> = async(data) => {
+    const user=await getCurrentuser()
+    data.user=user._id
     const formData = new FormData();
     if (imagesData?.length > 0) {
       imagesData.forEach((image) => formData.append("images", image.file));
@@ -82,8 +85,8 @@ export default function CreatePostModal() {
     >
       <TTTForm
         onSubmit={handleCreatePost}
-        resolver={zodResolver(postValidation)}
-        errors={errors}
+       resolver={zodResolver(postValidation)}
+       errors={errors}
       >
         <div className="space-y-3">
           <RadioInputForCategory name="category" />

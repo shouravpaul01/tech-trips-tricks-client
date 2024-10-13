@@ -48,3 +48,17 @@ export type TUser = {
   createdAt:Date,
   updatedAt:Date
 };
+
+export type TPost= {
+  _id:string
+  user:TUser
+  category:string
+  images:string[],
+  content: string;
+  upvotes: number;
+  downvotes: number;
+  comments: string[]
+  isPremium:boolean,
+  viewStatus:"Public" | "Hide",
+  isDeleted:boolean
+}

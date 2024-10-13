@@ -5,8 +5,9 @@ import Logout from "@/src/components/ui/Logout";
 import { Button } from "@nextui-org/button";
 import CreatePostModal from "@/src/components/modals/CreatePostModal";
 
+
 const Mainlayout = ({ children }: { children: ReactNode }) => {
- 
+  
   return (
     <div className="">
       <TTTZNavbar />

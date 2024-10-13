@@ -41,7 +41,7 @@ export default function TTTZTextEditor({ name,placeholder }: TProps) {
     }),
     [placeholder]
   );
-console.log(errors)
+
   return (
     <>
     <Controller
