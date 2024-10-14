@@ -38,7 +38,7 @@ export default function PostDetailsModal({
     },
     enabled: !!postId,
   });
-  console.log(post,isLoading, "kdiei");
+  
   return (
     <Modal
       isOpen={isOpen}

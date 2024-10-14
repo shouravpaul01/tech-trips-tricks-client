@@ -6,6 +6,16 @@ import { revalidateTag } from "next/cache";
 import { TErrorMessage, TPost } from "@/src/types";
 import envConfig from "@/src/config/envConfig";
 
+export const createPost = async (bodyData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.post(`/posts/create-post`, bodyData);
+    revalidateTag("posts");
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+};
 export const getAllPost = async (
   page?: number,
   limit?: number
@@ -43,14 +53,15 @@ export const getSinglePost = async (
 
   return await res.json();
 };
-export const createPost = async (bodyData: FieldValues) => {
-  console.log(bodyData, "bodydata");
+export const upvoteUpdate = async (updateData: FieldValues) => {
+
   try {
-    const { data } = await axiosInstance.post(`/posts/create-post`, bodyData);
-    revalidateTag("Posts");
+    const { data } = await axiosInstance.patch(`/posts/upvote/${updateData.postId}?ipAddress=${updateData.ipAddress}`);
+    revalidateTag("posts");
     return data;
   } catch (error: any) {
     console.log(error);
     return error?.response?.data;
   }
 };
+
