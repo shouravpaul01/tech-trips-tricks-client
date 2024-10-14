@@ -5,7 +5,8 @@ import { TPost } from "@/src/types";
 import { UseDisclosureProps } from "@nextui-org/modal";
 import getClientIp from "@/src/app/utils/getClientIp";
 import { toast } from "sonner";
-import { upvoteUpdate } from "@/src/app/services/PostService";
+import { downvoteUpdate, upvoteUpdate } from "@/src/app/services/PostService";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CommentWithUpDownVotes({
   post,
@@ -14,6 +15,7 @@ export default function CommentWithUpDownVotes({
   post: TPost;
   modalDisclosure?: UseDisclosureProps;
 }) {
+    const queryClient = useQueryClient()
   const [ipAddress, setIpAddress] = useState();
   useEffect(() => {
     const fetchIpAddress = async () => {
@@ -31,11 +33,18 @@ export default function CommentWithUpDownVotes({
     }
     const res = await upvoteUpdate({ ipAddress, postId });
     if (res?.data) {
+        queryClient.invalidateQueries({ queryKey: ['posts'] })
     }
-    console.log(res);
+    
   };
   const handleDownvote = async (postId: string) => {
-    console.log(ipAddress, postId);
+    const res = await downvoteUpdate({ ipAddress, postId });
+    if (!ipAddress) {
+        toast.error("Network problem.Refresh you window.");
+      }
+    if (res?.data) {
+        queryClient.invalidateQueries({ queryKey: ['posts'] })
+    }
   };
   return (
     <div className="flex items-center w-full">

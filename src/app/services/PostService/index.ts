@@ -19,14 +19,17 @@ export const createPost = async (bodyData: FieldValues) => {
 export const getAllPost = async (
   page?: number,
   limit?: number
-): Promise<{ status: string; message: string; data:{data: TPost[],page:number} }> => {
- 
+): Promise<{
+  status: string;
+  message: string;
+  data: { data: TPost[]; page: number };
+}> => {
   const res = await fetch(
     `${envConfig.baseApi}/posts?page=${page}&limit=${limit}`,
     {
       next: {
         tags: ["posts"],
-      }
+      },
     }
   );
 
@@ -40,28 +43,35 @@ export const getSinglePost = async (
   data: TPost;
   errorMessages: TErrorMessage[];
 }> => {
- 
-  const res = await fetch(
-    `${envConfig.baseApi}/posts/single-post/${postId}`,
-    {
-      next: {
-        tags: ["single-posts"],
-      },
-     
-    }
-  );
+  const res = await fetch(`${envConfig.baseApi}/posts/single-post/${postId}`, {
+    next: {
+      tags: ["single-posts"],
+    },
+  });
 
   return await res.json();
 };
 export const upvoteUpdate = async (updateData: FieldValues) => {
-
   try {
-    const { data } = await axiosInstance.patch(`/posts/upvote/${updateData.postId}?ipAddress=${updateData.ipAddress}`);
-    revalidateTag("posts");
+    const { data } = await axiosInstance.patch(
+      `/posts/upvote/${updateData.postId}?ipAddress=${updateData.ipAddress}`
+    );
+
     return data;
   } catch (error: any) {
     console.log(error);
     return error?.response?.data;
   }
 };
+export const downvoteUpdate = async (updateData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/posts/downvote/${updateData.postId}?ipAddress=${updateData.ipAddress}`
+    );
 
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+};
