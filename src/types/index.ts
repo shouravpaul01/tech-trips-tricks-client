@@ -57,8 +57,16 @@ export type TPost= {
   content: string;
   upvotes: number;
   downvotes: number;
-  comments: string[]
+  comments: TComment[]
   isPremium:boolean,
   viewStatus:"Public" | "Hide",
   isDeleted:boolean
 }
+export type TComment = {
+  _id:string;
+  user:TUser;
+  text: string;
+  upvotes: number;
+  downvotes: number;
+  post: TPost;
+};

@@ -1,37 +1,81 @@
-
+"use client";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  UseDisclosureProps,
+} from "@nextui-org/modal";
 import CommentForm from "../form/comment/CommentForm";
-import { AddCommentkIcon } from "../icons";
-import TTTZModal from "./TTTZModal";
 
+import { getSinglePost } from "@/src/app/services/PostService";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-const PostDetailsModal=({postId}:{postId:string}) =>{
-  console.log(postId,"kdiei")
-  return (
-    <TTTZModal
-    // btnTitle="Comment"
-    modalProps={{
-      shadow: "lg",
-      size: "2xl",
-      scrollBehavior: "inside",
-      isDismissable: postId,
-      defaultOpen: true,
-      classNames:{
-        footer:"flex-col justify-normal border-t"
+import PostDetails from "../ui/Home/PostDetails";
+import CommentDetails from "../ui/Comment/CommentDetails";
+import CommentWithUpDownVotes from "../ui/Comment/CommentWithUpDownVotes";
+
+export default function PostDetailsModal({
+  Disclosure,
+  postId,
+}: {
+  postId: string;
+  Disclosure: UseDisclosureProps | any;
+}) {
+  const { isOpen, onClose, onOpenChange } = Disclosure;
+  const { data: post, isLoading } = useQuery({
+    queryKey: ["single-posts", postId],
+    queryFn: async () => {
+      const res = await getSinglePost(postId);
+      if (res?.errorMessages?.length > 0) {
+        toast.error("Post not found.");
+
+        onClose();
       }
-    }}
-  isModalOpenCustom={!!postId}
-    // btnProps={{
-    //   color: "secondary",
-    //   variant:"light",
-    //   radius:"full",
-    //   className:"text-gray-500",
-    //   endContent: <AddCommentkIcon fill="#999999"  />,
-    // }}
-    headerTitle="Create Post"
-    footerContent={<CommentForm/>}
-  >
-   <p>ddd</p>
-  </TTTZModal>
-  )
+      return res.data;
+    },
+    enabled: !!postId,
+  });
+  console.log(post,isLoading, "kdiei");
+  return (
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      scrollBehavior="inside"
+      size="2xl"
+      classNames={{ footer: "flex-col" }}
+    >
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader className="flex flex-col gap-1">
+              {post?.user?.name}'s Post
+            </ModalHeader>
+            <ModalBody>
+              <>
+                <PostDetails post={post!} />
+                <div className="border-y-1">
+                  <CommentWithUpDownVotes post={post!} />
+                </div>
+                {post?.comments?.map((comment, index) => (
+                  <CommentDetails
+                    key={index}
+                    profileImage={post?.user?.profileImage}
+                    comment={comment}
+                  />
+                ))}
+              </>
+            </ModalBody>
+
+            <ModalFooter>
+              <CommentForm postId={post?._id!} />
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
+  );
 }
-export  default PostDetailsModal
+PostDetailsModal;

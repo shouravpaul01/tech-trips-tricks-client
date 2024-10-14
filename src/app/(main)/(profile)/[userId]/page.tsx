@@ -17,7 +17,7 @@ export default async function Profile({
   const { userId } = params;
 
   const { data: user } = await getSingleUserReq(userId);
-  console.log(!!user?.coverImage, "ss");
+
   return (
     <div>
       <div className="relative">

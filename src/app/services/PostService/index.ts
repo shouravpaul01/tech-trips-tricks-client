@@ -9,8 +9,7 @@ import envConfig from "@/src/config/envConfig";
 export const getAllPost = async (
   page?: number,
   limit?: number
-): Promise<{ status: string; message: string; data: TPost[] }> => {
-  console.log("object");
+): Promise<{ status: string; message: string; data:{data: TPost[],page:number} }> => {
  
   const res = await fetch(
     `${envConfig.baseApi}/posts?page=${page}&limit=${limit}`,
@@ -28,22 +27,17 @@ export const getSinglePost = async (
 ): Promise<{
   status: string;
   message: string;
-  data: TPost[];
+  data: TPost;
   errorMessages: TErrorMessage[];
 }> => {
-  const fetchOption = {
-    next: {
-      tags: ["single-posts"],
-    },
-  };
-  console.log(postId);
+ 
   const res = await fetch(
     `${envConfig.baseApi}/posts/single-post/${postId}`,
     {
       next: {
         tags: ["single-posts"],
       },
-      cache:"no-store"
+     
     }
   );
 

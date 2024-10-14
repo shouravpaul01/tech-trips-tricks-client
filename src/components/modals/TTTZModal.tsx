@@ -8,6 +8,7 @@ import {
   ModalHeader,
   ModalProps,
   useDisclosure,
+  UseDisclosureProps,
 } from "@nextui-org/modal";
 import React, { ReactNode, useEffect } from "react";
 
@@ -15,12 +16,11 @@ type TProps = {
   headerTitle: string;
   btnTitle?: string;
   modalProps?: ModalProps | {};
-  modalEvents?:MouseEvent;
   btnProps?: ButtonProps;
   children: ReactNode;
   footerContent?: ReactNode;
   isModalClose?: boolean;
-  isModalOpenCustom?: boolean;
+  Disclosure?:UseDisclosureProps | any
 };
 export default function TTTZModal({
   headerTitle,
@@ -29,21 +29,12 @@ export default function TTTZModal({
   children,
   footerContent,
   modalProps,
-  modalEvents,
+  Disclosure,
   isModalClose = false,
-  isModalOpenCustom = false,
-}: TProps) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
-  useEffect(() => {
-    if (isModalClose) {
-      onClose();
-    }
-    if (isModalOpenCustom) {
-      onOpen();
-    }
-  }, [isModalClose, isModalOpenCustom]);
-  // console.log(isModalOpenCustom)
+}: TProps) {
+  const { isOpen, onOpen, onOpenChange, onClose } = Disclosure || useDisclosure();
+
   return (
     <>
       {btnTitle && (
@@ -51,7 +42,7 @@ export default function TTTZModal({
           {btnTitle}
         </Button>
       )}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} {...modalProps} {...modalEvents}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} {...modalProps}>
         <ModalContent>
           {(onClose) => (
             <>

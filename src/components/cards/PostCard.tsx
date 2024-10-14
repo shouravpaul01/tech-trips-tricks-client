@@ -3,26 +3,14 @@ import { TPost } from "@/src/types";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Divider } from "@nextui-org/divider";
 import Image from "next/image";
-import React, { useState } from "react";
-import ImageGallery from "../ui/Post/ImageGallery";
-import { Button } from "@nextui-org/button";
-import {
-  AddCommentkIcon,
-  MoreIcon,
-  ThumbDownkIcon,
-  ThumbUpkIcon,
-} from "../icons";
-import { countTotalCharecter } from "@/src/app/utils/countTotalCharecter";
-import { useRouter } from "next/navigation";
-import CommentForm from "../form/comment/CommentForm";
+import CommentCard from "../ui/Comment/CommentDetails";
+import PostDetails from "../ui/Home/PostDetails";
+import CommentWithUpDownVotes from "../ui/Comment/CommentWithUpDownVotes";
+import { useDisclosure } from "@nextui-org/modal";
 import PostDetailsModal from "../modals/PostDetailsModal";
 
 export default function PostCard({ post }: { post: TPost }) {
-  const router = useRouter();
-  const [seeMore, setSeeMore] = useState<boolean>(false);
-  const [isOpenCommentForm, setIsOpenCommentForm] = useState<boolean>(false);
-  const [postId, setPostId] = useState<string>("");
-  console.log(postId)
+  const modalDisclosure=useDisclosure()
   return (
     <Card
       className="max-w-full"
@@ -47,73 +35,19 @@ export default function PostCard({ post }: { post: TPost }) {
       </CardHeader>
 
       <CardBody className="pt-0">
-        <div
-          className={`mb-2 text-justify ${!seeMore && "line-clamp-4"}`}
-          dangerouslySetInnerHTML={{ __html: post?.content }}
-        ></div>
-        {!seeMore && countTotalCharecter(post?.content) > 400 && (
-          <div>
-            <Button
-              variant="flat"
-              color="secondary"
-              size="sm"
-              className="font-bold"
-              startContent={<MoreIcon fill="#EA33F7" />}
-              onClick={() => setSeeMore(true)}
-            >
-              See more
-            </Button>
-          </div>
-        )}
-        {post?.images?.length > 0 && (
-          <div>
-            <ImageGallery images={post.images} />
-          </div>
-        )}
+       <PostDetails post={post}/>
       </CardBody>
       <Divider />
       <CardFooter className="flex-col ">
        
-          <div className="flex w-full">
-            <div className="flex-1">
-              <Button
-                isIconOnly
-                variant="light"
-                color="secondary"
-                radius="full"
-              >
-                <ThumbUpkIcon fill="#999999" />
-              </Button>
-              <Button
-                isIconOnly
-                variant="light"
-                color="secondary"
-                radius="full"
-              >
-                <ThumbDownkIcon fill="#999999" />
-              </Button>
-            </div>
-            <div className="">
-              <Button
-                onClick={() =>setPostId(post?._id)}
-                variant="light"
-                radius="full"
-                color="secondary"
-                className="text-gray-500"
-                endContent={<AddCommentkIcon fill="#999999" />}
-              >
-                10 Comments
-              </Button>
-              <PostDetailsModal postId={postId}  />
-            </div>
-          </div>
+          <CommentWithUpDownVotes post={post} modalDisclosure={modalDisclosure}/>
 
           {/* {
            isOpenCommentForm && <div className="w-full mt-1">
             <CommentForm />
           </div>
           } */}
-        
+         <PostDetailsModal postId={post?._id} Disclosure={modalDisclosure}/>
       </CardFooter>
     </Card>
   );

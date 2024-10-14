@@ -16,9 +16,11 @@ import { createPost } from "@/src/app/services/PostService";
 import { toast } from "sonner";
 import { TErrorMessage } from "@/src/types";
 import { getCurrentuser } from "@/src/app/services/AuthService";
+import { useDisclosure } from "@nextui-org/modal";
 
 
 export default  function CreatePostModal() {
+  const modalDisclosure=useDisclosure()
   const [errors, setErrors] = useState<TErrorMessage[]>([]);
   const [imagesData, setImagesData] = useState<
     { file: File; preview: string }[]
@@ -28,6 +30,7 @@ export default  function CreatePostModal() {
     mutationFn: async (data: FieldValues) => await createPost(data),
     onSuccess: (data) => {
       if (data?.status) {
+        modalDisclosure.onClose()
         toast.success(data?.message);
       }
       if (!!data?.errorMessages) {
@@ -75,7 +78,7 @@ export default  function CreatePostModal() {
         isDismissable: false,
         defaultOpen: true,
       }}
-      isModalClose={isSuccess}
+     Disclosure={modalDisclosure}
       btnProps={{
         color: "secondary",
         className: "w-full",
