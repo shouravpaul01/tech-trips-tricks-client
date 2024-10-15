@@ -72,3 +72,7 @@ export type TComment = {
   downvotes: number;
   post: TPost;
 };
+
+export type TQueryArg={
+  label:string,value:any
+}

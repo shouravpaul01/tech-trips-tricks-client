@@ -16,6 +16,9 @@ import { toast } from "sonner";
 import PostDetails from "../ui/Home/PostDetails";
 import CommentDetails from "../ui/Comment/CommentDetails";
 import CommentWithUpDownVotes from "../ui/Comment/CommentWithUpDownVotes";
+import { Island_Moments } from "next/font/google";
+import CommentLoading from "../ui/CommentLoading";
+import TTTZLoading from "../ui/TTTZLoading";
 
 export default function PostDetailsModal({
   Disclosure,
@@ -25,7 +28,7 @@ export default function PostDetailsModal({
   Disclosure: UseDisclosureProps | any;
 }) {
   const { isOpen, onClose, onOpenChange } = Disclosure;
-  const { data: post, isLoading } = useQuery({
+  const { data: post, isFetching} = useQuery({
     queryKey: ["single-posts", postId],
     queryFn: async () => {
       const res = await getSinglePost(postId);
@@ -55,6 +58,7 @@ export default function PostDetailsModal({
             </ModalHeader>
             <ModalBody>
               <>
+             
                 <PostDetails post={post!} />
                 <div className="border-y-1">
                   <CommentWithUpDownVotes post={post!} />
@@ -66,6 +70,7 @@ export default function PostDetailsModal({
                     comment={comment}
                   />
                 ))}
+                {isFetching && <CommentLoading />}
               </>
             </ModalBody>
 

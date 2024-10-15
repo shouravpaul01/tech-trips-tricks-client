@@ -3,8 +3,9 @@
 import { FieldValues } from "react-hook-form";
 import axiosInstance from "../../lid/AxiosInstance";
 import { revalidateTag } from "next/cache";
-import { TErrorMessage, TPost } from "@/src/types";
+import { TErrorMessage, TPost, TQueryArg } from "@/src/types";
 import envConfig from "@/src/config/envConfig";
+import { param } from "lightgallery/plugins/video/lg-video-utils";
 
 export const createPost = async (bodyData: FieldValues) => {
   try {
@@ -17,19 +18,31 @@ export const createPost = async (bodyData: FieldValues) => {
   }
 };
 export const getAllPost = async (
-  page?: number,
-  limit?: number
+ {page,limit,queryArgs}:{ page:number,
+  limit?: number,
+  queryArgs?:string[]}
 ): Promise<{
   status: string;
   message: string;
   data: { data: TPost[]; page: number };
 }> => {
+  
+  const params=new URLSearchParams()
+ 
+  console.log(page,limit,queryArgs,'getAllPost1')
+  limit && params.append("limit",JSON.stringify(limit))
+  page && params.append("page",JSON.stringify(page))
+  if (queryArgs?.length!>0) {
+    queryArgs?.forEach((arg:any)=>params.append("category",arg))
+  }
   const res = await fetch(
-    `${envConfig.baseApi}/posts?page=${page}&limit=${limit}`,
+    `${envConfig.baseApi}/posts?${params}`,
     {
+      
       next: {
         tags: ["posts"],
       },
+      
     }
   );
 
