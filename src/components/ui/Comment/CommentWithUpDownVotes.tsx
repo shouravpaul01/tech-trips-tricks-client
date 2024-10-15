@@ -28,20 +28,25 @@ export default function CommentWithUpDownVotes({
 
   const handleUpvote = async (postId: string) => {
     if (!ipAddress) {
-      toast.error("Network problem.Refresh you window.");
+      toast.error("Network problem. Please refresh your window.");
     }
     const res = await upvoteUpdate({ ipAddress, postId });
     if (res?.data) {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      
+      queryClient.invalidateQueries({ queryKey: ['single-posts'] })
+      queryClient.invalidateQueries({ queryKey: ['posts'] })
+      toast.success('Sccessful')
     }
   };
   const handleDownvote = async (postId: string) => {
     const res = await downvoteUpdate({ ipAddress, postId });
     if (!ipAddress) {
-      toast.error("Network problem.Refresh you window.");
+      toast.error("Network problem. Please refresh your window.");
     }
     if (res?.data) {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ['single-posts'] })
+      queryClient.invalidateQueries({ queryKey: ['posts'] })
+      toast.success('Sccessful')
     }
   };
   return (

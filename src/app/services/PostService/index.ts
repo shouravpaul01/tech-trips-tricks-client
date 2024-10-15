@@ -55,9 +55,7 @@ export const getSinglePost = async (
   errorMessages: TErrorMessage[];
 }> => {
   const res = await fetch(`${envConfig.baseApi}/posts/single-post/${postId}`, {
-    next: {
-      tags: ["single-posts"],
-    },
+    cache:"no-store"
   });
 
   return await res.json();

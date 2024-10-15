@@ -70,6 +70,8 @@ export type TComment = {
   text: string;
   upvotes: number;
   downvotes: number;
+  isUpvotedIP: string[];
+  isDownvotedIP: string[];
   post: TPost;
 };
 

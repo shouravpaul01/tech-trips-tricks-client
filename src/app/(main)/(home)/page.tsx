@@ -1,11 +1,8 @@
 "use client";
+
 import PostCard from "@/src/components/cards/PostCard";
-import { getAllPost } from "../../services/PostService";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
-import { Button } from "@nextui-org/button";
-import { RefreshIcon } from "@/src/components/icons";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import useGetAllPosts from "@/src/hooks/PostHook";
 import { useSearchParams } from "next/navigation";
 
@@ -15,12 +12,9 @@ const HomePage = () => {
 
   const limit = 2;
 
-  const { data, hasNextPage, fetchNextPage, refetch, isLoading } =
+  const { data, hasNextPage, fetchNextPage,  isLoading } =
     useGetAllPosts({ limit: limit, queryArgs: categories });
 
-  const refreshPosts = () => {
-    refetch({});
-  };
   const posts = data?.pages.flatMap((item) => item.data) || [];
   isLoading && <TTTZLoading />;
 

@@ -37,3 +37,28 @@ export const createComment = async (bodyData: FieldValues) => {
   
     return await res.json();
   };
+
+  export const upvoteUpdateComment = async (updateData: FieldValues) => {
+    try {
+      const { data } = await axiosInstance.patch(
+        `/comments/upvote/${updateData.commentId}?ipAddress=${updateData.ipAddress}`
+      );
+  
+      return data;
+    } catch (error: any) {
+      console.log(error);
+      return error?.response?.data;
+    }
+  };
+  export const downvoteUpdateComment = async (updateData: FieldValues) => {
+    try {
+      const { data } = await axiosInstance.patch(
+        `/comments/downvote/${updateData.commentId}?ipAddress=${updateData.ipAddress}`
+      );
+  
+      return data;
+    } catch (error: any) {
+      console.log(error);
+      return error?.response?.data;
+    }
+  };
