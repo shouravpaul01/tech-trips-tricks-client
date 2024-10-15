@@ -5,3 +5,16 @@
 .my-container{
     @apply w-full max-w-6xl mx-auto px-2 md:px-0
 }
+/* Change default scrool design */
+::-webkit-scrollbar {
+  @apply w-2 max-h-12
+  
+ }
+::-webkit-scrollbar-thumb {
+ @apply bg-gray-400 rounded-full 
+    
+}
+::-webkit-scrollbar-track {
+  @apply bg-[#f1f1f1] rounded-[100px] 
+    
+}
