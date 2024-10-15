@@ -3,7 +3,6 @@ import { TPost } from "@/src/types";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Divider } from "@nextui-org/divider";
 import Image from "next/image";
-import CommentCard from "../ui/Comment/CommentDetails";
 import PostDetails from "../ui/Home/PostDetails";
 import CommentWithUpDownVotes from "../ui/Comment/CommentWithUpDownVotes";
 import { useDisclosure } from "@nextui-org/modal";

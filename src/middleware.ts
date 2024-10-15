@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getCurrentuser } from "./app/services/AuthService";
+import { getCurrentuser } from "./services/AuthService";
+
 type TRole = keyof typeof roleBasedRoutesAccess;
 const authRoutes = ["/login", "/register"];
 const roleBasedRoutesAccess = {

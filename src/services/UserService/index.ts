@@ -3,7 +3,7 @@
 import envConfig from "@/src/config/envConfig";
 import { TUser } from "@/src/types";
 import { FieldValues } from "react-hook-form";
-import axiosInstance from "../../lid/AxiosInstance";
+import axiosInstance from "@/src/lib/AxiosInstance";
 import { revalidateTag } from "next/cache";
 
 export const getSingleUserReq = async (

@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { AddCommentkIcon, ThumbDownkIcon, ThumbUpkIcon } from "../../icons";
 import { TPost } from "@/src/types";
 import { UseDisclosureProps } from "@nextui-org/modal";
-import getClientIp from "@/src/app/utils/getClientIp";
+import getClientIp from "@/src/utils/getClientIp";
 import { toast } from "sonner";
-import { downvoteUpdate, upvoteUpdate } from "@/src/app/services/PostService";
+import { downvoteUpdate, upvoteUpdate } from "@/src/services/PostService";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function CommentWithUpDownVotes({

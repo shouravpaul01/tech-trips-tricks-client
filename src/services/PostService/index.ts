@@ -1,7 +1,7 @@
 "use server";
 
 import { FieldValues } from "react-hook-form";
-import axiosInstance from "../../lid/AxiosInstance";
+import axiosInstance from "@/src/lib/AxiosInstance";
 import { revalidateTag } from "next/cache";
 import { TErrorMessage, TPost, TQueryArg } from "@/src/types";
 import envConfig from "@/src/config/envConfig";
@@ -20,7 +20,7 @@ export const createPost = async (bodyData: FieldValues) => {
 export const getAllPost = async (
  {page,limit,queryArgs}:{ page:number,
   limit?: number,
-  queryArgs?:string[]}
+  queryArgs?:TQueryArg[]}
 ): Promise<{
   status: string;
   message: string;
@@ -33,7 +33,7 @@ export const getAllPost = async (
   page && params.append("page",JSON.stringify(page))
   console.log(queryArgs?.length,"queryArgs")
   if (queryArgs?.length!>0) {
-    queryArgs?.forEach((arg:any)=>params.append("category",arg))
+    queryArgs?.forEach((arg:any)=>params.append(arg.label,arg.value))
   }
   const res = await fetch(
     `${envConfig.baseApi}/posts?${params}`,

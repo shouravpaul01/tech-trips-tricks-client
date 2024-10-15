@@ -1,6 +1,6 @@
 "use client";
-import { updateUser } from "@/src/app/services/UserService";
-import { updatePersonalInfoValidation } from "@/src/app/validation/user.validation";
+import { updateUser } from "@/src/services/UserService";
+import { updatePersonalInfoValidation } from "@/src/validation/user.validation";
 import TTTForm from "@/src/components/form/TTTZForm";
 import TTTZImageInput from "@/src/components/form/TTTZImageInput";
 import TTTZInput from "@/src/components/form/TTTZInput";

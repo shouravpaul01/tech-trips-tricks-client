@@ -1,7 +1,7 @@
 import { TPost } from "@/src/types";
 import { useState } from "react";
 import ImageGallery from "../Post/ImageGallery";
-import { countTotalCharecter } from "@/src/app/utils/countTotalCharecter";
+import { countTotalCharecter } from "@/src/utils/countTotalCharecter";
 import { Button } from "@nextui-org/button";
 import { MoreIcon } from "../../icons";
 

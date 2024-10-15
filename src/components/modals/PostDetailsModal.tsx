@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/modal";
 import CommentForm from "../form/comment/CommentForm";
 
-import { getSinglePost } from "@/src/app/services/PostService";
+import { getSinglePost } from "@/src/services/PostService";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 

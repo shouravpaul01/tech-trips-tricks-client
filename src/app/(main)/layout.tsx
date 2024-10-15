@@ -3,9 +3,10 @@ import MenuItems from "@/src/components/ui/MenuItems";
 import Logout from "@/src/components/ui/Logout";
 import { Button } from "@nextui-org/button";
 import CreatePostModal from "@/src/components/modals/CreatePostModal";
-import CategoryFilterByCheckobx from "@/src/components/ui/CategoryFilterByCheckobx";
+import FilterByCheckobx from "@/src/components/ui/FilterByCheckobx";
 
 const Mainlayout = ({ children }: { children: ReactNode }) => {
+  
   return (
     <div className="my-container mt-16">
       <div className="flex ">
@@ -32,11 +33,10 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
 
         {/* Right Sidebar (Sticky) */}
         <div className="w-full md:w-[290px] md:ms-[862px] flex flex-col fixed h-screen  border-s ">
-          <div className="p-4 h-[300px] ">
-            <p className="pb-3 shadow-sm">Select Categories</p>
-            <div className="mt-1 overflow-y-auto">
-              <CategoryFilterByCheckobx />
-            </div>
+          <div className="p-4 ">
+            
+              <FilterByCheckobx />
+            
           </div>
         </div>
       </div>

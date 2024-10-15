@@ -10,13 +10,14 @@ import RadioInputForCategory from "../form/RadioInputForCategory";
 import TTTZImageInput from "../form/TTTZImageInput";
 import { ChangeEvent, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { postValidation } from "@/src/app/validation/post.validation";
+import { postValidation } from "@/src/validation/post.validation";
 import { useMutation } from "@tanstack/react-query";
-import { createPost } from "@/src/app/services/PostService";
+import { createPost } from "@/src/services/PostService";
 import { toast } from "sonner";
 import { TErrorMessage } from "@/src/types";
-import { getCurrentuser } from "@/src/app/services/AuthService";
+import { getCurrentuser } from "@/src/services/AuthService";
 import { useDisclosure } from "@nextui-org/modal";
+import RadioInputForPremiumContent from "../form/RadioInputForPremiumContent";
 
 
 export default  function CreatePostModal() {
@@ -69,6 +70,7 @@ export default  function CreatePostModal() {
   };
 
   return (
+    
     <TTTZModal
       btnTitle="Post"
       modalProps={{
@@ -92,9 +94,10 @@ export default  function CreatePostModal() {
        errors={errors}
       >
         <div className="space-y-3">
+          <RadioInputForPremiumContent name="type"/>
           <RadioInputForCategory name="category" />
 
-          <TTTZTextEditor name="content" />
+          <TTTZTextEditor name="content" placeholder="Start writing content..."/>
           <div>
             <TTTZImageInput
               name="images"

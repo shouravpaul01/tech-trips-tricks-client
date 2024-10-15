@@ -44,7 +44,7 @@ export default function MenuItems() {
         </ListboxItem>
         <ListboxItem
           key="Profile"
-          onClick={()=>router.push(`/${user?.userId}`)}
+          onClick={()=>router.push(`/profile/${user?.userId}`)}
           classNames={{
             
             title: "font-semibold text-md flex items-center",

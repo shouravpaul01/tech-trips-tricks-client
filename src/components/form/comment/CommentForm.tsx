@@ -8,7 +8,7 @@ import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import { CommentSendkIcon } from "../../icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createComment } from "@/src/app/services/CommentService";
+import { createComment } from "@/src/services/CommentService";
 import { toast } from "sonner";
 
 export default function CommentForm({postId}:{postId:string}) {

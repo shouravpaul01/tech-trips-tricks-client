@@ -1,27 +1,19 @@
 "use client";
-
 import PostCard from "@/src/components/cards/PostCard";
-import InfiniteScroll from "react-infinite-scroll-component";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
 import useGetAllPosts from "@/src/hooks/PostHook";
-import { useSearchParams } from "next/navigation";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-const HomePage = () => {
-  const searchParams = useSearchParams();
-  const categories = searchParams.get("categories")
-  ?.split(",")
-  .map((item) => ({ label: "category", value: item }));
-
+export default function DisplayAllPosts({ userId }: { userId: string }) {
   const limit = 2;
-
-  const { data, hasNextPage, fetchNextPage,  isLoading } =
-    useGetAllPosts({ limit: limit, queryArgs:categories  });
+  const { data, hasNextPage, fetchNextPage, isLoading } = useGetAllPosts({
+    limit: limit,
+    queryArgs: [{ label: "user", value: userId }],
+  });
 
   const posts = data?.pages.flatMap((item) => item.data) || [];
-  isLoading && <TTTZLoading />;
-
   return (
-    <div className="px-2 pt-2">
+    <div className="pt-2">
       <InfiniteScroll
         dataLength={posts.length}
         next={fetchNextPage}
@@ -43,6 +35,4 @@ const HomePage = () => {
       </InfiniteScroll>
     </div>
   );
-};
-
-export default HomePage;
+}

@@ -1,7 +1,7 @@
 "use server";
 
 import { FieldValues } from "react-hook-form";
-import axiosInstance from "../../lid/AxiosInstance";
+import axiosInstance from "@/src/lib/AxiosInstance";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 import { TCurrentUser } from "@/src/types";

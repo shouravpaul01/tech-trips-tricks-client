@@ -17,3 +17,8 @@ export const techBlogCategories = [
     { key: "Machine Learning", value: "Machine Learning" },
     { key: "AI and Robotics", value: "AI and Robotics" }
   ];
+  export const premiumOrFreeOptions=[
+    {key:"Free",value:"Free"},
+    {key:"Premium",value:"Premium"},
+   
+]

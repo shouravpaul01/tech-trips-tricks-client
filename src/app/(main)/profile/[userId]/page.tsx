@@ -1,4 +1,4 @@
-import {getSingleUserReq} from "@/src/app/services/UserService";
+import {getSingleUserReq} from "@/src/services/UserService";
 import { CalenderIcon, VerifiedIcon } from "@/src/components/icons";
 import TTTZTabs from "@/src/components/ui/TTTZTabs";
 import { blankImage } from "@/src/constent";
@@ -6,6 +6,7 @@ import { Button } from "@nextui-org/button";
 import dayjs from "dayjs";
 import Image from "next/image";
 import EditProfileModal from "../_components/EditProfileModal";
+import DisplayAllPosts from "../_components/DisplayAllPosts";
 
 
 export default async function Profile({
@@ -84,7 +85,9 @@ export default async function Profile({
         <div className="mt-5">
        
        <TTTZTabs/>
-       
+       <div>
+        <DisplayAllPosts userId={user?._id}/>
+       </div>
         </div>
       </div>
     </div>

@@ -1,8 +1,9 @@
-import { getAllPost } from "@/src/app/services/PostService";
+import { getAllPost } from "@/src/services/PostService";
+import { TQueryArg } from "@/src/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 
-export default function useGetAllPosts({limit,queryArgs}:{limit?:number,queryArgs?:string[]}) {
+export default function useGetAllPosts({limit,queryArgs}:{limit?:number,queryArgs?:TQueryArg[]}) {
   return useInfiniteQuery({
     queryKey: ["posts",limit,queryArgs],
     queryFn: async ({ pageParam = 1 }) => {

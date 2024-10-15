@@ -3,14 +3,24 @@ import { TComment, TPost } from "@/src/types";
 import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "@nextui-org/card";
-import { ThumbDownkIcon, ThumbUpkIcon } from "../../icons";
+import { MoreIcon, ThumbDownkIcon, ThumbUpkIcon } from "../../icons";
 import { useEffect, useState } from "react";
-import getClientIp from "@/src/app/utils/getClientIp";
+import getClientIp from "@/src/utils/getClientIp";
 import { toast } from "sonner";
-import { downvoteUpdateComment, upvoteUpdateComment } from "@/src/app/services/CommentService";
+import {
+  downvoteUpdateComment,
+  upvoteUpdateComment,
+} from "@/src/services/CommentService";
 import { useQueryClient } from "@tanstack/react-query";
+import CommentViewAndEditAndDelete from "./CommentViewAndEditAndDelete";
 
-export default function CommentDetails({profileImage, comment}: {profileImage:string, comment:TComment }) {
+export default function CommentDetails({
+  profileImage,
+  comment,
+}: {
+  profileImage: string;
+  comment: TComment;
+}) {
   const queryClient = useQueryClient();
   const [ipAddress, setIpAddress] = useState();
   useEffect(() => {
@@ -26,12 +36,12 @@ export default function CommentDetails({profileImage, comment}: {profileImage:st
       toast.error("Network problem. Please refresh your window.");
     }
     const res = await upvoteUpdateComment({ ipAddress, commentId });
-    
+
     if (res?.data) {
-      queryClient.invalidateQueries({ queryKey: ['single-posts'] })
+      queryClient.invalidateQueries({ queryKey: ["single-posts"] });
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-     
-      toast.success('Sccessful')
+
+      toast.success("Sccessful");
     }
   };
   const handleDownvote = async (commentId: string) => {
@@ -39,11 +49,11 @@ export default function CommentDetails({profileImage, comment}: {profileImage:st
     if (!ipAddress) {
       toast.error("Network problem. Please refresh your window.");
     }
- 
+
     if (res?.data) {
-      queryClient.invalidateQueries({ queryKey: ['single-posts'] })
+      queryClient.invalidateQueries({ queryKey: ["single-posts"] });
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-      toast.success('Sccessful')
+      toast.success("Sccessful");
     }
   };
   return (
@@ -53,44 +63,44 @@ export default function CommentDetails({profileImage, comment}: {profileImage:st
           <Avatar src={profileImage || blankImage} />
         </div>
         <div>
-        <Card isBlurred={true}>
-          <CardBody className="max-w-xl">
-            <p>{comment?.text}</p>
-          </CardBody>
-        </Card>
-        <div className="flex-1">
-        
-        <Button
-          isIconOnly
-          variant="light"
-          color="secondary"
-          radius="full"
-          size="sm"
-          onPress={() => handleUpvote(comment?._id!)}
-        >
-          <ThumbUpkIcon
-            fill={
-              comment?.isUpvotedIP?.includes(ipAddress!) ? "#EA33F7" : "#999999"
-            }
-          />
-        </Button>
-        <Button
-          isIconOnly
-          variant="light"
-          color="secondary"
-          radius="full"
-          size="sm"
-          onPress={() => handleDownvote(comment?._id!)}
-        >
-          <ThumbDownkIcon
-            fill={
-              comment?.isDownvotedIP?.includes(ipAddress!) ? "#EA33F7" : "#999999"
-            }
-          />
-        </Button>
-      </div>
-        </div>
-       
+         
+            
+              <CommentViewAndEditAndDelete comment={comment} />
+            
+            <Button
+              isIconOnly
+              variant="light"
+              color="secondary"
+              radius="full"
+              size="sm"
+              onPress={() => handleUpvote(comment?._id!)}
+            >
+              <ThumbUpkIcon
+                fill={
+                  comment?.isUpvotedIP?.includes(ipAddress!)
+                    ? "#EA33F7"
+                    : "#999999"
+                }
+              />
+            </Button>
+            <Button
+              isIconOnly
+              variant="light"
+              color="secondary"
+              radius="full"
+              size="sm"
+              onPress={() => handleDownvote(comment?._id!)}
+            >
+              <ThumbDownkIcon
+                fill={
+                  comment?.isDownvotedIP?.includes(ipAddress!)
+                    ? "#EA33F7"
+                    : "#999999"
+                }
+              />
+            </Button>
+          </div>
+      
       </div>
     </>
   );

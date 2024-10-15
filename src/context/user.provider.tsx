@@ -7,8 +7,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { getCurrentuser } from "../app/services/AuthService";
+import { getCurrentuser } from "../services/AuthService";
 import { TCurrentUser } from "../types";
+
 
 export type TUserProviderValues = {
   user: TCurrentUser | null;

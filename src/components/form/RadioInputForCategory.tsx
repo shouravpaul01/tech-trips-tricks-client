@@ -23,7 +23,7 @@ export default function RadioInputForCategory({ name }: TProps) {
           {...field}
           color="secondary"
           orientation="horizontal"
-          label="Category"
+          label="Select Category"
         >
           {techBlogCategories?.slice(0, 5).map((category) => (
             <RadioInputCustom key={category.key} value={category.value}>
@@ -44,7 +44,7 @@ export default function RadioInputForCategory({ name }: TProps) {
             variant="faded"
             size="sm"
             radius="full"
-            startContent={isCategoryMore?<MoreIcon fill="#EA33F7"/>:<XmarkIcon fill="#EA33F7"/>}
+            startContent={!isCategoryMore?<MoreIcon fill="#EA33F7"/>:<XmarkIcon fill="#EA33F7"/>}
             onClick={() => setIsCategoryMore((prev) => !prev)}
           >
             More

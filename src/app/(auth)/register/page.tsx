@@ -9,19 +9,21 @@ import { genderOptions } from "@/src/constent";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
-import { registerValidation } from "../../validation/auth.validation";
+import { registerValidation } from "@/src/validation/auth.validation";
 import {
   FieldValues,
   SubmitHandler,
 } from "react-hook-form";
 
-import {registerUser} from "../../services/AuthService";
+import { registerUser } from "@/src/services/AuthService";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { TErrorMessage } from "@/src/types";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/src/context/user.provider";
+
+
 
 
 export default function RegisterPage() {
