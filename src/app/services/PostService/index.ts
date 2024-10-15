@@ -28,10 +28,10 @@ export const getAllPost = async (
 }> => {
   
   const params=new URLSearchParams()
- 
-  console.log(page,limit,queryArgs,'getAllPost1')
+
   limit && params.append("limit",JSON.stringify(limit))
   page && params.append("page",JSON.stringify(page))
+  console.log(queryArgs?.length,"queryArgs")
   if (queryArgs?.length!>0) {
     queryArgs?.forEach((arg:any)=>params.append("category",arg))
   }
@@ -39,9 +39,7 @@ export const getAllPost = async (
     `${envConfig.baseApi}/posts?${params}`,
     {
       
-      next: {
-        tags: ["posts"],
-      },
+      cache:"no-store"
       
     }
   );

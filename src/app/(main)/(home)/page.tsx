@@ -10,20 +10,20 @@ import useGetAllPosts from "@/src/hooks/PostHook";
 import { useSearchParams } from "next/navigation";
 
 const HomePage = () => {
- const searchParams = useSearchParams()
- const categories=searchParams.get("categories")?.split(",")
+  const searchParams = useSearchParams();
+  const categories = searchParams.get("categories")?.split(",");
 
   const limit = 2;
 
   const { data, hasNextPage, fetchNextPage, refetch, isLoading } =
-    useGetAllPosts({ limit: limit, queryArgs:categories});
+    useGetAllPosts({ limit: limit, queryArgs: categories });
 
   const refreshPosts = () => {
     refetch({});
   };
   const posts = data?.pages.flatMap((item) => item.data) || [];
   isLoading && <TTTZLoading />;
-  
+
   return (
     <div className="px-2 pt-2">
       <InfiniteScroll
