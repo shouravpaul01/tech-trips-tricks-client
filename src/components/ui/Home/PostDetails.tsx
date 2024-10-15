@@ -16,9 +16,9 @@ export default function PostDetails({post}:{post:TPost}) {
           dangerouslySetInnerHTML={{ __html: post?.content }}
         ></div>
         {!seeMore && countTotalCharecter(post?.content) > 400 && (
-          <div>
+          <div className="mb-1">
             <Button
-              variant="flat"
+              variant="light"
               color="secondary"
               size="sm"
               className="font-bold"

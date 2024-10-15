@@ -18,7 +18,8 @@ export default function PostCard({ post }: { post: TPost }) {
       shadow="none"
       classNames={{ base: "border" }}
     >
-      <CardHeader className="flex gap-3 ">
+      <CardHeader className="justify-between p-0">
+        <div className="flex gap-3 p-3">
         <Image
           alt="nextui logo"
           height={40}
@@ -32,6 +33,10 @@ export default function PostCard({ post }: { post: TPost }) {
             @{post?.user?.userId}
           </p>
         </div>
+        </div>
+        <div>
+          <p className="text-sm font-semibold border-s border-y rounded-s-full px-4 py-2 shadow-sm shadow-gray-200">{post?.category}</p>
+        </div>
       </CardHeader>
 
       <CardBody className="pt-0">
@@ -42,11 +47,7 @@ export default function PostCard({ post }: { post: TPost }) {
        
           <CommentWithUpDownVotes post={post} modalDisclosure={modalDisclosure}/>
 
-          {/* {
-           isOpenCommentForm && <div className="w-full mt-1">
-            <CommentForm />
-          </div>
-          } */}
+          
          <PostDetailsModal postId={post?._id} Disclosure={modalDisclosure}/>
       </CardFooter>
     </Card>

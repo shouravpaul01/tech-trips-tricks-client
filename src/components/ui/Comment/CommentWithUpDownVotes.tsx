@@ -15,7 +15,7 @@ export default function CommentWithUpDownVotes({
   post: TPost;
   modalDisclosure?: UseDisclosureProps;
 }) {
-    const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const [ipAddress, setIpAddress] = useState();
   useEffect(() => {
     const fetchIpAddress = async () => {
@@ -26,24 +26,22 @@ export default function CommentWithUpDownVotes({
     fetchIpAddress();
   }, []);
 
-  console.log(ipAddress, "dd");
   const handleUpvote = async (postId: string) => {
     if (!ipAddress) {
       toast.error("Network problem.Refresh you window.");
     }
     const res = await upvoteUpdate({ ipAddress, postId });
     if (res?.data) {
-        queryClient.invalidateQueries({ queryKey: ['posts'] })
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     }
-    
   };
   const handleDownvote = async (postId: string) => {
     const res = await downvoteUpdate({ ipAddress, postId });
     if (!ipAddress) {
-        toast.error("Network problem.Refresh you window.");
-      }
+      toast.error("Network problem.Refresh you window.");
+    }
     if (res?.data) {
-        queryClient.invalidateQueries({ queryKey: ['posts'] })
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     }
   };
   return (
@@ -83,6 +81,7 @@ export default function CommentWithUpDownVotes({
           color="secondary"
           size="sm"
           radius="full"
+          className="text-sm"
           endContent={<AddCommentkIcon fill="#999999" />}
           onPress={modalDisclosure && modalDisclosure.onOpen}
         >

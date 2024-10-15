@@ -29,7 +29,8 @@ const HomePage = () => {
     refetch({});
   };
   const posts = data?.pages.flatMap((item) => item.data) || [];
-console.log(posts,"posts")
+  isLoading && <TTTZLoading/>
+console.log(isLoading,"posts")
   return (
     <div className="px-2 pt-2">
       <InfiniteScroll
@@ -37,12 +38,8 @@ console.log(posts,"posts")
         next={fetchNextPage}
         hasMore={hasNextPage}
         loader={<TTTZLoading />}
-        endMessage={
-          <div className="flex justify-center mt-3">
-            <Button isIconOnly radius="full" onPress={refreshPosts}>
-              <RefreshIcon />
-            </Button>
-          </div>
+        endMessage={isLoading?<TTTZLoading/>:
+          <p className="text-sm text-gray-500 font-semibold text-center mt-3">No More</p>
         }
       >
         <div className="space-y-5">
