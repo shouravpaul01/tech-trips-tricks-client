@@ -345,11 +345,11 @@ export const EditIcon: React.FC<IconSvgProps> = (props) => {
   );
 };
 export const VerifiedIcon: React.FC<IconSvgProps> = (props) => {
-  const { width = 24, height = 24 } = props;
+  const { width = 24, height = 24,fill="#0000F5" } = props;
 
   return (
     <svg xmlns="http://www.w3.org/2000/svg" height={height}
-    width={width} viewBox="0 -960 960 960"  fill="#0000F5"><path d="m438-319 245-246-74-75-171 171-86-85-74 74 160 161Zm42.13 287q-158.9-37.81-262.51-176.8Q114-347.8 114-516.16v-275.28L480-928l366 136.56v275.28q0 168.36-103.49 307.36Q639.02-69.81 480.13-32Z"/></svg>
+    width={width} viewBox="0 -960 960 960" fill={fill} ><path d="m438-319 245-246-74-75-171 171-86-85-74 74 160 161Zm42.13 287q-158.9-37.81-262.51-176.8Q114-347.8 114-516.16v-275.28L480-928l366 136.56v275.28q0 168.36-103.49 307.36Q639.02-69.81 480.13-32Z"/></svg>
   );
 };
 export const CalenderIcon: React.FC<IconSvgProps> = (props) => {
@@ -448,5 +448,13 @@ export const RefreshIcon: React.FC<IconSvgProps> = (props) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" height={height}
     width={width} fill={fill}  viewBox="0 -960 960 960" ><path d="M480.54-146q-137.63 0-234.81-97.17-97.19-97.17-97.19-234.77 0-137.6 97.19-236.83Q342.91-814 480.54-814q71.15 0 134.77 31.69 63.61 31.7 110.15 83.54V-814h86v298.61H512.85v-85.99h178q-33.62-55.93-89.2-88.27Q546.08-722 480.54-722q-103 0-174.5 71t-71.5 173q0 103 71.5 174.5t174.5 71.5q78 0 141.5-44.5t88.5-119.5h89.23Q771.54-286.08 683-216.04 594.46-146 480.54-146Z"/></svg>
+  );
+};
+export const CheckIcon: React.FC<IconSvgProps> = (props) => {
+  const { width = 24, height = 24 ,fill="#EA33F7"} = props;
+
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" height={height}
+    width={width} fill={fill} viewBox="0 -960 960 960" ><path d="M382-231.85 144.62-469.23 205.38-530 382-353.38 756.62-728l60.76 60.77L382-231.85Z"/></svg>
   );
 };

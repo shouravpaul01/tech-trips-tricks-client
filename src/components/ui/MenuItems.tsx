@@ -31,7 +31,7 @@ export default function MenuItems() {
         </ListboxItem>
         <ListboxItem
           key="Premium"
-         
+          onClick={()=>router.push(`/premium`)}
           classNames={{
             
             title: "font-semibold text-md flex items-center",
