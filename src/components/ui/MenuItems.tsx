@@ -37,7 +37,7 @@ export default function MenuItems() {
             title: "font-semibold text-md flex items-center",
           }}
           startContent={<IconWrapper className="bg-primary/10 text-primary">
-            <PremiumIcon className={iconClasses} />
+            <PremiumIcon className={iconClasses} fill="#17c964"/>
           </IconWrapper>}
         >
           Premium

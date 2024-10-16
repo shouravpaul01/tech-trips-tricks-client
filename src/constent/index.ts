@@ -1,3 +1,6 @@
+import { features } from "node:process";
+import { TSubscrptionPlanOptions } from "../types";
+
 export const blankImage="https://res.cloudinary.com/dcrui4h7s/image/upload/v1728573900/vm6kctldpgh85xgvy9m3.png"
 export const noImage="https://res.cloudinary.com/dcrui4h7s/image/upload/v1728642046/oe3xmzjttc2eje9ocvt3.png"
 export const genderOptions=[
@@ -21,4 +24,36 @@ export const techBlogCategories = [
     {key:"Free",value:"Free"},
     {key:"Premium",value:"Premium"},
    
+]
+export const subscrptionPlanOptions:TSubscrptionPlanOptions[]=[
+  {
+    plan:"1 Month",
+    amount:300,
+    features:[
+      "Latest Tech Tips",
+      "Exclusive How-To Guides",
+      "Advanced Tech Solutions",
+      "Member-Only Webinars"
+    ]
+  },
+  {
+    plan:"6 Months",
+    amount:500,
+    features:[
+      "Latest Tech Tips",
+      "Exclusive How-To Guides",
+      "Advanced Tech Solutions",
+      "Member-Only Webinars"
+    ]
+  },
+  {
+    plan:"1 Year",
+    amount:700,
+    features:[
+      "Latest Tech Tips",
+      "Exclusive How-To Guides",
+      "Advanced Tech Solutions",
+      "Member-Only Webinars"
+    ]
+  }
 ]

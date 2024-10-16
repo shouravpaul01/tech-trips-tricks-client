@@ -19,7 +19,6 @@ import { registerUser } from "@/src/services/AuthService";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { TErrorMessage } from "@/src/types";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/src/context/user.provider";
 

@@ -29,6 +29,12 @@ export type TStudyInformation = {
   fieldOfStudy: string;
   graduationYear: number;
 };
+export type TCurrentSubscribtion={
+  plan: "1 month" | "6 months" | "1 year"; 
+  startDate: Date;        
+  endDate: Date;          
+  isActive: boolean; 
+}
 export type TUser = {
   _id: string;
   name: string;
@@ -45,7 +51,9 @@ export type TUser = {
   website: string;
   socialLinks: TSocialLinks;
   studyInformation: TStudyInformation;
-  isVerified: boolean;
+  isSubscribed:boolean,
+  currentSubscribtion:TCurrentSubscribtion,
+  allSubscribtion:TCurrentSubscribtion[]
   createdAt: Date;
   updatedAt: Date;
 };
@@ -80,4 +88,9 @@ export type TComment = {
 export type TQueryArg = {
   label: string;
   value: any;
+};
+export type TSubscrptionPlanOptions = {
+  plan: "1 Month" | "6 Months" | "1 Year";  
+  amount: number;                           
+  features: string[];                       
 };

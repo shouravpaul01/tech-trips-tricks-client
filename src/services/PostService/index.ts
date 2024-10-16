@@ -5,7 +5,6 @@ import axiosInstance from "@/src/lib/AxiosInstance";
 import { revalidateTag } from "next/cache";
 import { TErrorMessage, TPost, TQueryArg } from "@/src/types";
 import envConfig from "@/src/config/envConfig";
-import { param } from "lightgallery/plugins/video/lg-video-utils";
 
 export const createPost = async (bodyData: FieldValues) => {
   try {

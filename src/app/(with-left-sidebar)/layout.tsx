@@ -2,7 +2,7 @@
 import { ReactNode } from "react";
 import MenuItems from "@/src/components/ui/MenuItems";
 import CreatePostModal from "@/src/components/modals/CreatePostModal";
-import FilterByCheckobx from "@/src/components/ui/FilterByCheckobx";
+
 
 const WithLeftSidebar = ({ children }: { children: ReactNode }) => {
   
