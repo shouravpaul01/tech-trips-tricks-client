@@ -14,7 +14,7 @@ export default  function PostDetailsPage({
   params: { postId: string };
 }) {
   const { postId } = params;
-  console.log(postId);
+  
   const { data: post ,isLoading,isFetching} = useGetSinglePost(postId);
   
   if (isLoading && isFetching) {

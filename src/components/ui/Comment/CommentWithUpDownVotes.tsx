@@ -1,7 +1,13 @@
-"use client"
+"use client";
 import { Button } from "@nextui-org/button";
-import React, { useEffect, useState } from "react";
-import { AddCommentkIcon, InfoIcon, PDFIcon, ThumbDownkIcon, ThumbUpkIcon } from "../../icons";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  AddCommentkIcon,
+  InfoIcon,
+  PDFIcon,
+  ThumbDownkIcon,
+  ThumbUpkIcon,
+} from "../../icons";
 import { TPost } from "@/src/types";
 import { UseDisclosureProps } from "@nextui-org/modal";
 import getClientIp from "@/src/utils/getClientIp";
@@ -9,6 +15,8 @@ import { toast } from "sonner";
 import { downvoteUpdate, upvoteUpdate } from "@/src/services/PostService";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import PrintPost from "../PrintPost";
+import { useReactToPrint } from "react-to-print";
 
 export default function CommentWithUpDownVotes({
   post,
@@ -17,7 +25,8 @@ export default function CommentWithUpDownVotes({
   post: TPost;
   modalDisclosure?: UseDisclosureProps;
 }) {
-  const router=useRouter()
+  const router = useRouter();
+
   const queryClient = useQueryClient();
   const [ipAddress, setIpAddress] = useState();
   useEffect(() => {
@@ -35,10 +44,9 @@ export default function CommentWithUpDownVotes({
     }
     const res = await upvoteUpdate({ ipAddress, postId });
     if (res?.data) {
-      
-      queryClient.invalidateQueries({ queryKey: ['single-posts'] })
-      queryClient.invalidateQueries({ queryKey: ['posts'] })
-      toast.success('Sccessful')
+      queryClient.invalidateQueries({ queryKey: ["single-posts"] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      toast.success("Sccessful");
     }
   };
   const handleDownvote = async (postId: string) => {
@@ -47,11 +55,12 @@ export default function CommentWithUpDownVotes({
       toast.error("Network problem. Please refresh your window.");
     }
     if (res?.data) {
-      queryClient.invalidateQueries({ queryKey: ['single-posts'] })
-      queryClient.invalidateQueries({ queryKey: ['posts'] })
-      toast.success('Sccessful')
+      queryClient.invalidateQueries({ queryKey: ["single-posts"] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      toast.success("Sccessful");
     }
   };
+
   return (
     <div className="flex justify-between items-center w-full">
       <div className="">
@@ -83,27 +92,19 @@ export default function CommentWithUpDownVotes({
         </Button>
       </div>
       <Button
-          variant="light"
-          color="secondary"
-          size="sm"
-          radius="full"
-          className="text-sm"
-         startContent={<InfoIcon/>}
-         onPress={()=>router.push(`/details/${post?._id}`)}
-        >
-          Details
-        </Button>
-        <Button
-          variant="light"
-          color="secondary"
-          size="sm"
-          radius="full"
-          className="text-sm"
-         startContent={<PDFIcon/>}
-         
-        >
-          PDF
-        </Button>
+        variant="light"
+        color="secondary"
+        size="sm"
+        radius="full"
+        className="text-sm"
+        startContent={<InfoIcon />}
+        onPress={() => router.push(`/details/${post?._id}`)}
+      >
+        Details
+      </Button>
+
+      <PrintPost post={post} />
+
       <div className="">
         {/* <p>10 Comments</p> */}
         <Button
