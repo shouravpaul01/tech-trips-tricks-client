@@ -53,6 +53,7 @@ export const getSinglePost = async (
   data: TPost;
   errorMessages: TErrorMessage[];
 }> => {
+  console.log(postId,"server")
   const res = await fetch(`${envConfig.baseApi}/posts/single-post/${postId}`, {
     cache:"no-store"
   });

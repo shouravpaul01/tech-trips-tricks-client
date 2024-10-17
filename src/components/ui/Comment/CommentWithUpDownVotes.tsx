@@ -1,12 +1,14 @@
+"use client"
 import { Button } from "@nextui-org/button";
 import React, { useEffect, useState } from "react";
-import { AddCommentkIcon, ThumbDownkIcon, ThumbUpkIcon } from "../../icons";
+import { AddCommentkIcon, InfoIcon, PDFIcon, ThumbDownkIcon, ThumbUpkIcon } from "../../icons";
 import { TPost } from "@/src/types";
 import { UseDisclosureProps } from "@nextui-org/modal";
 import getClientIp from "@/src/utils/getClientIp";
 import { toast } from "sonner";
 import { downvoteUpdate, upvoteUpdate } from "@/src/services/PostService";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export default function CommentWithUpDownVotes({
   post,
@@ -15,6 +17,7 @@ export default function CommentWithUpDownVotes({
   post: TPost;
   modalDisclosure?: UseDisclosureProps;
 }) {
+  const router=useRouter()
   const queryClient = useQueryClient();
   const [ipAddress, setIpAddress] = useState();
   useEffect(() => {
@@ -50,8 +53,8 @@ export default function CommentWithUpDownVotes({
     }
   };
   return (
-    <div className="flex items-center w-full">
-      <div className="flex-1">
+    <div className="flex justify-between items-center w-full">
+      <div className="">
         <Button
           isIconOnly
           variant="light"
@@ -79,6 +82,28 @@ export default function CommentWithUpDownVotes({
           />
         </Button>
       </div>
+      <Button
+          variant="light"
+          color="secondary"
+          size="sm"
+          radius="full"
+          className="text-sm"
+         startContent={<InfoIcon/>}
+         onPress={()=>router.push(`/details/${post?._id}`)}
+        >
+          Details
+        </Button>
+        <Button
+          variant="light"
+          color="secondary"
+          size="sm"
+          radius="full"
+          className="text-sm"
+         startContent={<PDFIcon/>}
+         
+        >
+          PDF
+        </Button>
       <div className="">
         {/* <p>10 Comments</p> */}
         <Button

@@ -27,7 +27,7 @@ export default  function CreatePostModal() {
     { file: File; preview: string }[]
   >([]);
   const { mutate: handlePost, isSuccess } = useMutation({
-    mutationKey: ["UPDATE_USER"],
+    mutationKey: ["CREATE_POST"],
     mutationFn: async (data: FieldValues) => await createPost(data),
     onSuccess: (data) => {
       if (data?.status) {

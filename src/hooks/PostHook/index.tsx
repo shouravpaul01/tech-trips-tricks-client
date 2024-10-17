@@ -1,6 +1,9 @@
-import { getAllPost } from "@/src/services/PostService";
+"use client"
+
+import { getAllPost, getSinglePost } from "@/src/services/PostService";
 import { TQueryArg } from "@/src/types";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 
 export default function useGetAllPosts({limit,queryArgs}:{limit?:number,queryArgs?:TQueryArg[]}) {
@@ -19,3 +22,17 @@ export default function useGetAllPosts({limit,queryArgs}:{limit?:number,queryArg
   });
 };
 
+export  const useGetSinglePost=(postId:string)=> {
+  return  useQuery({
+    queryKey: ["single-posts", postId],
+    queryFn: async () => {
+      const res = await getSinglePost(postId);
+      if (res?.errorMessages?.length > 0) {
+        toast.error("Post not found.");
+
+      }
+      return res.data;
+    },
+    enabled: !!postId,
+  });
+};

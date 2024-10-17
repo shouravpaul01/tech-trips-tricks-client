@@ -1,21 +1,21 @@
-import { TPost } from "@/src/types";
-import { useState } from "react";
-import ImageGallery from "../Post/ImageGallery";
+"use client"
+
 import { countTotalCharecter } from "@/src/utils/countTotalCharecter";
 import { Button } from "@nextui-org/button";
+import { useState } from "react";
 import { MoreIcon } from "../../icons";
 
 
-export default function PostDetails({post}:{post:TPost}) {
-  
+
+export default function PostContentText({content}:{content:string}) {
     const [seeMore, setSeeMore] = useState<boolean>(false);
   return (
     <div>
        <div
           className={`mb-2 text-justify ${!seeMore && "line-clamp-4"}`}
-          dangerouslySetInnerHTML={{ __html: post?.content }}
+          dangerouslySetInnerHTML={{ __html:content }}
         ></div>
-        {!seeMore && countTotalCharecter(post?.content) > 400 && (
+        {!seeMore && countTotalCharecter(content) > 400 && (
           <div className="mb-1">
             <Button
               variant="light"
@@ -27,11 +27,6 @@ export default function PostDetails({post}:{post:TPost}) {
             >
               See more
             </Button>
-          </div>
-        )}
-        {post?.images?.length > 0 && (
-          <div>
-            <ImageGallery images={post.images} />
           </div>
         )}
     </div>

@@ -8,17 +8,14 @@ import {
   UseDisclosureProps,
 } from "@nextui-org/modal";
 import CommentForm from "../form/comment/CommentForm";
-
-import { getSinglePost } from "@/src/services/PostService";
-import { useQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
-
-import PostDetails from "../ui/Home/PostDetails";
 import CommentDetails from "../ui/Comment/CommentDetails";
 import CommentWithUpDownVotes from "../ui/Comment/CommentWithUpDownVotes";
-import { Island_Moments } from "next/font/google";
 import CommentLoading from "../ui/CommentLoading";
+import { useGetSinglePost} from "@/src/hooks/PostHook";
+import PostContentText from "../ui/Post/PostContentText";
+import ImageGallery from "../ui/Post/ImageGallery";
 import TTTZLoading from "../ui/TTTZLoading";
+
 
 export default function PostDetailsModal({
   Disclosure,
@@ -28,20 +25,8 @@ export default function PostDetailsModal({
   Disclosure: UseDisclosureProps | any;
 }) {
   const { isOpen, onClose, onOpenChange } = Disclosure;
-  const { data: post, isFetching} = useQuery({
-    queryKey: ["single-posts", postId],
-    queryFn: async () => {
-      const res = await getSinglePost(postId);
-      if (res?.errorMessages?.length > 0) {
-        toast.error("Post not found.");
+  const { data: post,isLoading, isFetching } = useGetSinglePost(postId);
 
-        onClose();
-      }
-      return res.data;
-    },
-    enabled: !!postId,
-  });
-  
   return (
     <Modal
       isOpen={isOpen}
@@ -58,12 +43,17 @@ export default function PostDetailsModal({
             </ModalHeader>
             <ModalBody>
               <>
-             
-                <PostDetails post={post!} />
+              {(isLoading && isFetching) && <TTTZLoading />}
+                <PostContentText content={post?.content!} />
+                {post?.images?.length! > 0 && (
+                  <div>
+                    <ImageGallery images={post?.images!} />
+                  </div>
+                )}
                 <div className="border-y-1">
                   <CommentWithUpDownVotes post={post!} />
                 </div>
-                {post?.comments?.map((comment, index) => (
+                {post?.comments?.map((comment:any, index:number) => (
                   <CommentDetails
                     key={index}
                     profileImage={post?.user?.profileImage}

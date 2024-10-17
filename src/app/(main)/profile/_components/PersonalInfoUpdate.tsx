@@ -26,7 +26,7 @@ export default function PersonalInfoUpdate({user}:{user:TUser}) {
     mutationKey: ["UPDATE_USER"],
     mutationFn: async (data: FieldValues) => await updateUser(data),
     onSuccess: (data) => {
-      console.log(data);
+    
       if (data?.status) {
         toast.success(data?.message)
       }
