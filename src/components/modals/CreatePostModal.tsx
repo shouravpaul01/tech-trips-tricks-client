@@ -4,40 +4,36 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import TTTForm from "../form/TTTZForm";
 import TTTZTextEditor from "../form/TTTZTextEditor";
 import { PostAddIcon, XmarkIcon } from "../icons";
-import TTTZModal from "./TTTZModal";
 import { Button } from "@nextui-org/button";
 import RadioInputForCategory from "../form/RadioInputForCategory";
 import TTTZImageInput from "../form/TTTZImageInput";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { postValidation } from "@/src/validation/post.validation";
-import { useMutation } from "@tanstack/react-query";
-import { createPost } from "@/src/services/PostService";
-import { toast } from "sonner";
 import { TErrorMessage } from "@/src/types";
 import { getCurrentuser } from "@/src/services/AuthService";
 import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   useDisclosure,
   UseDisclosureProps,
 } from "@nextui-org/modal";
 import RadioInputForPremiumContent from "../form/RadioInputForPremiumContent";
-import { useCreatePost, useGetSinglePost, useUpdatePost } from "@/src/hooks/PostHook";
+import { useCreatePost, useGetSinglePost, useRemoveImageFromPost, useUpdatePost } from "@/src/hooks/PostHook";
 import TTTZLoading from "../ui/TTTZLoading";
 
 export default function CreatePostModal({Disclosure,postId}:{Disclosure:UseDisclosureProps | any,postId?:string}) {
-  const { isOpen, onClose, onOpenChange } = Disclosure;
+  const { isOpen, onClose, onOpenChange } = Disclosure || useDisclosure();
   const [errors, setErrors] = useState<TErrorMessage[]>([]);
   const [imagesData, setImagesData] = useState<
     { file: File; preview: string }[]
   >([]);
   const { data: post,isLoading } = useGetSinglePost(postId!);
   const { mutate: createPost } =useCreatePost(onClose,setErrors)
-  const { mutate: updatePost,isSuccess:isUpdateSuccess } =useUpdatePost(setErrors)
+  const { mutate: updatePost, } =useUpdatePost(setErrors)
+  const { mutate: removeImage,} =useRemoveImageFromPost(setErrors)
   //Added images in state
   const handleImagesPreview = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files;
@@ -81,7 +77,6 @@ export default function CreatePostModal({Disclosure,postId}:{Disclosure:UseDiscl
     updatePost(updateData);
   };
 
-  console.log(post)
   
 
   return (
@@ -144,6 +139,7 @@ export default function CreatePostModal({Disclosure,postId}:{Disclosure:UseDiscl
                         </div>
                       ))}
                     </div>
+                    {/* Post Images preview */}
                     {post?.images.length!>0 && <p className="my-4">Posts Images</p>}
                     <div className="flex gap-4 ">
                       {post?.images?.map((image, index) => (
@@ -160,7 +156,7 @@ export default function CreatePostModal({Disclosure,postId}:{Disclosure:UseDiscl
                             size="sm"
                             radius="full"
                             color="danger"
-                            onClick={() => handleDeleteImage(index)}
+                            onClick={() => removeImage({postId:post._id,image})}
                             className="absolute -top-3 -right-3"
                           >
                             <XmarkIcon />

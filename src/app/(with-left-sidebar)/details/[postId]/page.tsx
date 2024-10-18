@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import PostCard from "@/src/components/cards/PostCard";
 import CommentForm from "@/src/components/form/comment/CommentForm";
 import CommentDetails from "@/src/components/ui/Comment/CommentDetails";
@@ -7,22 +7,20 @@ import TTTZLoading from "@/src/components/ui/TTTZLoading";
 
 import { useGetSinglePost } from "@/src/hooks/PostHook";
 
-
-export default  function PostDetailsPage({
+export default function PostDetailsPage({
   params,
 }: {
   params: { postId: string };
 }) {
   const { postId } = params;
-  
-  const { data: post ,isLoading,isFetching} = useGetSinglePost(postId);
-  
+
+  const { data: post, isLoading, isFetching } = useGetSinglePost(postId);
+
   if (isLoading && isFetching) {
-    return <TTTZLoading className="h-screen"/>
+    return <TTTZLoading className="h-screen" />;
   }
   return (
     <>
-    
       <div className="relative md:px-4 py-3">
         <PostCard
           isModalShow={false}
@@ -33,7 +31,7 @@ export default  function PostDetailsPage({
           }}
           post={post!}
         />
-        <div className="mb-10">
+        <div className="mb-32">
           {post?.comments?.map((comment, index) => (
             <CommentDetails
               key={index}

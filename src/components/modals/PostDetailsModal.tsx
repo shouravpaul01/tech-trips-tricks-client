@@ -24,7 +24,7 @@ export default function PostDetailsModal({
   postId: string;
   Disclosure: UseDisclosureProps | any;
 }) {
-  const { isOpen, onClose, onOpenChange } = Disclosure;
+  const { isOpen, onOpenChange } = Disclosure;
   const { data: post,isLoading, isFetching } = useGetSinglePost(postId);
 
   return (

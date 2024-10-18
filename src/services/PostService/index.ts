@@ -70,6 +70,16 @@ export const updatePost = async (updateData: FieldValues) => {
     return error?.response?.data;
   }
 };
+export const removeImageFromPost = async (updateData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.patch(`/posts/remove-image/?postId=${updateData.postId}&image=${updateData.image}`);
+    revalidateTag("posts");
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+};
 export const upvoteUpdate = async (updateData: FieldValues) => {
   try {
     const { data } = await axiosInstance.patch(

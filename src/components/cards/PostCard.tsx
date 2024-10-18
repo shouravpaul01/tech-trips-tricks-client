@@ -12,13 +12,19 @@ import Image from "next/image";
 import CommentWithUpDownVotes from "../ui/Comment/CommentWithUpDownVotes";
 import { useDisclosure } from "@nextui-org/modal";
 import PostDetailsModal from "../modals/PostDetailsModal";
-import { EditIcon, PremiumIcon } from "../icons";
+import { DeleteIcon, EditIcon, MoreIcon, PremiumIcon } from "../icons";
 import ImageGallery from "../ui/Post/ImageGallery";
 import PostContentText from "../ui/Post/PostContentText";
 import { Button } from "@nextui-org/button";
 import { useUser } from "@/src/context/user.provider";
 import CreatePostModal from "../modals/CreatePostModal";
 import { useState } from "react";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/dropdown";
 
 export default function PostCard({
   cardProps,
@@ -29,7 +35,8 @@ export default function PostCard({
   isModalShow?: boolean;
   post: TPost;
 }) {
-  const modalDisclosure = useDisclosure();
+  const editModalDisclosure = useDisclosure();
+  const detailModalDisclosure = useDisclosure();
   const { user } = useUser();
   const [postId, setPostId] = useState<string>("");
   return (
@@ -58,16 +65,35 @@ export default function PostCard({
             <div className="flex items-center gap-1 border-s border-y rounded-s-full px-4  shadow-sm shadow-gray-200">
               <p className="text-sm font-semibold py-2">{post?.category}</p>
               {post?.user._id == user?._id && (
-                <Button
-                  isIconOnly
-                  radius="full"
-                  size="sm"
-                  onPress={() => {
-                    setPostId(post._id), modalDisclosure.onOpen();
-                  }}
-                >
-                  <EditIcon width={20} height={20} fill="#7828c8" />
-                </Button>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button isIconOnly radius="full" variant="light">
+                      <MoreIcon fill="#7828c8" />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    variant="flat"
+                    color="secondary"
+                    aria-label="Dropdown menu with icons"
+                  >
+                    <DropdownItem
+                      key="Edit"
+                      onPress={() => {
+                        setPostId(post._id), editModalDisclosure.onOpen();
+                      }}
+                      startContent={<EditIcon fill="#7828c8" />}
+                    >
+                      Edit
+                    </DropdownItem>
+                    <DropdownItem
+                      key="Delete"
+                      startContent={<DeleteIcon fill="#7828c8" />}
+                    >
+                      Delete
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+                
               )}
             </div>
           </div>
@@ -85,15 +111,15 @@ export default function PostCard({
         <CardFooter>
           <CommentWithUpDownVotes
             post={post}
-            modalDisclosure={modalDisclosure}
+            modalDisclosure={detailModalDisclosure}
           />
 
           {isModalShow && (
-            <PostDetailsModal postId={post?._id} Disclosure={modalDisclosure} />
+            <PostDetailsModal postId={post?._id} Disclosure={detailModalDisclosure} />
           )}
         </CardFooter>
       </Card>
-      <CreatePostModal Disclosure={modalDisclosure} postId={postId} />
+      <CreatePostModal Disclosure={editModalDisclosure} postId={postId} />
     </>
   );
 }

@@ -20,7 +20,7 @@ export default function ImageGallery({ images }: { images: string[] }) {
     <LightGallery
       onInit={onInit}
       speed={500}
-      elementClassNames={`grid gap-2 place-items-center grid-cols-2 ${images.length == 1 ? "grid-cols-1" : "grid-cols-2"}`}
+      elementClassNames={`grid gap-2 place-items-center  ${images.length == 1 ? "grid-cols-1" : "grid-cols-2"}`}
       plugins={[lgThumbnail, lgZoom]}
     >
       {images?.map((image, index) => (

@@ -1,6 +1,6 @@
 "use client"
 
-import { createPost, getAllPost, getSinglePost, updatePost } from "@/src/services/PostService";
+import { createPost, getAllPost, getSinglePost, removeImageFromPost, updatePost } from "@/src/services/PostService";
 import { TErrorMessage, TQueryArg } from "@/src/types";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
@@ -65,6 +65,7 @@ setErrors: (errors: TErrorMessage[]) => void)=> {
        
         toast.success(data?.message);
         queryClient.invalidateQueries({queryKey:["posts"]})
+        queryClient.invalidateQueries({queryKey:["single-posts",data.data._id]})
       }
       if (!!data?.errorMessages) {
         setErrors([...data?.errorMessages]);
@@ -72,3 +73,23 @@ setErrors: (errors: TErrorMessage[]) => void)=> {
     },
   });
 };
+export  const useRemoveImageFromPost=(
+  setErrors: (errors: TErrorMessage[]) => void)=> {
+    const queryClient=useQueryClient()
+    return   useMutation({
+      mutationKey: ["REMOVE_IMAGE"],
+      mutationFn: async (data: FieldValues) => await removeImageFromPost(data),
+      onSuccess: (data) => {
+       console.log(data)
+        if (data?.status) {
+         
+          toast.success(data?.message);
+          queryClient.invalidateQueries({queryKey:["posts"]})
+          queryClient.invalidateQueries({queryKey:["single-posts",data.data._id]})
+        }
+        if (!!data?.errorMessages) {
+          setErrors([...data?.errorMessages]);
+        }
+      },
+    });
+  };
