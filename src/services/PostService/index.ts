@@ -60,6 +60,16 @@ export const getSinglePost = async (
 
   return await res.json();
 };
+export const updatePost = async (updateData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.patch(`/posts/update-post/${updateData.postId}`, updateData.data);
+    revalidateTag("posts");
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+};
 export const upvoteUpdate = async (updateData: FieldValues) => {
   try {
     const { data } = await axiosInstance.patch(

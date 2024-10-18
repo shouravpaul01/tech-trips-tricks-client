@@ -4,6 +4,7 @@ import Logout from "@/src/components/ui/Logout";
 import { Button } from "@nextui-org/button";
 import CreatePostModal from "@/src/components/modals/CreatePostModal";
 import FilterByCheckobx from "@/src/components/ui/FilterByCheckobx";
+import CreatePostButton from "./_components/CreatePostButton";
 
 const Mainlayout = ({ children }: { children: ReactNode }) => {
   
@@ -21,7 +22,7 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
 
           
           <div className="px-1">
-            <CreatePostModal />
+            <CreatePostButton />
             
           </div>
         </div>

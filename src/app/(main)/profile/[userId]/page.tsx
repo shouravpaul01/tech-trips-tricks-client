@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import EditProfileModal from "../_components/EditProfileModal";
 import DisplayAllPosts from "../_components/DisplayAllPosts";
+import { Tooltip } from "@nextui-org/tooltip";
 
 
 export default async function Profile({
@@ -18,7 +19,7 @@ export default async function Profile({
   const { userId } = params;
 
   const { data: user } = await getSingleUserReq(userId);
-
+console.log(user,userId,"user")
   return (
     <div>
       <div className="relative">
@@ -34,7 +35,7 @@ export default async function Profile({
             <div className="bg-gray-600 h-[200px]"></div>
           )}
 
-          {/* <Image /> */}
+       
         </div>
         <div className=" absolute -bottom-14 left-5">
           <Image
@@ -51,10 +52,14 @@ export default async function Profile({
           <EditProfileModal user={user}/>
         </div>
         <div>
-          <div className="flex gap-3">
+          <div className="flex items-center gap-3">
             <p className="font-bold text-xl">{user?.name}</p>
+            <Tooltip showArrow content={user.isSubscribed?"User verified.":"User not verified."}>
             {user?.isSubscribed ? (
-              <VerifiedIcon width={20} height={20} />
+              
+               <VerifiedIcon width={20} height={20} />
+            
+             
             ) : (
               <Button
                 variant="bordered"
@@ -64,7 +69,7 @@ export default async function Profile({
               >
                 Get Verified
               </Button>
-            )}
+            )}</Tooltip>
           </div>
           <p className="text-gray-400 ">@{user?.userId}</p>
           <div className="mt-3">

@@ -9,21 +9,16 @@ import { revalidateTag } from "next/cache";
 export const getSingleUserReq = async (
   userId: string
 ): Promise<{ status: string; message: string; data: TUser }> => {
-  const fetchOption = {
-    next: {
-      tags: ["users"],
-    },
-  };
+ 
   const res = await fetch(
     `${envConfig.baseApi}/users/single-user/${userId}`,
-    fetchOption
+    {cache:"no-store"}
   );
 
   return await res.json();
 };
 
 export const updateUser = async (bodyData: FieldValues) => {
-  console.log(bodyData, "bodydata");
   try {
     const { data } = await axiosInstance.patch(
       `/users/update-user/${bodyData?.userId}`,

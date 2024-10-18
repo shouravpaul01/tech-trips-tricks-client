@@ -32,7 +32,7 @@ console.log(user,"user")
       return NextResponse.next();
     }
   }
-   return NextResponse.redirect(new URL("/", request.url));
+  //  return NextResponse.redirect(new URL("/", request.url));
 }
 
 // See "Matching Paths" below to learn more
