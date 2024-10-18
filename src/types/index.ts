@@ -29,12 +29,16 @@ export type TStudyInformation = {
   fieldOfStudy: string;
   graduationYear: number;
 };
-export type TCurrentSubscribtion={
-  plan: "1 month" | "6 months" | "1 year"; 
-  startDate: Date;        
-  endDate: Date;          
-  isActive: boolean; 
-}
+export type TSubscribtion = {
+  _id:string;
+  user: string;
+  plan: "1 month" | "6 months" | "1 year";
+  transactionId:string;
+  amount: number;
+  startDate: Date;
+  endDate: Date;
+  isActive: boolean;
+};
 export type TUser = {
   _id: string;
   name: string;
@@ -51,9 +55,9 @@ export type TUser = {
   website: string;
   socialLinks: TSocialLinks;
   studyInformation: TStudyInformation;
-  isSubscribed:boolean,
-  currentSubscribtion:TCurrentSubscribtion,
-  allSubscribtion:TCurrentSubscribtion[]
+  isSubscribed: boolean;
+  subscription:TSubscribtion;
+  isActive:boolean;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -90,9 +94,10 @@ export type TQueryArg = {
   value: any;
 };
 export type TSubscrptionPlanOptions = {
-  plan: "1 Month" | "6 Months" | "1 Year";  
-  amount: number;                           
-  features: string[];                       
+  plan: "1 Month" | "6 Months" | "1 Year";
+  amount: number;
+  features: string[];
 };
 
-export type TUpdateRoleQuery ={email:string,role:string}
+export type TUpdateRoleQuery = { email: string; role: string };
+export type TUpdateActiveStatusQuery = { email: string; isActive: boolean };

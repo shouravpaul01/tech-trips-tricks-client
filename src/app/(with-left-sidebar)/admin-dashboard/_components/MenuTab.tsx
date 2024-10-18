@@ -2,10 +2,13 @@
 import { DashboardIcon, UserGroupIcon } from "@/src/components/icons";
 import { Chip } from "@nextui-org/chip";
 import { Tab, Tabs } from "@nextui-org/tabs";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
 
 export default function MenuTab() {
     const router=useRouter()
+    const pathname=usePathname()
+
   return (
     <div className="flex w-full flex-col">
       <Tabs
@@ -19,13 +22,12 @@ export default function MenuTab() {
           tab: "max-w-fit px-3 h-12",
           tabContent: "group-data-[selected=true]:text-secondary ",
         }}
-        onSelectionChange={(key)=>{
-            key=="admin-dashboard" && router.push("/admin-dashboard")
-            key=="manage-users" && router.push("/admin-dashboard/manage-users")
-        }}
+        selectedKey={pathname}
+        onSelectionChange={(key:any)=>router.push(key)}
       >
         <Tab
-          key="admin-dashboard"
+          key="/admin-dashboard"
+          
           title={
             <div className="flex items-center space-x-2 ">
               <DashboardIcon fill="#7828c8"/>
@@ -33,10 +35,10 @@ export default function MenuTab() {
               
             </div>
           }
-          onClick={()=>router.push("/admin-dashboard")}
+          
         />
         <Tab
-          key="manage-users"
+          key="/admin-dashboard/manage-users"
           title={
             <div className="flex items-center space-x-2">
               <UserGroupIcon />
@@ -45,7 +47,7 @@ export default function MenuTab() {
             </div>
           }
           
-          onClick={()=>router.push("/admin-dashboard/manage-users")}
+       
         />{" "}
         
       </Tabs>

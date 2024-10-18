@@ -2,8 +2,9 @@
 import { EditIcon, InfoIcon, VerifiedIcon } from "@/src/components/icons";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
 import { noImage } from "@/src/constent";
-import { useGetAllUsers, useUpdateUserRole } from "@/src/hooks/UserHook";
+import { useGetAllUsers, useUpdateUserActiveStatus, useUpdateUserRole } from "@/src/hooks/UserHook";
 import { TUpdateRoleQuery } from "@/src/types";
+import { Avatar } from "@nextui-org/avatar";
 import { Badge } from "@nextui-org/badge";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
@@ -23,20 +24,18 @@ import {
   TableRow,
 } from "@nextui-org/table";
 import { Tooltip } from "@nextui-org/tooltip";
-import { User } from "@nextui-org/user";
+import dayjs from "dayjs";
 import { useState } from "react";
 
 export default function ManageUsersPage() {
   const [page, setPage] = useState(1);
   const { data, isLoading } = useGetAllUsers();
   const { mutate: updateRole } = useUpdateUserRole();
+  const { mutate: updateActiveStatus } = useUpdateUserActiveStatus();
   const totalPages = data?.totalPages || 0;
   const loadingState =
     isLoading || data?.data.length === 0 ? "loading" : "idle";
-  const handleUpdateRole = (data: TUpdateRoleQuery) => {
-    updateRole(data);
-    console.log(data);
-  };
+  
   return (
     <div>
       <Table
@@ -45,10 +44,10 @@ export default function ManageUsersPage() {
         shadow="none"
         bottomContent={
           totalPages > 0 ? (
-            <div className="flex w-full justify-center">
+            <div className="flex w-full ">
               <Pagination
                 showControls
-                showShadow
+                radius="full"
                 color="secondary"
                 page={page}
                 total={totalPages}
@@ -61,6 +60,7 @@ export default function ManageUsersPage() {
         <TableHeader>
           <TableColumn>NAME</TableColumn>
           <TableColumn>ROLE</TableColumn>
+          <TableColumn>Block/Unblock</TableColumn>
           <TableColumn>STATUS</TableColumn>
         </TableHeader>
         <TableBody
@@ -71,36 +71,49 @@ export default function ManageUsersPage() {
           {(item) => (
             <TableRow key={item._id}>
               <TableCell>
-                <Badge
-                  content={
-                    <VerifiedIcon
-                      fill={item.isSubscribed ? "#0000F5" : "#666666"}
-                    />
-                  }
-                  variant="faded"
-                  placement="top-left"
-                >
+                <div className="flex items-center gap-2">
+                  <div>
+                   
+                      <Badge
+                        isOneChar
+                        content={<VerifiedIcon />}
+                        color="success"
+                        placement="bottom-right"
+                      >
+                        <Avatar
+                          isBordered
+                          color="success"
+                          radius="full"
+                          src={item.profileImage}
+                        />
+                      </Badge>
+                    
+                  </div>
                   <Tooltip
-                    content={
-                      item.isSubscribed ? "User verified" : "User not verified"
-                    }
-                  >
-                    <User
-                      name={item.name}
-                      description={
-                        <div>
-                          <span className="text-gray-400">
-                            Email:{item.email}
-                          </span>
+                  showArrow
+                      content={
+                        item.isSubscribed
+                          ? <div className="px-1 py-2">
+                          <div className="text-small font-bold flex gap-2">User Verified <VerifiedIcon/></div>
+                          <div >
+                            <p className="font-bold underline">Subcription:</p>
+                            <p>Plan: <span className="font-semibold">{item.subscription.plan.toUpperCase()}</span></p>
+                            <p>Start Date: <span className="font-semibold">{dayjs(item.subscription.startDate).format("MMMM D, YYYY")}</span></p>
+                            <p>End Date: <span className="font-semibold">{dayjs(item.subscription.endDate).format("MMMM D, YYYY")}</span></p>
+                          </div>
                         </div>
+                          : "User not verified"
                       }
-                      avatarProps={{
-                        isBordered: true,
-                        src: { ...(item.profileImage as any) },
-                      }}
-                    />
+                    >
+                  <div>
+                 
+                    <p>{item.name}</p>
+                    <p>@{item.userId}</p>
+                    <p>Email:{item.email}</p>
+                   
+                  </div>
                   </Tooltip>
-                </Badge>
+                </div>
               </TableCell>
               <TableCell>
                 <div className="flex gap-2 items-center">
@@ -122,7 +135,7 @@ export default function ManageUsersPage() {
                         key="User"
                         onPress={() =>
                           item.role !== "User" &&
-                          handleUpdateRole({ email: item.email, role: "User" })
+                          updateRole({ email: item.email, role: "User" })
                         }
                       >
                         User
@@ -131,10 +144,48 @@ export default function ManageUsersPage() {
                         key="Admin"
                         onPress={() =>
                           item.role !== "Admin" &&
-                          handleUpdateRole({ email: item.email, role: "Admin" })
+                          updateRole({ email: item.email, role: "Admin" })
                         }
                       >
                         Admin
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>{" "}
+              </TableCell>
+              <TableCell>
+                <div className="flex gap-2 items-center">
+                  <Chip color={item.isActive?"success":"danger"}>{item.isActive?"Unblock":"Block"}</Chip>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        isIconOnly
+                        variant="faded"
+                        color="secondary"
+                        radius="full"
+                        size="sm"
+                      >
+                        <EditIcon fill="#7828c8" width={16} height={16} />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Static Actions">
+                      <DropdownItem
+                        key="block"
+                        onPress={() =>
+                          item.isActive  &&
+                          updateActiveStatus({ email: item.email, isActive:false  })
+                        }
+                      >
+                        Block
+                      </DropdownItem>
+                      <DropdownItem
+                        key="unblock"
+                        onPress={() =>
+                          !item.isActive &&
+                          updateActiveStatus({ email: item.email, isActive: true })
+                        }
+                      >
+                        Unblock
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
