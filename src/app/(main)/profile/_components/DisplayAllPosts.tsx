@@ -30,7 +30,11 @@ export default function DisplayAllPosts({ userId }: { userId: string }) {
         }
       >
         <div className="space-y-5">
-          {posts?.map((post, index) => <PostCard key={index} post={post} />)}
+          {posts?.map((post, index) => <PostCard cardProps={{
+             className:"max-w-full",
+             radius:"sm",
+             shadow:"none",
+             classNames:{base: "border",footer: "flex-col border-t"}}} key={index} post={post} />)}
         </div>
       </InfiniteScroll>
     </div>

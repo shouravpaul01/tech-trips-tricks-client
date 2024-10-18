@@ -1,7 +1,7 @@
 "use server";
 
 import envConfig from "@/src/config/envConfig";
-import { TUser } from "@/src/types";
+import { TErrorMessage, TUpdateRoleQuery, TUser } from "@/src/types";
 import { FieldValues } from "react-hook-form";
 import axiosInstance from "@/src/lib/AxiosInstance";
 import { revalidateTag } from "next/cache";
@@ -35,4 +35,30 @@ export const updateUser = async (bodyData: FieldValues) => {
     console.log(error);
     return error?.response?.data;
   }
+  
+};
+export const getAllUsersReq = async (
+): Promise<{ status: string; message: string; data: {data:TUser[],totalPages:number},errorMessages:TErrorMessage[] }> => {
+  
+  const {data} =  await axiosInstance.get(
+    `/users`
+  );
+
+  return data;
+};
+export const updateUserRoleReq = async (query:TUpdateRoleQuery
+): Promise<{ status: string; message: string; data:TUser[],errorMessages:TErrorMessage[] }> => {
+  
+  
+  try {
+    const {data} =  await axiosInstance.patch(
+      `/users/update-role?email=${query.email}&role=${query.role}`
+    );
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+
+
 };

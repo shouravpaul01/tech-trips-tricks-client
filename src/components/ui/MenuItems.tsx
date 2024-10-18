@@ -1,6 +1,6 @@
 "use client";
 import { Listbox, ListboxItem } from "@nextui-org/listbox";
-import { HomeIcon, PremiumIcon, ProfileIcon } from "../icons";
+import { DashboardIcon, HomeIcon, PremiumIcon, ProfileIcon } from "../icons";
 import { IconWrapper } from "./IconWrapper";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/src/context/user.provider";
@@ -24,7 +24,7 @@ export default function MenuItems() {
             title: "font-semibold text-md flex items-center",
           }}
           startContent={<IconWrapper className="bg-primary/10 text-primary">
-            <HomeIcon className={iconClasses} />
+            <HomeIcon className={iconClasses} fill="#634FA2"/>
           </IconWrapper>}
         >
           Home
@@ -54,6 +54,19 @@ export default function MenuItems() {
           </IconWrapper>}
         >
           Profile
+        </ListboxItem>
+        <ListboxItem
+          key="admin-dashboard"
+          onClick={()=>router.push('/admin-dashboard')}
+          classNames={{
+            
+            title: "font-semibold text-md flex items-center",
+          }}
+          startContent={<IconWrapper className="bg-primary/10 text-primary">
+            <DashboardIcon fill="#000000" width={20} height={20} className={iconClasses} />
+          </IconWrapper>}
+        >
+          Admin-Dashboard
         </ListboxItem>
       </Listbox>
     </div>

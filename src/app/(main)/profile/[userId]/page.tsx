@@ -53,7 +53,7 @@ export default async function Profile({
         <div>
           <div className="flex gap-3">
             <p className="font-bold text-xl">{user?.name}</p>
-            {user?.isVerified ? (
+            {user?.isSubscribed ? (
               <VerifiedIcon width={20} height={20} />
             ) : (
               <Button

@@ -94,3 +94,5 @@ export type TSubscrptionPlanOptions = {
   amount: number;                           
   features: string[];                       
 };
+
+export type TUpdateRoleQuery ={email:string,role:string}
