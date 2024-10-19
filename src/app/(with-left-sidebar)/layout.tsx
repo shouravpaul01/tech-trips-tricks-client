@@ -1,12 +1,15 @@
 
 import { ReactNode } from "react";
 import MenuItems from "@/src/components/ui/MenuItems";
-import CreatePostModal from "@/src/components/modals/CreatePostModal";
+import CreatePostButton from "../(main)/_components/CreatePostButton";
+import TTTZNavbar from "@/src/components/ui/TTTZNavbar";
 
 
 const WithLeftSidebar = ({ children }: { children: ReactNode }) => {
   
   return (
+   <>
+    <TTTZNavbar />
     <div className="my-container mt-16">
       <div className="flex ">
         {/* Left Sidebar (Fixed) */}
@@ -20,7 +23,7 @@ const WithLeftSidebar = ({ children }: { children: ReactNode }) => {
 
        
           <div className="px-1">
-            <CreatePostModal />
+            <CreatePostButton />
             
           </div>
         </div>
@@ -32,6 +35,7 @@ const WithLeftSidebar = ({ children }: { children: ReactNode }) => {
 
       </div>
     </div>
+   </>
   );
 };
 

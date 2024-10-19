@@ -3,7 +3,7 @@ import { Button } from "@nextui-org/button";
 import React from "react";
 import { LogoutdIcon } from "../icons";
 import { useUser } from "@/src/context/user.provider";
-import { logoutUser } from "@/src/app/services/AuthService";
+import { logoutUser } from "@/src/services/AuthService";
 import { useRouter } from "next/navigation";
 
 export default function Logout() {

@@ -1,14 +1,14 @@
 import { ReactNode } from "react";
 import MenuItems from "@/src/components/ui/MenuItems";
-import Logout from "@/src/components/ui/Logout";
-import { Button } from "@nextui-org/button";
-import CreatePostModal from "@/src/components/modals/CreatePostModal";
 import FilterByCheckobx from "@/src/components/ui/FilterByCheckobx";
 import CreatePostButton from "./_components/CreatePostButton";
+import TTTZNavbar from "@/src/components/ui/TTTZNavbar";
 
 const Mainlayout = ({ children }: { children: ReactNode }) => {
   
   return (
+    <>
+     <TTTZNavbar />
     <div className="my-container mt-16">
       <div className="flex ">
         {/* Left Sidebar (Fixed) */}
@@ -42,6 +42,7 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

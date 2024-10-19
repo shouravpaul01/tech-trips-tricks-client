@@ -329,11 +329,11 @@ export const ArrowForwardIcon: React.FC<IconSvgProps> = (props) => {
   );
 };
 export const LogoutdIcon: React.FC<IconSvgProps> = (props) => {
-  const { width = 24, height = 24 } = props;
+  const { width = 24, height = 24 ,fill="#FFFFFF"} = props;
 
   return (
     <svg xmlns="http://www.w3.org/2000/svg" height={height}
-    width={width} viewBox="0 -960 960 960"  fill="#FFFFFF"><path d="M212-86q-53 0-89.5-36.5T86-212v-536q0-53 36.5-89.5T212-874h276v126H212v536h276v126H212Zm415-146-88-89 96-96H352v-126h283l-96-96 88-89 247 248-247 248Z"/></svg>
+    width={width} viewBox="0 -960 960 960"  fill={fill}><path d="M212-86q-53 0-89.5-36.5T86-212v-536q0-53 36.5-89.5T212-874h276v126H212v536h276v126H212Zm415-146-88-89 96-96H352v-126h283l-96-96 88-89 247 248-247 248Z"/></svg>
   );
 };
 export const EditIcon: React.FC<IconSvgProps> = (props) => {
