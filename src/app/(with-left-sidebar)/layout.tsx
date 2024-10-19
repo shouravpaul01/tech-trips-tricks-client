@@ -14,7 +14,7 @@ const WithLeftSidebar = ({ children }: { children: ReactNode }) => {
       <div className="flex ">
         {/* Left Sidebar (Fixed) */}
 
-        <div className="w-[290px] flex flex-col fixed h-screen border-e p-2">
+        <div className="w-[290px] hidden md:flex flex-col fixed h-screen border-e p-2">
           {/* Scrollable Menu Items */}
 
           <div className="h-[80%] overflow-y-auto">

@@ -8,9 +8,22 @@ import envConfig from "@/src/config/envConfig";
 
 
 export const createComment = async (bodyData: FieldValues) => {
-    console.log(bodyData, "bodydata");
+    
     try {
       const { data } = await axiosInstance.post(`/comments/create-comment`, bodyData);
+      // revalidateTag("posts");
+      // revalidateTag(["single-posts"]);
+
+      return data;
+    } catch (error: any) {
+     
+      return error?.response?.data;
+    }
+  };
+  export const updateComment = async (bodyData: FieldValues) => {
+ 
+    try {
+      const { data } = await axiosInstance.patch(`/comments/update-comment/${bodyData.commentId}`, bodyData.data);
       // revalidateTag("posts");
       // revalidateTag(["single-posts"]);
 

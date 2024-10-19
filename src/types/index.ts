@@ -80,7 +80,7 @@ export type TPost = {
 };
 export type TComment = {
   _id: string;
-  user: TUser | string;
+  user: TUser ;
   text: string;
   upvotes: number;
   downvotes: number;

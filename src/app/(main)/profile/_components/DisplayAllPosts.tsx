@@ -2,13 +2,24 @@
 import PostCard from "@/src/components/cards/PostCard";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
 import useGetAllPosts from "@/src/hooks/PostHook";
+import { useSearchParams } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function DisplayAllPosts({ userId }: { userId: string }) {
+  const searchParams = useSearchParams();
+  const categories = searchParams
+    .get("categories")
+    ?.split(",")
+    .map((item) => ({ label: "category", value: item })) || [];
+  const contentTypes = searchParams
+    .get("contentType")
+    ?.split(",")
+    .map((item) => ({ label: "type", value: item })) || [{ label: "type", value: "Free" }];
+  const filter = [{ label: "user", value: userId },...categories, ...contentTypes];
   const limit = 2;
   const { data, hasNextPage, fetchNextPage, isLoading } = useGetAllPosts({
     limit: limit,
-    queryArgs: [{ label: "user", value: userId }],
+    queryArgs: filter,
   });
 
   const posts = data?.pages.flatMap((item) => item.data) || [];

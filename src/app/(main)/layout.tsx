@@ -13,7 +13,7 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
       <div className="flex ">
         {/* Left Sidebar (Fixed) */}
 
-        <div className="w-[290px] flex flex-col fixed h-screen border-e p-2">
+        <div className="w-[290px] hidden md:flex flex-col fixed h-screen border-e p-2">
           {/* Scrollable Menu Items */}
 
           <div className="h-[80%] overflow-y-auto">
@@ -33,7 +33,7 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
         </div>
 
         {/* Right Sidebar fixed */}
-        <div className="w-full md:w-[290px] md:ms-[862px] flex flex-col fixed h-screen  border-s ">
+        <div className="w-full md:w-[290px] md:ms-[862px] hidden md:flex flex-col fixed h-screen  border-s ">
           <div className="p-4 ">
             
               <FilterByCheckobx />

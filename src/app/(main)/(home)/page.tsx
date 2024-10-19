@@ -8,14 +8,21 @@ import { useSearchParams } from "next/navigation";
 
 const HomePage = () => {
   const searchParams = useSearchParams();
-  const categories = searchParams.get("categories")
-  ?.split(",")
-  .map((item) => ({ label: "category", value: item }));
-
+  const categories = searchParams
+    .get("categories")
+    ?.split(",")
+    .map((item) => ({ label: "category", value: item })) || [];
+  const contentTypes = searchParams
+    .get("contentType")
+    ?.split(",")
+    .map((item) => ({ label: "type", value: item })) || [{ label: "type", value: "Free" }];
+  const filter = [...categories, ...contentTypes];
   const limit = 2;
 
-  const { data, hasNextPage, fetchNextPage,  isLoading } =
-    useGetAllPosts({ limit: limit, queryArgs:categories  });
+  const { data, hasNextPage, fetchNextPage, isLoading } = useGetAllPosts({
+    limit: limit,
+    queryArgs: filter,
+  });
 
   const posts = data?.pages.flatMap((item) => item.data) || [];
   isLoading && <TTTZLoading />;
@@ -38,12 +45,18 @@ const HomePage = () => {
         }
       >
         <div className="space-y-5">
-          {posts?.map((post, index) => <PostCard cardProps={{
-             className:"max-w-full",
-             radius:"sm",
-             shadow:"none",
-             classNames:{base: "border",footer: "flex-col border-t"}
-          }} key={index} post={post} />)}
+          {posts?.map((post, index) => (
+            <PostCard
+              cardProps={{
+                className: "max-w-full",
+                radius: "sm",
+                shadow: "none",
+                classNames: { base: "border", footer: "flex-col border-t" },
+              }}
+              key={index}
+              post={post}
+            />
+          ))}
         </div>
       </InfiniteScroll>
     </div>

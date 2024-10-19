@@ -32,16 +32,38 @@ export default function TTTZNavbar() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setIsLoading } = useUser();
+
+  const menuItems = [
+    "Profile",
+    "Dashboard",
+    "Activity",
+    "Analytics",
+    "System",
+    "Deployments",
+    "My Settings",
+    "Team Settings",
+    "Help & Feedback",
+    "Log Out",
+  ];
   return (
-    <>
+    <div className="relative">
       {
         <Navbar
           isBordered
-          classNames={{ wrapper: "max-w-6xl" }}
-          className="fixed"
+          classNames={{
+            wrapper: "max-w-6xl",
+            toggle: "bg-secondary w-10 h-10 rounded-full bg-opacity-30",
+          }}
+          className="fixed "
+          onMenuOpenChange={setIsMenuOpen}
         >
+          <NavbarMenuToggle
+            icon={<BarIcon />}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            className="sm:hidden"
+          />
           <NavbarBrand>
-            <div className="me-2 block md:hidden">
+            {/* <div className="me-2 block md:hidden">
               <Button
                 isIconOnly
                 color="secondary"
@@ -51,7 +73,7 @@ export default function TTTZNavbar() {
               >
                 {<BarIcon />}
               </Button>
-            </div>
+            </div> */}
             <Image
               src="/ttt-zone-vertical-logo.png"
               alt="ttt-zone-vertical-logo"
@@ -110,18 +132,23 @@ export default function TTTZNavbar() {
               </Dropdown>
             </NavbarItem>
           </NavbarContent>
+          <NavbarMenu>
+            <div>
+              <MenuItems/>
+            </div>
+          </NavbarMenu>
         </Navbar>
       }
-      {isMenuOpen && (
+      {/* {isMenuOpen && (
         <motion.div
-          className="h-screen  block md:hidden z-[9999]"
+          className="h-screen  block md:hidden fixed top-16 bg-white z-[9999]"
           initial={{ y: -200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
           <MenuItems />
         </motion.div>
-      )}
-    </>
+      )} */}
+    </div>
   );
 }

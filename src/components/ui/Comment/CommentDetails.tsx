@@ -1,10 +1,10 @@
 "use client";
 import { blankImage } from "@/src/constent";
-import { TComment } from "@/src/types";
+import { TComment, TUser } from "@/src/types";
 import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import { ThumbDownkIcon, ThumbUpkIcon } from "../../icons";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import getClientIp from "@/src/utils/getClientIp";
 import { toast } from "sonner";
 import {
@@ -15,14 +15,15 @@ import { useQueryClient } from "@tanstack/react-query";
 import CommentViewAndEditAndDelete from "./CommentViewAndEditAndDelete";
 
 export default function CommentDetails({
-  profileImage,
+ 
   comment,
 }: {
-  profileImage: string;
+ 
   comment: TComment;
 }) {
   const queryClient = useQueryClient();
   const [ipAddress, setIpAddress] = useState();
+ 
   useEffect(() => {
     const fetchIpAddress = async () => {
       const ip = await getClientIp();
@@ -56,14 +57,18 @@ export default function CommentDetails({
       toast.success("Sccessful");
     }
   };
+  console.log(comment)
   return (
     <>
       <div className="flex gap-2 mt-2">
         <div>
-          <Avatar src={profileImage || blankImage} />
+          <Avatar src={comment.user.profileImage || blankImage} />
         </div>
         <div>
-          <CommentViewAndEditAndDelete comment={comment} />
+         <div>
+          
+         <CommentViewAndEditAndDelete comment={comment} />
+         </div>
 
           <Button
             isIconOnly

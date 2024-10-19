@@ -3,16 +3,22 @@
 import { premiumOrFreeOptions, techBlogCategories } from "@/src/constent";
 import { Checkbox, CheckboxGroup } from "@nextui-org/checkbox";
 import { Radio, RadioGroup } from "@nextui-org/radio";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { XmarkIcon } from "../icons";
 import { Button } from "@nextui-org/button";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
+import { getCurrentuser } from "@/src/services/AuthService";
+import { getSingleUserReq } from "@/src/services/UserService";
+import { useUser } from "@/src/context/user.provider";
+import { toast } from "sonner";
 
 export default function FilterByCheckobx() {
+  const {user}= useUser()
   const router = useRouter();
+  const pathname=usePathname()
   const searchParams = useSearchParams();
   const initialCategories = searchParams.get("categories")?.split(",") || [];
-  
+  console.log(pathname)
   // State to manage selected categories
   const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategories);
 
@@ -20,23 +26,30 @@ export default function FilterByCheckobx() {
     setSelectedCategories(initialCategories);  
   }, [searchParams]);
 
-  const handleContentTypeFilter = (value: string) => {
+  const handleContentTypeFilter = async(value: string) => {
+    
+    const { data:currentUser } = await getSingleUserReq(user?.userId!);
+    console.log(user?._id)
+    if (!currentUser.isSubscribed && value=="Premium") {
+      toast.error("This feature is available for Premium User.")
+      return
+    }
     if (!value) {
-      router.push("/");  // Clear query if no content type selected
+      router.push(`${pathname}`);  // Clear query if no content type selected
       return;
     }
-    router.push(`/?contentType=${value}`);
+    router.push(`${pathname}/?contentType=${value}`);
   };
 
   const handleCategoriesFilter = (value: string[]) => {
     setSelectedCategories(value);  
 
     if (value.length === 0) {
-      router.push("/");  
+      router.push(`${pathname}`);  
       return;
     }
 
-    router.push(`/?categories=${value.join(",")}`);  
+    router.push(`${pathname}/?categories=${value.join(",")}`);  
   };
 
   const handleRemove = (item: string) => {
@@ -47,7 +60,7 @@ export default function FilterByCheckobx() {
     if (updatedCategories.length === 0) {
       router.push("/");  
     } else {
-      router.push(`/?categories=${updatedCategories.join(",")}`); 
+      router.push(`${pathname}/?categories=${updatedCategories.join(",")}`); 
     }
   };
 
@@ -63,7 +76,7 @@ export default function FilterByCheckobx() {
               size="sm"
               variant="flat"
               color="secondary"
-              onPress={() => handleRemove(item)}  // Remove the category
+              onPress={() => handleRemove(item)} 
               endContent={<XmarkIcon width={16} height={16} />}
             >
               {item}

@@ -15,6 +15,9 @@ import { useGetSinglePost} from "@/src/hooks/PostHook";
 import PostContentText from "../ui/Post/PostContentText";
 import ImageGallery from "../ui/Post/ImageGallery";
 import TTTZLoading from "../ui/TTTZLoading";
+import { useState } from "react";
+import { Button } from "@nextui-org/button";
+import { MoreIcon } from "../icons";
 
 
 export default function PostDetailsModal({
@@ -25,6 +28,7 @@ export default function PostDetailsModal({
   Disclosure: UseDisclosureProps | any;
 }) {
   const { isOpen, onOpenChange } = Disclosure;
+  const [showAllComments, setShowAllComments] = useState(false);
   const { data: post,isLoading, isFetching } = useGetSinglePost(postId);
 
   return (
@@ -53,13 +57,18 @@ export default function PostDetailsModal({
                 <div className="border-y-1">
                   <CommentWithUpDownVotes post={post!} />
                 </div>
-                {post?.comments?.map((comment:any, index:number) => (
+                {(showAllComments?post?.comments:post?.comments.slice(0,10))?.map((comment:any, index:number) => (
                   <CommentDetails
                     key={index}
-                    profileImage={post?.user?.profileImage}
+                   
                     comment={comment}
                   />
                 ))}
+                {
+                  !showAllComments && post?.comments?.length!>10 && <div>
+                  <Button variant="light" color="secondary" size="sm" startContent={<MoreIcon fill="#999999"/>} className="ms-8" onPress={()=>setShowAllComments(true)}>More Comments</Button>
+                  </div>
+                }
                 {isFetching && <CommentLoading />}
               </>
             </ModalBody>
