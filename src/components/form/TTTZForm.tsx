@@ -6,6 +6,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 interface IFormConfig {
   defaultValues?: Record<string, any>;
   resolver?: any;
+  reset?:boolean
 }
 interface IProps extends IFormConfig {
   children: ReactNode;
@@ -17,6 +18,7 @@ export default function TTTForm({
   onSubmit,
   defaultValues,
   resolver,
+  reset,
   errors,
 }: IProps) {
   const formConfig: IFormConfig = {};
@@ -35,7 +37,10 @@ export default function TTTForm({
         methods.setError(err.path, { type: "server", message: err.message });
       });
     }
-  }, [errors]);
+    if (reset) {
+      methods.reset()
+    }
+  }, [errors,reset]);
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>

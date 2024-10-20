@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import {
   AddCommentkIcon,
   CommentSendkIcon,
+  DeleteIcon,
+  EditIcon,
   MoreIcon,
   XmarkIcon,
 } from "../../icons";
@@ -19,7 +21,7 @@ import TTTForm from "../../form/TTTZForm";
 import TTTZTextArea from "../../form/TTTZTextarea";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import TTTZInput from "../../form/TTTZInput";
-import { useUpdateComment } from "@/src/hooks/CommentHook";
+import { useDeleteComment, useUpdateComment } from "@/src/hooks/CommentHook";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateCommentValidation } from "@/src/validation/comment.validation";
 
@@ -31,15 +33,15 @@ export default function CommentViewAndEditAndDelete({
   const { user } = useUser();
   const [isCommentEdit, setIsCommentEdit] = useState(false);
   const { mutate: updateComment } = useUpdateComment(setIsCommentEdit);
+  const { mutate: handleDeleteComment } = useDeleteComment();
   const handleUpdateComment: SubmitHandler<FieldValues> = (fieldValues) => {
-    console.log(fieldValues);
-const updateData={
-  commentId:fieldValues.commentId,
-  data:{
-    text:fieldValues.text
-  }
-}
-console.log(updateData);
+    const updateData = {
+      commentId: fieldValues.commentId,
+      data: {
+        text: fieldValues.text,
+      },
+    };
+
     updateComment(updateData);
   };
   return (
@@ -115,11 +117,23 @@ console.log(updateData);
               <MoreIcon fill="#666666" />
             </Button>
           </DropdownTrigger>
-          <DropdownMenu>
-            <DropdownItem key="new" onPress={() => setIsCommentEdit(true)}>
+          <DropdownMenu variant="flat" color="secondary">
+            <DropdownItem
+              key="edit"
+              startContent={<EditIcon width={16} height={16} fill="#7828c8" />}
+              onPress={() => setIsCommentEdit(true)}
+            >
               Edit
             </DropdownItem>
-            <DropdownItem key="copy">Delete </DropdownItem>
+            <DropdownItem
+              key="delete"
+              startContent={
+                <DeleteIcon width={16} height={16} fill="#7828c8" />
+              }
+              onPress={()=>handleDeleteComment(comment._id)}
+            >
+              Delete{" "}
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       )}

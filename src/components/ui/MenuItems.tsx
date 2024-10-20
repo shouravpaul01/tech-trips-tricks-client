@@ -56,6 +56,19 @@ export default function MenuItems() {
           Profile
         </ListboxItem>
         <ListboxItem
+          key="dashboard"
+          onClick={()=>router.push('/dashboard')}
+          classNames={{
+            
+            title: "font-semibold text-md flex items-center",
+          }}
+          startContent={<IconWrapper className="bg-primary/10 text-primary">
+            <DashboardIcon fill="#000000" width={20} height={20} className={iconClasses} />
+          </IconWrapper>}
+        >
+          Dashboard
+        </ListboxItem>
+        <ListboxItem
           key="admin-dashboard"
           onClick={()=>router.push('/admin-dashboard')}
           classNames={{

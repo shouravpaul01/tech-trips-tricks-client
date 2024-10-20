@@ -50,7 +50,18 @@ export const createComment = async (bodyData: FieldValues) => {
   
     return await res.json();
   };
+  export const deleteComment = async (commentId: string) => {
+ 
+    try {
+      const { data } = await axiosInstance.delete(`/comments/delete-comment/${commentId}`);
+     
 
+      return data;
+    } catch (error: any) {
+     
+      return error?.response?.data;
+    }
+  };
   export const upvoteUpdateComment = async (updateData: FieldValues) => {
     try {
       const { data } = await axiosInstance.patch(

@@ -16,32 +16,30 @@ export const createPost = async (bodyData: FieldValues) => {
     return error?.response?.data;
   }
 };
-export const getAllPost = async (
- {page,limit,queryArgs}:{ page:number,
-  limit?: number,
-  queryArgs?:TQueryArg[]}
-): Promise<{
+export const getAllPost = async ({
+  page,
+  limit,
+  queryArgs,
+}: {
+  page: number;
+  limit?: number;
+  queryArgs?: TQueryArg[];
+}): Promise<{
   status: string;
   message: string;
   data: { data: TPost[]; page: number };
 }> => {
-  
-  const params=new URLSearchParams()
+  const params = new URLSearchParams();
 
-  limit && params.append("limit",JSON.stringify(limit))
-  page && params.append("page",JSON.stringify(page))
-  console.log(queryArgs?.length,"queryArgs")
-  if (queryArgs?.length!>0) {
-    queryArgs?.forEach((arg:any)=>params.append(arg.label,arg.value))
+  limit && params.append("limit", JSON.stringify(limit));
+  page && params.append("page", JSON.stringify(page));
+  console.log(queryArgs?.length, "queryArgs");
+  if (queryArgs?.length! > 0) {
+    queryArgs?.forEach((arg: any) => params.append(arg.label, arg.value));
   }
-  const res = await fetch(
-    `${envConfig.baseApi}/posts?${params}`,
-    {
-      
-      cache:"no-store"
-      
-    }
-  );
+  const res = await fetch(`${envConfig.baseApi}/posts?${params}`, {
+    cache: "no-store",
+  });
 
   return await res.json();
 };
@@ -53,16 +51,19 @@ export const getSinglePost = async (
   data: TPost;
   errorMessages: TErrorMessage[];
 }> => {
-  console.log(postId,"server")
+  console.log(postId, "server");
   const res = await fetch(`${envConfig.baseApi}/posts/single-post/${postId}`, {
-    cache:"no-store"
+    cache: "no-store",
   });
 
   return await res.json();
 };
 export const updatePost = async (updateData: FieldValues) => {
   try {
-    const { data } = await axiosInstance.patch(`/posts/update-post/${updateData.postId}`, updateData.data);
+    const { data } = await axiosInstance.patch(
+      `/posts/update-post/${updateData.postId}`,
+      updateData.data
+    );
     revalidateTag("posts");
     return data;
   } catch (error: any) {
@@ -72,11 +73,22 @@ export const updatePost = async (updateData: FieldValues) => {
 };
 export const removeImageFromPost = async (updateData: FieldValues) => {
   try {
-    const { data } = await axiosInstance.patch(`/posts/remove-image/?postId=${updateData.postId}&image=${updateData.image}`);
+    const { data } = await axiosInstance.patch(
+      `/posts/remove-image/?postId=${updateData.postId}&image=${updateData.image}`
+    );
     revalidateTag("posts");
     return data;
   } catch (error: any) {
     console.log(error);
+    return error?.response?.data;
+  }
+};
+export const deletePostReq = async (postId: string) => {
+  try {
+    const { data } = await axiosInstance.delete(`/posts/delete-post/${postId}`);
+
+    return data;
+  } catch (error: any) {
     return error?.response?.data;
   }
 };

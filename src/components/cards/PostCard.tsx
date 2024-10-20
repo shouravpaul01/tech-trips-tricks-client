@@ -25,6 +25,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
+import { useDeletePost } from "@/src/hooks/PostHook";
 
 export default function PostCard({
   cardProps,
@@ -39,6 +40,7 @@ export default function PostCard({
   const detailModalDisclosure = useDisclosure();
   const { user } = useUser();
   const [postId, setPostId] = useState<string>("");
+  const {mutate:handleDeletePost}=useDeletePost()
   return (
     <>
       <Card {...cardProps}>
@@ -68,7 +70,7 @@ export default function PostCard({
                 <Dropdown>
                   <DropdownTrigger>
                     <Button isIconOnly radius="full" variant="light">
-                      <MoreIcon fill="#7828c8" />
+                      <MoreIcon fill="#999999" />
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -81,13 +83,14 @@ export default function PostCard({
                       onPress={() => {
                         setPostId(post._id), editModalDisclosure.onOpen();
                       }}
-                      startContent={<EditIcon fill="#7828c8" />}
+                      startContent={<EditIcon width={16} height={16} fill="#7828c8" />}
                     >
                       Edit
                     </DropdownItem>
                     <DropdownItem
                       key="Delete"
-                      startContent={<DeleteIcon fill="#7828c8" />}
+                      startContent={<DeleteIcon width={16} height={16} fill="#7828c8" />}
+                      onPress={()=>handleDeletePost(post._id)}
                     >
                       Delete
                     </DropdownItem>

@@ -86,6 +86,7 @@ export default function CreatePostModal({Disclosure,postId}:{Disclosure:UseDiscl
       scrollBehavior="inside"
       size="2xl"
       isDismissable={false}
+      closeButton={<Button isIconOnly size="sm"><XmarkIcon fill="#00000"/></Button>}
     >
       <ModalContent>
         {(onClose) => (

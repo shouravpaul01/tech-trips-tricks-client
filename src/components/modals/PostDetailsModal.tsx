@@ -17,7 +17,7 @@ import ImageGallery from "../ui/Post/ImageGallery";
 import TTTZLoading from "../ui/TTTZLoading";
 import { useState } from "react";
 import { Button } from "@nextui-org/button";
-import { MoreIcon } from "../icons";
+import { MoreIcon, XmarkIcon } from "../icons";
 
 
 export default function PostDetailsModal({
@@ -38,6 +38,7 @@ export default function PostDetailsModal({
       scrollBehavior="inside"
       size="2xl"
       classNames={{ footer: "flex-col" }}
+      closeButton={<Button isIconOnly size="sm"><XmarkIcon fill="#00000"/></Button>}
     >
       <ModalContent>
         {(onClose) => (
