@@ -118,3 +118,12 @@ export const downvoteUpdate = async (updateData: FieldValues) => {
     return error?.response?.data;
   }
 };
+export const restorePostReq = async (postId: string) => {
+  try {
+    const { data } = await axiosInstance.patch(`/posts/restore-post/${postId}`);
+
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};

@@ -58,3 +58,12 @@ export const logoutUser = async() => {
   return cookies().delete("accessToken");
   
 };
+export const changePasswordReq = async (bodyData:FieldValues) => {
+  try {
+    const { data } = await axiosInstance.patch("/auth/change-password",bodyData);
+
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};

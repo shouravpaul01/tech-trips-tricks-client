@@ -6,6 +6,7 @@ import {
   getAllPost,
   getSinglePost,
   removeImageFromPost,
+  restorePostReq,
   updatePost,
 } from "@/src/services/PostService";
 import { TErrorMessage, TQueryArg } from "@/src/types";
@@ -153,6 +154,26 @@ export const useDeletePost = () => {
       if (data?.status) {
         toast.success(data?.message);
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["allPosts"] });
+        queryClient.invalidateQueries({
+          queryKey: ["single-posts", data.data._id],
+        });
+      }
+      if (!!data?.errorMessages) {
+      }
+    },
+  });
+};
+export const useRestorePost = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["RESTORE_POST"],
+    mutationFn: async (postId: string) => await restorePostReq(postId),
+    onSuccess: (data) => {
+      if (data?.status) {
+        toast.success(data?.message);
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["allPosts"] });
         queryClient.invalidateQueries({
           queryKey: ["single-posts", data.data._id],
         });

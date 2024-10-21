@@ -4,6 +4,7 @@ import {
   EditIcon,
   InfoIcon,
   PostIcon,
+  RestoreSingleIcon,
   SearchIcon,
   ThumbDownkIcon,
   ThumbUpkIcon,
@@ -13,8 +14,7 @@ import PostDetailsModal from "@/src/components/modals/PostDetailsModal";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
 import { useUser } from "@/src/context/user.provider";
 
-import { useGetAllPosts } from "@/src/hooks/PostHook";
-import { getCurrentuser } from "@/src/services/AuthService";
+import { useDeletePost, useGetAllPosts, useRestorePost } from "@/src/hooks/PostHook";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Input } from "@nextui-org/input";
@@ -29,7 +29,8 @@ import {
   TableRow,
 } from "@nextui-org/table";
 import { Tab, Tabs } from "@nextui-org/tabs";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Tooltip } from "@nextui-org/tooltip";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { useState } from "react";
 
@@ -41,18 +42,20 @@ export default function ManagePostsPage() {
   const detailsDisclosure = useDisclosure();
   const editDisclosure = useDisclosure();
   const router = useRouter();
-  const pathname=usePathname()
+
   const searchParams = useSearchParams();
-  const isDeleted = searchParams.get("isDeleted") || false;
-  console.log(isDeleted,pathname);
+  const isTrashTab = searchParams.get("isDeleted") || false;
+  const selectedKey = isTrashTab ? "trash" : "manage";
+
   const { data, isLoading, refetch } = useGetAllPosts({
     page: page,
     queryArgs: [
       { label: "user", value: user?._id },
-      { label: "isDeleted", value: isDeleted },
+      { label: "isDeleted", value: isTrashTab },
     ],
   });
-
+  const { mutate: handleDeletePost } = useDeletePost();
+  const { mutate: handleRestorePost } = useRestorePost()
   const totalPages = data?.totalPages || 0;
   const loadingState =
     isLoading || data?.data?.length === 0 ? "loading" : "idle";
@@ -60,20 +63,24 @@ export default function ManagePostsPage() {
   return (
     <div className="mt-3">
       <div className="flex items-center bg-secondary-100 py-2 px-3 rounded-md">
-        <p className="flex-1">{isDeleted=="true" ?"Trash":"All"} Posts</p>
+        <p className="flex-1 font-bold">{isTrashTab == "true" ? "Trash" : "All"} Posts</p>
         <div>
           <Tabs
             aria-label="Options"
             size="sm"
             variant="bordered"
             color="secondary"
-            
-            selectedKey={pathname}
-            onSelectionChange={(key: any) =>router.push(key)}
+            selectedKey={selectedKey}
+            onSelectionChange={(key: any) => {
+              if (key === "trash") {
+                router.push("/dashboard/manage-posts?isDeleted=true");
+              } else {
+                router.push("/dashboard/manage-posts");
+              }
+            }}
           >
             <Tab
-              key="/dashboard/manage-posts"
-              
+              key="manage"
               title={
                 <div className="flex items-center space-x-2">
                   <PostIcon fill="#FFFFFF" />
@@ -83,8 +90,7 @@ export default function ManagePostsPage() {
             />
 
             <Tab
-              key="/dashboard/manage-posts?isDeleted=true"
-              
+              key="trash"
               title={
                 <div className="flex items-center space-x-2">
                   <DeleteIcon fill="#f31260" />
@@ -130,13 +136,13 @@ export default function ManagePostsPage() {
         >
           {(item) => (
             <TableRow key={item._id}>
-              <TableCell width={300}>
+              <TableCell width={350}>
                 <div>
                   <div className="flex gap-6 mb-1">
                     <p>
                       Type :{" "}
                       <Chip
-                        color="success"
+                        color="warning"
                         size="sm"
                         classNames={{ content: "font-bold " }}
                       >
@@ -146,7 +152,7 @@ export default function ManagePostsPage() {
                     <p>
                       Category :{" "}
                       <Chip
-                        color="success"
+                        color="warning"
                         size="sm"
                         classNames={{ content: "font-bold " }}
                       >
@@ -179,39 +185,67 @@ export default function ManagePostsPage() {
 
               <TableCell>
                 <div className="flex gap-2 items-center">
-                  <Button
-                    isIconOnly
-                    variant="flat"
-                    color="secondary"
-                    radius="full"
-                    size="sm"
-                    onPress={() => {
-                      setPostId(item._id), editDisclosure.onOpen();
-                    }}
-                  >
-                    <EditIcon fill="#7828c8" width={20} height={20} />
-                  </Button>
-                  <Button
-                    isIconOnly
-                    variant="flat"
-                    color="secondary"
-                    radius="full"
-                    size="sm"
-                    onPress={() => {
-                      setPostId(item._id), detailsDisclosure.onOpen();
-                    }}
-                  >
-                    <InfoIcon fill="#7828c8" width={26} height={26} />
-                  </Button>
-                  <Button
-                    isIconOnly
-                    variant="flat"
-                    color="danger"
-                    radius="full"
-                    size="sm"
-                  >
-                    <DeleteIcon fill="#EA3323" width={20} height={20} />
-                  </Button>
+                  {isTrashTab ? (
+                    <Tooltip showArrow content="Restore" color="success">
+                      <Button
+                        isIconOnly
+                        variant="flat"
+                        color="success"
+                        radius="full"
+                        size="sm"
+                        onPress={() => handleRestorePost(item._id)}
+                      >
+                        <RestoreSingleIcon
+                          fill="#07ab30"
+                          width={20}
+                          height={20}
+                        />
+                      </Button>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip showArrow content="Edit" color="secondary">
+                      <Button
+                        isIconOnly
+                        variant="flat"
+                        color="secondary"
+                        radius="full"
+                        size="sm"
+                        onPress={() => {
+                          setPostId(item._id), editDisclosure.onOpen();
+                        }}
+                      >
+                        <EditIcon fill="#7828c8" width={20} height={20} />
+                      </Button>
+                    </Tooltip>
+                  )}
+                  <Tooltip showArrow content="Details" color="secondary">
+                    <Button
+                      isIconOnly
+                      variant="flat"
+                      color="secondary"
+                      radius="full"
+                      size="sm"
+                      onPress={() => {
+                        setPostId(item._id), detailsDisclosure.onOpen();
+                      }}
+                    >
+                      <InfoIcon fill="#7828c8" width={26} height={26} />
+                    </Button>
+                  </Tooltip>
+                  {
+                    !isTrashTab && <Tooltip showArrow content="Delete" color="danger">
+                    <Button
+                      isIconOnly
+                      variant="flat"
+                      color="danger"
+                      radius="full"
+                      size="sm"
+                      onPress={() => handleDeletePost(item._id)}
+                    >
+                      <DeleteIcon fill="#EA3323" width={20} height={20} />
+                    </Button>
+                  </Tooltip>
+                  }
                 </div>
               </TableCell>
             </TableRow>
