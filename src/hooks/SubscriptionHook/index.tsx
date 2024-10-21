@@ -1,6 +1,6 @@
 "use client";
-import { createSubscription } from "@/src/services/SubscriptionService";
-import { useMutation } from "@tanstack/react-query";
+import { createSubscription, getMonthlyPaymentsReq } from "@/src/services/SubscriptionService";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
@@ -24,3 +24,16 @@ export default function useCreateSubscription() {
     },
   });
 }
+export const useGetMonthlyPayments = () => {
+ 
+  return useQuery({
+    queryKey: ["monthly-payments"],
+    queryFn: async () => {
+      const res = await getMonthlyPaymentsReq();
+      if (res?.errorMessages?.length > 0) {
+        toast.error("Data not found.");
+      }
+      return res.data;
+    },
+  });
+};

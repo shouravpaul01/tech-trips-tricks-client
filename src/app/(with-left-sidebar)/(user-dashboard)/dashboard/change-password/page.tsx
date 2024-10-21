@@ -32,7 +32,6 @@ export default function ChangePasswordPage() {
     if (res?.errorMessages?.length>0) {
       setErrors([...res.errorMessages])
     }
-    console.log(data,res);
   };
   return (
     <div className="h-screen  flex items-center justify-center -mt-20">

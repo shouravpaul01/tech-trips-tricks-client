@@ -14,3 +14,12 @@ export const createSubscription = async (bodyData: FieldValues) => {
     return error?.response?.data;
   }
 }
+export const getMonthlyPaymentsReq = async () => {
+  try {
+    const { data } = await axiosInstance.get(`/subscriptions/monthly-payments`);
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+}

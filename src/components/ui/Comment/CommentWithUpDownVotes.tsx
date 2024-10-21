@@ -110,7 +110,7 @@ export default function CommentWithUpDownVotes({
         Details
       </Button>
 
-      <PrintPost post={post} />
+     
 
       <div className="">
         <Button
