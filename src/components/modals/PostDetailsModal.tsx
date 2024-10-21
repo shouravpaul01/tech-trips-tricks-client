@@ -48,7 +48,7 @@ export default function PostDetailsModal({
             </ModalHeader>
             <ModalBody>
               <>
-              {(isLoading && isFetching) && <TTTZLoading />}
+              {(isLoading && isFetching) && <TTTZLoading className="h-[400px]"/>}
                 <PostContentText content={post?.content!} />
                 {post?.images?.length! > 0 && (
                   <div>

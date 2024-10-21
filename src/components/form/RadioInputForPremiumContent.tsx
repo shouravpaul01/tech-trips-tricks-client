@@ -9,7 +9,7 @@ type TProps = {
   };
 export default function RadioInputForPremiumContent({ name }: TProps) {
     
-    const { control,formState:{errors} } = useFormContext();
+    const { control,formState:{errors}, } = useFormContext();
     return (
       <>
       <Controller
@@ -21,7 +21,7 @@ export default function RadioInputForPremiumContent({ name }: TProps) {
             color="secondary"
             orientation="horizontal"
             label="Select Content Type"
-            defaultValue={"Free"}
+            
           >
             {premiumOrFreeOptions?.map((item) => (
               <RadioInputCustom key={item.key} value={item.value}>

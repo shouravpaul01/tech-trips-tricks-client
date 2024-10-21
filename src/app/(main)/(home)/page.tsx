@@ -3,8 +3,9 @@
 import PostCard from "@/src/components/cards/PostCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
-import useGetAllPosts from "@/src/hooks/PostHook";
+import {useGetAllPostsForInfinite} from "@/src/hooks/PostHook";
 import { useSearchParams } from "next/navigation";
+
 
 const HomePage = () => {
   const searchParams = useSearchParams();
@@ -15,11 +16,11 @@ const HomePage = () => {
   const contentTypes = searchParams
     .get("contentType")
     ?.split(",")
-    .map((item) => ({ label: "type", value: item })) || [{ label: "type", value: "Free" }];
+    .map((item) => ({ label: "type", value: item })) || [];
   const filter = [...categories, ...contentTypes];
   const limit = 2;
 
-  const { data, hasNextPage, fetchNextPage, isLoading } = useGetAllPosts({
+  const { data, hasNextPage, fetchNextPage, isLoading } = useGetAllPostsForInfinite({
     limit: limit,
     queryArgs: filter,
   });

@@ -139,16 +139,7 @@ export default function TTTZNavbar() {
           </NavbarMenu>
         </Navbar>
       }
-      {/* {isMenuOpen && (
-        <motion.div
-          className="h-screen  block md:hidden fixed top-16 bg-white z-[9999]"
-          initial={{ y: -200, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >
-          <MenuItems />
-        </motion.div>
-      )} */}
+     
     </div>
   );
 }

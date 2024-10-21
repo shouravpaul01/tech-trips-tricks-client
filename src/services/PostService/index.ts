@@ -27,10 +27,12 @@ export const getAllPost = async ({
 }): Promise<{
   status: string;
   message: string;
-  data: { data: TPost[]; page: number };
+  data: { data: TPost[]; page: number,totalPages:number };
+  errorMessages:TErrorMessage[]
 }> => {
+  console.log(page,queryArgs,"req")
   const params = new URLSearchParams();
-
+  
   limit && params.append("limit", JSON.stringify(limit));
   page && params.append("page", JSON.stringify(page));
   console.log(queryArgs?.length, "queryArgs");

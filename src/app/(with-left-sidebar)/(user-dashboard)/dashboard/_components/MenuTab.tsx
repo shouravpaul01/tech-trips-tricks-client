@@ -21,6 +21,7 @@ export default function MenuTab() {
           tab: "max-w-fit px-3 h-12",
           tabContent: "group-data-[selected=true]:text-secondary ",
         }}
+        
         selectedKey={pathname}
         onSelectionChange={(key:any)=>router.push(key)}
       >
@@ -38,6 +39,7 @@ export default function MenuTab() {
         />
         <Tab
           key="/dashboard/manage-posts"
+          
           title={
             <div className="flex items-center space-x-2">
               <PostIcon />

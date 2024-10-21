@@ -37,7 +37,7 @@ export default function PostCard({
   post: TPost;
 }) {
   const editModalDisclosure = useDisclosure();
-  const detailModalDisclosure = useDisclosure();
+  const detailsDisclosure = useDisclosure();
   const { user } = useUser();
   const [postId, setPostId] = useState<string>("");
   const {mutate:handleDeletePost}=useDeletePost()
@@ -114,11 +114,11 @@ export default function PostCard({
         <CardFooter>
           <CommentWithUpDownVotes
             post={post}
-            modalDisclosure={detailModalDisclosure}
+            modalDisclosure={detailsDisclosure}
           />
 
           {isModalShow && (
-            <PostDetailsModal postId={post?._id} Disclosure={detailModalDisclosure} />
+            <PostDetailsModal postId={post?._id} Disclosure={detailsDisclosure} />
           )}
         </CardFooter>
       </Card>

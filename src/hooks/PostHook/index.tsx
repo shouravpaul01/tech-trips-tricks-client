@@ -10,6 +10,7 @@ import {
 } from "@/src/services/PostService";
 import { TErrorMessage, TQueryArg } from "@/src/types";
 import {
+  
   useInfiniteQuery,
   useMutation,
   useQuery,
@@ -22,6 +23,7 @@ export const useCreatePost = (
   onClose: () => void,
   setErrors: (errors: TErrorMessage[]) => void
 ) => {
+  const queryClient=useQueryClient()
   return useMutation({
     mutationKey: ["CREATE_POST"],
     mutationFn: async (data: FieldValues) => await createPost(data),
@@ -29,14 +31,16 @@ export const useCreatePost = (
       if (data?.status) {
         onClose();
         toast.success(data?.message);
+        queryClient.invalidateQueries({queryKey:["posts",3,[]]})
       }
       if (!!data?.errorMessages) {
         setErrors([...data?.errorMessages]);
       }
     },
+    
   });
 };
-export default function useGetAllPosts({
+export  function useGetAllPostsForInfinite({
   limit,
   queryArgs,
 }: {
@@ -61,7 +65,29 @@ export default function useGetAllPosts({
     initialPageParam: 1,
   });
 }
+export  const useGetAllPosts=({
+  page,
+  limit,
+  queryArgs,
+}: {
+  page?:number;
+  limit?: number;
+  queryArgs?: TQueryArg[];
+}) =>{
+  return useQuery({
+    queryKey: ["allPosts",page,queryArgs],
+    queryFn: async () => {
+      const res = await getAllPost({
+        page: page!,
+        limit: limit,
+        queryArgs,
+      });
+      
+      return res.data;
+    },
 
+  });
+}
 export const useGetSinglePost = (postId: string) => {
   const queryClient = useQueryClient();
   return useQuery({

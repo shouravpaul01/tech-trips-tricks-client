@@ -61,6 +61,7 @@ export default function CommentViewAndEditAndDelete({
               <TTTZTextArea
                 name="text"
                 textAreaProps={{
+                  variant:"faded",
                   label: `${comment.user.name}`,
                   labelPlacement: "outside",
                   readOnly: !isCommentEdit,
@@ -72,7 +73,7 @@ export default function CommentViewAndEditAndDelete({
                         isIconOnly
                         size="sm"
                         color="secondary"
-                        className=""
+                     
                       >
                         <CommentSendkIcon fill="#FFFFFF" />
                       </Button>
@@ -88,7 +89,7 @@ export default function CommentViewAndEditAndDelete({
                     isIconOnly
                     size="sm"
                     variant="flat"
-                    color="danger"
+                   color="secondary"
                     onPress={() => setIsCommentEdit(false)}
                   >
                     <XmarkIcon fill="#00000" />

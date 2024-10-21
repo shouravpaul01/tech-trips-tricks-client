@@ -64,32 +64,39 @@ export default function CommentWithUpDownVotes({
   return (
     <div className="flex justify-between items-center w-full">
       <div className="">
-        <Button
-          isIconOnly
-          variant="light"
-          color="secondary"
-          radius="full"
-          onPress={() => handleUpvote(post?._id!)}
-        >
-          <ThumbUpkIcon
-            fill={
-              post?.isUpvotedIP?.includes(ipAddress!) ? "#EA33F7" : "#999999"
-            }
-          />
-        </Button>
-        <Button
-          isIconOnly
-          variant="light"
-          color="secondary"
-          radius="full"
-          onPress={() => handleDownvote(post?._id!)}
-        >
-          <ThumbDownkIcon
-            fill={
-              post?.isDownvotedIP?.includes(ipAddress!) ? "#EA33F7" : "#999999"
-            }
-          />
-        </Button>
+        
+        {(post?.isUpvotedIP?.includes(ipAddress!) || !post?.isDownvotedIP?.includes(ipAddress!)) && (
+          <Button
+            isIconOnly
+            variant="light"
+            color="secondary"
+            radius="full"
+            onPress={() => handleUpvote(post?._id!)}
+          >
+            <ThumbUpkIcon
+              fill={
+                post?.isUpvotedIP?.includes(ipAddress!) ? "#EA33F7" : "#999999"
+              }
+            />
+          </Button>
+        )}
+        {(!post?.isUpvotedIP?.includes(ipAddress!) || post?.isDownvotedIP?.includes(ipAddress!)) && (
+          <Button
+            isIconOnly
+            variant="light"
+            color="secondary"
+            radius="full"
+            onPress={() => handleDownvote(post?._id!)}
+          >
+            <ThumbDownkIcon
+              fill={
+                post?.isDownvotedIP?.includes(ipAddress!)
+                  ? "#EA33F7"
+                  : "#999999"
+              }
+            />
+          </Button>
+        )}
       </div>
       <Button
         variant="light"
@@ -106,7 +113,6 @@ export default function CommentWithUpDownVotes({
       <PrintPost post={post} />
 
       <div className="">
-        {/* <p>10 Comments</p> */}
         <Button
           variant="light"
           color="secondary"

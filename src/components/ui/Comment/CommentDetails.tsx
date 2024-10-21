@@ -57,7 +57,7 @@ export default function CommentDetails({
       toast.success("Sccessful");
     }
   };
-  console.log(comment)
+  
   return (
     <>
       <div className="flex gap-2 mt-2">
