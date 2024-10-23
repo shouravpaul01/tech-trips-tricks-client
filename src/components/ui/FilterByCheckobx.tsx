@@ -33,7 +33,7 @@ export default function FilterByCheckobx() {
   }, [searchParams, contentType]);
   console.log(contentType, "s", selectedContentType);
   const handleContentTypeFilter = async (value: string) => {
-    const { data: currentUser } = await getSingleUserReq(user?.userId!);
+    const { data: currentUser } = await getSingleUserReq();
     console.log(user?._id);
     if (!currentUser.isSubscribed && value == "Premium") {
       toast.error("This feature is available for Premium User.");

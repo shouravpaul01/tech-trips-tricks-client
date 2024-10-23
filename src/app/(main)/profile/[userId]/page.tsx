@@ -18,7 +18,7 @@ export default async function Profile({
 
   const { userId } = params;
 
-  const { data: user } = await getSingleUserReq(userId);
+  const { data: user } = await getSingleUserReq();
 console.log(user,userId,"user")
   return (
     <div>

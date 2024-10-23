@@ -1,6 +1,6 @@
 "use client";
 import { Listbox, ListboxItem } from "@nextui-org/listbox";
-import { DashboardIcon, HomeIcon, PremiumIcon, ProfileIcon } from "../icons";
+import { DashboardIcon, GroupAddIcon, HomeIcon, PremiumIcon, ProfileIcon } from "../icons";
 import { IconWrapper } from "./IconWrapper";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/src/context/user.provider";
@@ -30,14 +30,14 @@ export default function MenuItems() {
           Home
         </ListboxItem>
         <ListboxItem
-          key="Profile"
+          key="find-tech-enthusiasts"
           onClick={()=>router.push(`/find-tech-enthusiasts`)}
           classNames={{
             
             title: "font-semibold text-md flex items-center",
           }}
           startContent={<IconWrapper className="bg-primary/10 text-primary">
-            <ProfileIcon className={iconClasses} />
+            <GroupAddIcon className={iconClasses} />
           </IconWrapper>}
         >
           Find tech enthusiasts
