@@ -30,6 +30,19 @@ export default function MenuItems() {
           Home
         </ListboxItem>
         <ListboxItem
+          key="Profile"
+          onClick={()=>router.push(`/find-tech-enthusiasts`)}
+          classNames={{
+            
+            title: "font-semibold text-md flex items-center",
+          }}
+          startContent={<IconWrapper className="bg-primary/10 text-primary">
+            <ProfileIcon className={iconClasses} />
+          </IconWrapper>}
+        >
+          Find tech enthusiasts
+        </ListboxItem>
+        <ListboxItem
           key="Premium"
           onClick={()=>router.push(`/premium`)}
           classNames={{

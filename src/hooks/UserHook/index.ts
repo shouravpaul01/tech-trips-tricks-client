@@ -1,15 +1,15 @@
 "use client"
 import {  getAllUsersReq, updateActiveStatusReq, updateUserRoleReq } from "@/src/services/UserService";
-import { TUpdateActiveStatusQuery, TUpdateRoleQuery } from "@/src/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { TQueryArg, TUpdateActiveStatusQuery, TUpdateRoleQuery } from "@/src/types";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 
-export  const useGetAllUsers=()=> {
+export  const useGetAllUsers=({page}:{page:number})=> {
     return  useQuery({
       queryKey: ["users"],
       queryFn: async () => {
-        const res = await getAllUsersReq();
+        const res = await getAllUsersReq({page});
         if (res?.errorMessages?.length > 0) {
           toast.error("Post not found.");
   
@@ -19,7 +19,31 @@ export  const useGetAllUsers=()=> {
       
     });
   };
-
+  export  const useGetAllUsersForInfinete=({
+    limit,
+    queryArgs,
+  }: {
+    limit?: number;
+    queryArgs?: TQueryArg[];
+  })=> {
+    return useInfiniteQuery({
+      queryKey: ["users", limit, queryArgs],
+      queryFn: async ({ pageParam = 1 }) => {
+        const { data } = await getAllUsersReq({
+          page: pageParam,
+          limit: limit,
+          queryArgs,
+        });
+        return data;
+      },
+      getNextPageParam: (lastPage) => {
+        // Stop fetching if the last page is empty or the length is less than the limit
+        if (!lastPage || lastPage?.data.length < limit!) return undefined;
+        return Number(lastPage.page) + 1;
+      },
+      initialPageParam: 1,
+    });
+  }
   export  const useUpdateUserRole=()=> {
     const queryClient=useQueryClient()
     return useMutation({

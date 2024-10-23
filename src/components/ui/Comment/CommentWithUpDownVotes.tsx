@@ -122,7 +122,7 @@ export default function CommentWithUpDownVotes({
           endContent={<AddCommentkIcon fill="#999999" />}
           onPress={modalDisclosure && modalDisclosure.onOpen}
         >
-          {post?.comments?.length} Comments
+          {post?.comments?.length>0 && post?.comments?.length} Comments
         </Button>
       </div>
     </div>

@@ -5,9 +5,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
 import {useGetAllPostsForInfinite} from "@/src/hooks/PostHook";
 import { useSearchParams } from "next/navigation";
+import { useUser } from "@/src/context/user.provider";
 
 
 const HomePage = () => {
+  const {user}=useUser()
   const searchParams = useSearchParams();
   const categories = searchParams
     .get("categories")

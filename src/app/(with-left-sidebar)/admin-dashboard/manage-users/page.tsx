@@ -29,7 +29,7 @@ import { useState } from "react";
 
 export default function ManageUsersPage() {
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useGetAllUsers();
+  const { data, isLoading } = useGetAllUsers({page});
   const { mutate: updateRole } = useUpdateUserRole();
   const { mutate: updateActiveStatus } = useUpdateUserActiveStatus();
   const totalPages = data?.totalPages || 0;

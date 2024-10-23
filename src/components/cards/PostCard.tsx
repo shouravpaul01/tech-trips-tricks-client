@@ -1,5 +1,5 @@
 "use client";
-import { noImage } from "@/src/constent";
+import { blankImage, noImage } from "@/src/constent";
 import { TPost } from "@/src/types";
 import {
   Card,
@@ -30,6 +30,7 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
+  DropdownSection,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
 import { useDeletePost } from "@/src/hooks/PostHook";
@@ -56,6 +57,7 @@ export default function PostCard({
   post: TPost;
 }) {
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+
   const editModalDisclosure = useDisclosure();
   const detailsDisclosure = useDisclosure();
   const printRef = useRef<HTMLDivElement>(null);
@@ -66,6 +68,9 @@ export default function PostCard({
   const { user } = useUser();
   const [postId, setPostId] = useState<string>("");
   const { mutate: handleDeletePost } = useDeletePost();
+  const userMatched = post?.user._id === user?._id;
+  
+
   return (
     <>
       <Card {...cardProps}>
@@ -75,7 +80,7 @@ export default function PostCard({
               alt="nextui logo"
               height={40}
               className="rounded-full"
-              src={post?.user?.profileImage || noImage}
+              src={post?.user?.profileImage || blankImage}
               width={40}
             />
             <div className="flex flex-col">
@@ -90,20 +95,25 @@ export default function PostCard({
               <PremiumIcon height={35} width={35} fill={"#17c964"} />
             )}
             <div className="flex items-center gap-1 border-s border-y rounded-s-full px-4  shadow-sm shadow-gray-200">
-              <p className="text-sm font-semibold py-2">{post?.category}</p>
-              {post?.user._id == user?._id && (
-                <Dropdown closeOnSelect={false}>
-                  <DropdownTrigger>
-                    <Button isIconOnly radius="full" variant="light">
-                      <MoreIcon fill="#999999" />
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    variant="flat"
-                    color="secondary"
-                    aria-label="Dropdown menu with icons"
-                  >
-                    <DropdownItem key="Share" onPress={() => {}}>
+              <p className="text-sm font-semibold text-gray-400 py-2">
+                {post?.category}
+              </p>
+
+              <Dropdown showArrow>
+                <DropdownTrigger>
+                  <Button isIconOnly radius="full" variant="light">
+                    <MoreIcon fill="#7828c8" />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  variant="flat"
+                  color="secondary"
+                  aria-label="Dynamic Actions"
+                  
+                 
+                >
+                  <DropdownSection showDivider={userMatched}>
+                    <DropdownItem key="Share" closeOnSelect={false}>
                       <Popover placement="right" showArrow>
                         <PopoverTrigger>
                           <button className="flex gap-2 items-center w-full focus:outline-none focus:ring-0 focus:border-none">
@@ -148,29 +158,35 @@ export default function PostCard({
                     >
                       PDF
                     </DropdownItem>
-                    <DropdownItem
-                      key="Edit"
-                      onPress={() => {
-                        setPostId(post._id), editModalDisclosure.onOpen();
-                      }}
-                      startContent={
-                        <EditIcon width={16} height={16} fill="#7828c8" />
-                      }
-                    >
-                      Edit
-                    </DropdownItem>
-                    <DropdownItem
-                      key="Delete"
-                      startContent={
-                        <DeleteIcon width={16} height={16} fill="#7828c8" />
-                      }
-                      onPress={() => handleDeletePost(post._id)}
-                    >
-                      Delete
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              )}
+                    </DropdownSection>
+                    { userMatched ?
+                      <DropdownSection>
+                        <DropdownItem
+                          key="Edit"
+                          onPress={() => {
+                            setPostId(post._id!);
+                            editModalDisclosure.onOpen();
+                          }}
+                          startContent={
+                            <EditIcon width={16} height={16} fill="#7828c8" />
+                          }
+                        >
+                          Edit
+                        </DropdownItem>
+                        <DropdownItem
+                          key="Delete"
+                          onPress={() => handleDeletePost(post._id)}
+                          startContent={
+                            <DeleteIcon width={16} height={16} fill="#7828c8" />
+                          }
+                        >
+                          Delete
+                        </DropdownItem>
+                      </DropdownSection>:<DropdownItem className="hidden"></DropdownItem>
+                    }
+                  
+                </DropdownMenu>
+              </Dropdown>
             </div>
           </div>
         </CardHeader>

@@ -57,6 +57,8 @@ export type TUser = {
   studyInformation: TStudyInformation;
   isSubscribed: boolean;
   subscription:TSubscribtion;
+  followers:string[],
+  following:string[],
   isActive:boolean;
   createdAt: Date;
   updatedAt: Date;

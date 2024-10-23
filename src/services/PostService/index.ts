@@ -30,7 +30,7 @@ export const getAllPost = async ({
   data: { data: TPost[]; page: number,totalPages:number };
   errorMessages:TErrorMessage[]
 }> => {
-  console.log(page,queryArgs,"req")
+ 
   const params = new URLSearchParams();
   
   limit && params.append("limit", JSON.stringify(limit));
