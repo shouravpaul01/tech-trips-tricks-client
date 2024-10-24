@@ -10,37 +10,39 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 
 
-export default function TechEsthusiatsFollowCard({ user}: { user: TUser }) {
+export default function TechEsthusiatsFollowCard({isFollowing,isFollowers, user,currentFollowingUser,setCurrentFollowingUser}: {isFollowing:boolean,isFollowers:boolean, user: TUser,currentFollowingUser?:string[],setCurrentFollowingUser?:(value:string[])=>void } ) {
 
   const queryClient=useQueryClient()
-  const [followingUser,setFollowingUser]=useState<string[]>([])
+ 
+  console.log(user,currentFollowingUser,'followingUser')
   const handleFollowing = async (followingUserId: string) => {
     console.log(followingUserId);
     const res = await followingUserReq(followingUserId);
     if (res.status && res.data) {
       queryClient.invalidateQueries({queryKey:["find-users"]})
       toast.success(res.message);
-      setFollowingUser([...res.data])
+      setCurrentFollowingUser?.([...res.data])
     }
     if (!res.status && res?.errorMessages) {
       toast.error(res.errorMessages[0].message);
     }
-    console.log(res);
+    
   };
   const handleUnfollow = async (followingUserId: string) => {
     console.log(followingUserId);
     const res = await unfollowUserReq(followingUserId);
     if (res.status && res.data) {
       queryClient.invalidateQueries({queryKey:["find-users"]})
+      queryClient.invalidateQueries({queryKey:["single-user"]})
       toast.success(res.message);
-      setFollowingUser([...res.data])
+      setCurrentFollowingUser?.([...res.data])
     }
     if (!res.status && res?.errorMessages) {
       toast.error(res.errorMessages[0].message);
     }
-    console.log(res);
+    
   };
-  console.log(followingUser);
+ 
   return (
     <div className="flex items-center p-4 rounded-md shadow-md">
       <div className="flex flex-1 gap-3">
@@ -60,16 +62,30 @@ export default function TechEsthusiatsFollowCard({ user}: { user: TUser }) {
         </div>
       </div>
       <div>
-        <Button
+     {
+       isFollowing && <Button
       
-          color={followingUser?.includes(user._id)?"default":"secondary"}
-          size="sm"
-          onPress={() =>followingUser?.includes(user._id)?handleUnfollow(user._id): handleFollowing(user._id)}
-          startContent={followingUser?.includes(user._id)?<ArrowForwardIcon fill="#000000"/>:<PersonAddIcon fill="#FFFFFF"/>}
-          
-        >
-         {followingUser?.includes(user._id)?"Cencel":" Follow"}
-        </Button>
+       color={currentFollowingUser?.includes(user._id)?"default":"secondary"}
+       size="sm"
+       onPress={() =>currentFollowingUser?.includes(user._id)?handleUnfollow(user._id): handleFollowing(user._id)}
+       startContent={currentFollowingUser?.includes(user._id)?<ArrowForwardIcon fill="#000000"/>:<PersonAddIcon fill="#FFFFFF"/>}
+       
+     >
+      {currentFollowingUser?.includes(user._id)?"Cencel":" Follow"}
+     </Button>
+     }
+     {
+       isFollowers && <Button
+      
+       color={currentFollowingUser?.includes(user._id)?"default":"secondary"}
+       size="sm"
+       onPress={() =>currentFollowingUser?.includes(user._id)?handleUnfollow(user._id): handleFollowing(user._id)}
+       startContent={currentFollowingUser?.includes(user._id)?<ArrowForwardIcon fill="#000000"/>:<PersonAddIcon fill="#FFFFFF"/>}
+       
+     >
+      {currentFollowingUser?.includes(user._id)?"Cencel":" Follow Back"}
+     </Button>
+     }
       </div>
     </div>
   );

@@ -17,7 +17,6 @@ import { useUser } from "@/src/context/user.provider";
 import { useDeletePost, useGetAllPosts, useRestorePost } from "@/src/hooks/PostHook";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
-import { Input } from "@nextui-org/input";
 import { useDisclosure } from "@nextui-org/modal";
 import { Pagination } from "@nextui-org/pagination";
 import {

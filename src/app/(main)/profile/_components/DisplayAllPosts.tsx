@@ -21,7 +21,7 @@ export default function DisplayAllPosts({ userId }: { userId: string }) {
     limit: limit,
     queryArgs: filter,
   });
-
+console.log(isLoading)
   const posts = data?.pages.flatMap((item) => item.data) || [];
   return (
     <div className="pt-2">

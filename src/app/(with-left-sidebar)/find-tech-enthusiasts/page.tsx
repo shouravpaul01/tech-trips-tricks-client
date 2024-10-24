@@ -4,17 +4,16 @@ import { useGetAllUsersForInfinete } from "@/src/hooks/UserHook";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TechEsthusiatsFollowCard from "./_components/TechEsthusiatsFollowCard";
 import { useEffect, useState } from "react";
-import { getCurrentuser } from "@/src/services/AuthService";
 import { getSingleUserReq } from "@/src/services/UserService";
-import { useUser } from "@/src/context/user.provider";
+
 
 export default function FindTechEnthusiastsPage() {
-  const [nonEQUser, setNonEQUser] = useState<string[]>();
-
+  const [nonEQUser, setNonEQUser] = useState<string[]>([]);
+  const [currentFollowingUser,setCurrentFollowingUser]=useState<string[]>([...nonEQUser!])
   useEffect(() => {
     const currenUser = async () => {
       const { data: user } = await getSingleUserReq();
-      setNonEQUser([user._id, ...user.following]);
+      setNonEQUser([user._id, ...user?.following?.map(user=>user._id)]);
     };
     currenUser();
   }, []);
@@ -22,13 +21,12 @@ export default function FindTechEnthusiastsPage() {
   const { data, hasNextPage, fetchNextPage, isLoading,isFetching } =
     useGetAllUsersForInfinete({
       limit: 5,
-      queryArgs:  nonEQUser
+      queryArgs:  nonEQUser.length>0
       ? [{ label: "nonEQUser", value: nonEQUser }] 
       : [],
     });
   const users = data?.pages.flatMap((item) => item.data) || [];
   isLoading && <TTTZLoading />;
-console.log(isLoading,isFetching)
   return (
     <div className="p-4">
       <InfiniteScroll
@@ -48,7 +46,8 @@ console.log(isLoading,isFetching)
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {users?.map((user, index) => (
-            <TechEsthusiatsFollowCard key={index} user={user} />
+            <TechEsthusiatsFollowCard key={index} user={user}  isFollowers={false}
+            isFollowing={true} currentFollowingUser={currentFollowingUser} setCurrentFollowingUser={setCurrentFollowingUser}/>
           ))}
         </div>
       </InfiniteScroll>

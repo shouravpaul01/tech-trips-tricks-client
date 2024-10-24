@@ -1,5 +1,5 @@
 "use client"
-import {  getAllUsersForFollowingReq, getAllUsersReq, updateActiveStatusReq, updateUserRoleReq } from "@/src/services/UserService";
+import {  getAllUsersForFollowingReq, getAllUsersReq, getSingleUserReq, updateActiveStatusReq, updateUserRoleReq } from "@/src/services/UserService";
 import { TQueryArg, TUpdateActiveStatusQuery, TUpdateRoleQuery } from "@/src/types";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -26,7 +26,7 @@ export  const useGetAllUsers=({page}:{page:number})=> {
     limit?: number;
     queryArgs: TQueryArg[] ;
   })=> {
-    console.log(queryArgs)
+
     return useInfiniteQuery({
       queryKey: ["find-users", limit, queryArgs],
       queryFn: async ({ pageParam = 1 }) => {
@@ -82,3 +82,15 @@ export  const useGetAllUsers=({page}:{page:number})=> {
       },
     });
   }
+
+  export  const useGetSingleUser=()=> {
+    return  useQuery({
+      queryKey: ["single-user"],
+      queryFn: async () => {
+        const res = await getSingleUserReq();
+        
+        return res.data;
+      },
+      
+    });
+  };
