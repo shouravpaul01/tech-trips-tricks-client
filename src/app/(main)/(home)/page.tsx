@@ -3,29 +3,43 @@
 import PostCard from "@/src/components/cards/PostCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
-import {useGetAllPostsForInfinite} from "@/src/hooks/PostHook";
+import { useGetAllPostsForInfinite } from "@/src/hooks/PostHook";
 import { useSearchParams } from "next/navigation";
-import { useUser } from "@/src/context/user.provider";
-
+import { useGetSingleUser } from "@/src/hooks/UserHook";
 
 const HomePage = () => {
-  const {user}=useUser()
+  const { data: user } = useGetSingleUser();
+
   const searchParams = useSearchParams();
-  const categories = searchParams
-    .get("categories")
-    ?.split(",")
-    .map((item) => ({ label: "category", value: item })) || [];
-  const contentTypes = searchParams
-    .get("contentType")
-    ?.split(",")
-    .map((item) => ({ label: "type", value: item })) || [];
-  const filter = [...categories, ...contentTypes];
+  const followingUserId = user?.following?.map((user) => user?._id) || [];
+  const followersUserId = user?.followers?.map((user) => user?._id) || [];
+  const categories =
+    searchParams
+      .get("categories")
+      ?.split(",")
+      .map((item) => ({ label: "category", value: item })) || [];
+  const contentTypesQuery =
+    searchParams
+      .get("contentType")
+      ?.split(",")
+      .map((item) => ({ label: "type", value: item })) || [];
+  const defaultContent = user?.isSubscribed
+    ? [
+        { label: "type", value: "Free" },
+        { label: "type", value: "Premium" },
+      ]
+    : [{ label: "type", value: "Free" }];
+  const contentTypeFilter =
+    contentTypesQuery?.length > 0 ? contentTypesQuery : defaultContent;
+
+  const filter = [...categories, ...contentTypeFilter];
   const limit = 2;
 
-  const { data, hasNextPage, fetchNextPage, isLoading } = useGetAllPostsForInfinite({
-    limit: limit,
-    queryArgs: filter,
-  });
+  const { data, hasNextPage, fetchNextPage, isLoading } =
+    useGetAllPostsForInfinite({
+      limit: limit,
+      queryArgs: filter,
+    });
 
   const posts = data?.pages.flatMap((item) => item.data) || [];
   isLoading && <TTTZLoading />;
@@ -58,6 +72,8 @@ const HomePage = () => {
               }}
               key={index}
               post={post}
+              followersUserId={followersUserId}
+              followingUserId={followingUserId}
             />
           ))}
         </div>

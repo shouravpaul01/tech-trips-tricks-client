@@ -137,7 +137,7 @@ export const getAllUsersForFollowingReq = async ({
 
   limit && params.append("limit", JSON.stringify(limit));
   page && params.append("page", JSON.stringify(page));
-  console.log(queryArgs?.length, "queryArgs");
+
   if (queryArgs?.length! > 0) {
     queryArgs?.forEach((arg: any) => params.append(arg.label, arg.value));
   }
@@ -158,6 +158,24 @@ export const unfollowUserReq = async (
   try {
     const { data } = await axiosInstance.patch(
       `/users/unfollow/${followingUserId}`
+    );
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+};
+export const followBackUserReq = async (
+  followingUserId: string
+): Promise<{
+  status: string;
+  message: string;
+  data: string[];
+  errorMessages: TErrorMessage[];
+}> => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/users/follow-back/${followingUserId}`
     );
     return data;
   } catch (error: any) {

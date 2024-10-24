@@ -2,47 +2,49 @@
 
 import { premiumOrFreeOptions, techBlogCategories } from "@/src/constent";
 import { Checkbox, CheckboxGroup } from "@nextui-org/checkbox";
-import { Radio, RadioGroup } from "@nextui-org/radio";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { XmarkIcon } from "../icons";
 import { Button } from "@nextui-org/button";
-import { use, useEffect, useState } from "react";
-import { getCurrentuser } from "@/src/services/AuthService";
-import { getSingleUserReq } from "@/src/services/UserService";
-import { useUser } from "@/src/context/user.provider";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useGetSingleUser } from "@/src/hooks/UserHook";
+import { CustomCheckbox } from "./CustomCheckedbox";
 
 export default function FilterByCheckobx() {
-  const { user } = useUser();
+  const { data: currentUser } = useGetSingleUser();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const initialCategories = searchParams.get("categories")?.split(",") || [];
-  const contentType = searchParams.get("contentType") || "";
+  const contentType = searchParams.get("contentType")?.split(",") || [];
 
-  // State to manage selected categories
-  const [selectedContentType, setSelectedContentType] = useState<string>(
+  // State to manage selected content type
+  const [selectedContentType, setSelectedContentType] = useState<string[]>(
     contentType!
   );
+  // State to manage selected categories
   const [selectedCategories, setSelectedCategories] =
     useState<string[]>(initialCategories);
 
   useEffect(() => {
     setSelectedCategories(initialCategories);
     setSelectedContentType(contentType!);
-  }, [searchParams, contentType]);
-  console.log(contentType, "s", selectedContentType);
-  const handleContentTypeFilter = async (value: string) => {
-    const { data: currentUser } = await getSingleUserReq();
-    console.log(user?._id);
-    if (!currentUser.isSubscribed && value == "Premium") {
+  }, [searchParams]);
+
+  const handleContentTypeFilter = async (value: string[]) => {
+    if (value.length === 0) {
+      router.push(`${pathname}`);
+      return;
+    }
+    if (!currentUser?.isSubscribed && value.includes("Premium")) {
       toast.error("This feature is available for Premium User.");
       return;
     }
     if (!value) {
-      router.push(`${pathname}`); // Clear query if no content type selected
+      router.push(`${pathname}`);
       return;
     }
+    setSelectedContentType(value);
     router.push(`${pathname}/?contentType=${value}`);
   };
 
@@ -95,20 +97,18 @@ export default function FilterByCheckobx() {
 
       <div>
         <p className="pb-3 shadow-sm">Content Type</p>
-        <RadioGroup
+
+        <CheckboxGroup
           color="secondary"
           orientation="horizontal"
-          defaultValue={selectedContentType}
-          onChange={(e) => handleContentTypeFilter(e.target.value)}
-         
-          classNames={{ wrapper: "mt-3 gap-5", base: "rounded-md" }}
+          className="mt-3"
+          value={selectedContentType} // Sync selected categories with checkboxes
+          onChange={(value) => handleContentTypeFilter(value)}
         >
-          {premiumOrFreeOptions?.map((item, index) => (
-            <Radio value={item.value} key={index}>
-              {item.key}
-            </Radio>
+          {premiumOrFreeOptions?.map((option, index) => (
+            <CustomCheckbox value={option.value}>{option.key}</CustomCheckbox>
           ))}
-        </RadioGroup>
+        </CheckboxGroup>
       </div>
 
       <div>

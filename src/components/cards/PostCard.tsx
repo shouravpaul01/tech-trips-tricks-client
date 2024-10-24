@@ -17,6 +17,7 @@ import {
   EditIcon,
   MoreIcon,
   PDFIcon,
+  PersonAddIcon,
   PremiumIcon,
   ShareIcon,
 } from "../icons";
@@ -46,16 +47,26 @@ import {
   TwitterIcon,
   TwitterShareButton,
 } from "react-share";
+import { Tooltip } from "@nextui-org/tooltip";
+import { Avatar } from "@nextui-org/avatar";
+import { Chip } from "@nextui-org/chip";
+import FollowingDetailsTooltipCard from "../ui/FollowingDetailsTooltipCard";
 
 export default function PostCard({
   cardProps,
   isModalShow = true,
   post,
+  followingUserId,
+  followersUserId
+,
 }: {
   cardProps: CardProps;
   isModalShow?: boolean;
   post: TPost;
+  followingUserId?:string[]
+  followersUserId?:string[]
 }) {
+
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
 
   const editModalDisclosure = useDisclosure();
@@ -69,27 +80,28 @@ export default function PostCard({
   const [postId, setPostId] = useState<string>("");
   const { mutate: handleDeletePost } = useDeletePost();
   const userMatched = post?.user._id === user?._id;
-  
 
   return (
     <>
       <Card {...cardProps}>
         <CardHeader className="justify-between p-0">
-          <div className="flex gap-3 p-3">
-            <Image
-              alt="nextui logo"
-              height={40}
-              className="rounded-full"
-              src={post?.user?.profileImage || blankImage}
-              width={40}
-            />
-            <div className="flex flex-col">
-              <p className="text-md">{post?.user?.name}</p>
-              <p className="text-small text-default-500 -mt-[2px]">
-                @{post?.user?.userId}
-              </p>
+          <Tooltip
+          showArrow
+            content={
+              <FollowingDetailsTooltipCard user={post?.user} followingUserId={followingUserId} followersUserId={followersUserId}/>
+            }
+          >
+            <div className="flex gap-3 p-3">
+              
+              <Avatar src={post?.user?.profileImage || blankImage} size="lg" />
+              <div className="flex flex-col">
+                <p className="text-md hover:underline hover:text-blue-500">{post?.user?.name}</p>
+                <p className="text-small text-default-500 -mt-[2px]">
+                  @{post?.user?.userId}
+                </p>
+              </div>
             </div>
-          </div>
+          </Tooltip>
           <div className="flex gap-2 items-center">
             {post?.type == "Premium" && (
               <PremiumIcon height={35} width={35} fill={"#17c964"} />
@@ -109,8 +121,6 @@ export default function PostCard({
                   variant="flat"
                   color="secondary"
                   aria-label="Dynamic Actions"
-                  
-                 
                 >
                   <DropdownSection showDivider={userMatched}>
                     <DropdownItem key="Share" closeOnSelect={false}>
@@ -158,33 +168,34 @@ export default function PostCard({
                     >
                       PDF
                     </DropdownItem>
+                  </DropdownSection>
+                  {userMatched ? (
+                    <DropdownSection>
+                      <DropdownItem
+                        key="Edit"
+                        onPress={() => {
+                          setPostId(post._id!);
+                          editModalDisclosure.onOpen();
+                        }}
+                        startContent={
+                          <EditIcon width={16} height={16} fill="#7828c8" />
+                        }
+                      >
+                        Edit
+                      </DropdownItem>
+                      <DropdownItem
+                        key="Delete"
+                        onPress={() => handleDeletePost(post._id)}
+                        startContent={
+                          <DeleteIcon width={16} height={16} fill="#7828c8" />
+                        }
+                      >
+                        Delete
+                      </DropdownItem>
                     </DropdownSection>
-                    { userMatched ?
-                      <DropdownSection>
-                        <DropdownItem
-                          key="Edit"
-                          onPress={() => {
-                            setPostId(post._id!);
-                            editModalDisclosure.onOpen();
-                          }}
-                          startContent={
-                            <EditIcon width={16} height={16} fill="#7828c8" />
-                          }
-                        >
-                          Edit
-                        </DropdownItem>
-                        <DropdownItem
-                          key="Delete"
-                          onPress={() => handleDeletePost(post._id)}
-                          startContent={
-                            <DeleteIcon width={16} height={16} fill="#7828c8" />
-                          }
-                        >
-                          Delete
-                        </DropdownItem>
-                      </DropdownSection>:<DropdownItem className="hidden"></DropdownItem>
-                    }
-                  
+                  ) : (
+                    <DropdownItem className="hidden"></DropdownItem>
+                  )}
                 </DropdownMenu>
               </Dropdown>
             </div>

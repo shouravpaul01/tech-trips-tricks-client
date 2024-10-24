@@ -1,29 +1,26 @@
 "use client";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
-import { useGetAllUsersForInfinete } from "@/src/hooks/UserHook";
+import {
+  useGetAllUsersForInfinete,
+  useGetSingleUser,
+} from "@/src/hooks/UserHook";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TechEsthusiatsFollowCard from "./_components/TechEsthusiatsFollowCard";
-import { useEffect, useState } from "react";
-import { getSingleUserReq } from "@/src/services/UserService";
-
+import { useState } from "react";
 
 export default function FindTechEnthusiastsPage() {
-  const [nonEQUser, setNonEQUser] = useState<string[]>([]);
-  const [currentFollowingUser,setCurrentFollowingUser]=useState<string[]>([...nonEQUser!])
-  useEffect(() => {
-    const currenUser = async () => {
-      const { data: user } = await getSingleUserReq();
-      setNonEQUser([user._id, ...user?.following?.map(user=>user._id)]);
-    };
-    currenUser();
-  }, []);
-  
-  const { data, hasNextPage, fetchNextPage, isLoading,isFetching } =
+  const { data: user } = useGetSingleUser();
+  const followingUserId = user?.following?.map((user) => user?._id) || [];
+  const nonEQUser = [user?._id, ...followingUserId!];
+  const [currentFollowingUser, setCurrentFollowingUser] = useState<
+    (string | undefined)[]
+  >([...nonEQUser]);
+
+  const { data, hasNextPage, fetchNextPage, isLoading } =
     useGetAllUsersForInfinete({
       limit: 5,
-      queryArgs:  nonEQUser.length>0
-      ? [{ label: "nonEQUser", value: nonEQUser }] 
-      : [],
+      queryArgs:
+        nonEQUser.length > 0 ? [{ label: "nonEQUser", value: nonEQUser }] : [],
     });
   const users = data?.pages.flatMap((item) => item.data) || [];
   isLoading && <TTTZLoading />;
@@ -46,8 +43,14 @@ export default function FindTechEnthusiastsPage() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {users?.map((user, index) => (
-            <TechEsthusiatsFollowCard key={index} user={user}  isFollowers={false}
-            isFollowing={true} currentFollowingUser={currentFollowingUser} setCurrentFollowingUser={setCurrentFollowingUser}/>
+            <TechEsthusiatsFollowCard
+              key={index}
+              user={user}
+              isFollowers={false}
+              isFollowing={true}
+              currentFollowingUser={currentFollowingUser}
+              setCurrentFollowingUser={setCurrentFollowingUser}
+            />
           ))}
         </div>
       </InfiniteScroll>
