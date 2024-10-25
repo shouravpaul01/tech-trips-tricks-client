@@ -51,6 +51,7 @@ import { Tooltip } from "@nextui-org/tooltip";
 import { Avatar } from "@nextui-org/avatar";
 import { Chip } from "@nextui-org/chip";
 import FollowingDetailsTooltipCard from "../ui/FollowingDetailsTooltipCard";
+import Link from "next/link";
 
 export default function PostCard({
   cardProps,
@@ -95,7 +96,7 @@ export default function PostCard({
               
               <Avatar src={post?.user?.profileImage || blankImage} size="lg" />
               <div className="flex flex-col">
-                <p className="text-md hover:underline hover:text-blue-500">{post?.user?.name}</p>
+                <Link href={`/profile/${post?.user?.userId}`} className="text-md hover:underline hover:text-blue-500">{post?.user?.name}</Link>
                 <p className="text-small text-default-500 -mt-[2px]">
                   @{post?.user?.userId}
                 </p>

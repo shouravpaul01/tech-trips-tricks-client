@@ -93,8 +93,8 @@ export type TComment = {
 
 export type TQueryArg = {
   label: string;
-  value: any;
-};
+  value: any ;
+} | null;
 export type TSubscrptionPlanOptions = {
   plan: "1 Month" | "6 Months" | "1 Year";
   amount: number;

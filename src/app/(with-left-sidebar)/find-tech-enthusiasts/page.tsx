@@ -7,11 +7,15 @@ import {
 import InfiniteScroll from "react-infinite-scroll-component";
 import TechEsthusiatsFollowCard from "./_components/TechEsthusiatsFollowCard";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function FindTechEnthusiastsPage() {
+  const searchParams=useSearchParams()
+  const search=searchParams.get("search") ? {label:"search",value:searchParams.get("search")} :null
   const { data: user } = useGetSingleUser();
   const followingUserId = user?.following?.map((user) => user?._id) || [];
-  const nonEQUser = [user?._id, ...followingUserId!];
+  const nonEQUser=[user?._id, ...followingUserId!]
+  const filterQuery = [{ label: "nonEQUser", value: nonEQUser },search]
   const [currentFollowingUser, setCurrentFollowingUser] = useState<
     (string | undefined)[]
   >([...nonEQUser]);
@@ -20,7 +24,7 @@ export default function FindTechEnthusiastsPage() {
     useGetAllUsersForInfinete({
       limit: 5,
       queryArgs:
-        nonEQUser.length > 0 ? [{ label: "nonEQUser", value: nonEQUser }] : [],
+        filterQuery.length > 0 ? filterQuery : [],
     });
   const users = data?.pages.flatMap((item) => item.data) || [];
   isLoading && <TTTZLoading />;

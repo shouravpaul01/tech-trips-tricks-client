@@ -21,13 +21,13 @@ export default function MenuTabs({user}:{user:TUser}) {
         }}
         selectedKey={pathname}
             onSelectionChange={(key: any) =>router.push(key)}>
-          <Tab key={`/profile/${user._id}`} title="Posts"/>
-          <Tab key={`/profile/${user._id}/following`}  title={<div className="flex items-center space-x-2">
+          <Tab key={`/profile/${user?.userId}`} title="Posts"/>
+          <Tab key={`/profile/${user?.userId}/following`}  title={<div className="flex items-center space-x-2">
             
               <span>Following</span>
               <Chip size="sm" variant="faded">{user?.following?.length}</Chip>
             </div>}/>
-          <Tab key={`/profile/${user._id}/follower`} title={<div className="flex items-center space-x-2">
+          <Tab key={`/profile/${user?.userId}/follower`} title={<div className="flex items-center space-x-2">
             
             <span>Followers</span>
             <Chip size="sm" variant="faded">{user?.followers?.length}</Chip>

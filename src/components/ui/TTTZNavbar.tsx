@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/navbar";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BarIcon, LogoutdIcon, SearchIcon } from "../icons";
 import { Avatar } from "@nextui-org/avatar";
 import { motion } from "framer-motion";
@@ -27,24 +27,16 @@ import {
 } from "@nextui-org/dropdown";
 import { useRouter } from "next/navigation";
 import { logoutUser } from "@/src/services/AuthService";
+import SearchInput from "./SearchInput";
+import CreatePostButton from "@/src/app/(main)/_components/CreatePostButton";
 
 export default function TTTZNavbar() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setIsLoading } = useUser();
-
-  const menuItems = [
-    "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
-    "Log Out",
-  ];
+  const handleSearch = (searchTerm: string) => {
+    router.push(`/find-tech-enthusiasts?search=${searchTerm}`);
+  };
   return (
     <div className="relative">
       {
@@ -63,17 +55,6 @@ export default function TTTZNavbar() {
             className="sm:hidden"
           />
           <NavbarBrand>
-            {/* <div className="me-2 block md:hidden">
-              <Button
-                isIconOnly
-                color="secondary"
-                variant="flat"
-                radius="full"
-                onClick={() => setIsMenuOpen((prev) => !prev)}
-              >
-                {<BarIcon />}
-              </Button>
-            </div> */}
             <Image
               src="/ttt-zone-vertical-logo.png"
               alt="ttt-zone-vertical-logo"
@@ -81,27 +62,17 @@ export default function TTTZNavbar() {
               height={20}
             />
           </NavbarBrand>
-          <NavbarContent className="hidden sm:flex gap-4 " justify="center">
-            <Input
-              classNames={{
-                base: "max-w-full  h-10 ",
-                mainWrapper: "h-full ",
-                input: "text-small",
-                inputWrapper:
-                  "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20 rounded-full",
-              }}
-              placeholder="Type to search..."
-              size="sm"
-              endContent={<SearchIcon size={18} />}
-              type="search"
-            />
+          <NavbarContent className="hidden sm:flex " justify="center">
+            <div className="w-[350px]">
+              <SearchInput handleSearch={handleSearch} />
+            </div>
           </NavbarContent>
           <NavbarContent justify="end">
-            <NavbarItem className="hidden lg:flex">
-              <Dropdown>
+            <NavbarItem className="">
+              <Dropdown showArrow>
                 <DropdownTrigger>
                   <div className="flex items-center gap-2">
-                    <div className="text-right ">
+                    <div className="text-right hidden lg:flex flex-col">
                       <p className="font-bold">{user?.name}</p>
                       <p className="text-gray-400 text-sm -mt-[4px]">
                         @{user?.userId}
@@ -133,13 +104,26 @@ export default function TTTZNavbar() {
             </NavbarItem>
           </NavbarContent>
           <NavbarMenu>
-            <div>
-              <MenuItems/>
-            </div>
+          
+          <div className=" flex flex-col  h-screen ">
+          {/* Scrollable Menu Items */}
+          <div className="w-full mb-4">
+                <SearchInput handleSearch={handleSearch} />
+              </div>
+          <div className="h-[85%] overflow-y-auto">
+            <MenuItems />
+          </div>
+
+       
+          <div className="px-1">
+            <CreatePostButton />
+            
+          </div>
+        </div>
+            
           </NavbarMenu>
         </Navbar>
       }
-     
     </div>
   );
 }

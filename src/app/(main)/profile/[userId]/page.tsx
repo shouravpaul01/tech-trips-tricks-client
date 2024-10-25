@@ -1,6 +1,5 @@
-import { getSingleUserReq } from "@/src/services/UserService";
+import { getSingleUserByIdReq } from "@/src/services/UserService";
 import DisplayAllPosts from "../_components/DisplayAllPosts";
-
 
 export default async function Profile({
   params,
@@ -8,12 +7,10 @@ export default async function Profile({
   params: { userId: string };
 }) {
   const { userId } = params;
-  // console.log( userId, "user");
-  const { data: user } = await getSingleUserReq();
- 
+  const { data: user } = await getSingleUserByIdReq(userId);
   return (
     <div>
-      <DisplayAllPosts userId={user._id}/>
+      <DisplayAllPosts userId={user._id} />
     </div>
   );
 }

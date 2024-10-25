@@ -26,7 +26,20 @@ export const getSingleUserReq = async (): Promise<{
     return error?.response?.data;
   }
 };
+export const getSingleUserByIdReq = async (userId:string): Promise<{
+  status: string;
+  message: string;
+  data: TUser;
+}> => {
+  try {
+    const data = await axiosInstance.get(`/users/single-user-by-id/${userId}`);
 
+    return data.data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+};
 export const updateUser = async (bodyData: FieldValues) => {
   try {
     const { data } = await axiosInstance.patch(
