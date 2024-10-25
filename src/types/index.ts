@@ -30,10 +30,10 @@ export type TStudyInformation = {
   graduationYear: number;
 };
 export type TSubscribtion = {
-  _id:string;
+  _id: string;
   user: string;
   plan: "1 month" | "6 months" | "1 year";
-  transactionId:string;
+  transactionId: string;
   amount: number;
   startDate: Date;
   endDate: Date;
@@ -56,10 +56,10 @@ export type TUser = {
   socialLinks: TSocialLinks;
   studyInformation: TStudyInformation;
   isSubscribed: boolean;
-  subscription:TSubscribtion;
-  followers:TUser[],
-  following:TUser[],
-  isActive:boolean;
+  subscription: TSubscribtion;
+  followers: TUser[];
+  following: TUser[];
+  isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -82,7 +82,7 @@ export type TPost = {
 };
 export type TComment = {
   _id: string;
-  user: TUser ;
+  user: TUser;
   text: string;
   upvotes: number;
   downvotes: number;
@@ -93,7 +93,7 @@ export type TComment = {
 
 export type TQueryArg = {
   label: string;
-  value: any ;
+  value: any;
 } | null;
 export type TSubscrptionPlanOptions = {
   plan: "1 Month" | "6 Months" | "1 Year";
@@ -103,3 +103,7 @@ export type TSubscrptionPlanOptions = {
 
 export type TUpdateRoleQuery = { email: string; role: string };
 export type TUpdateActiveStatusQuery = { email: string; isActive: boolean };
+export type TResetDetails = {
+  email: string;
+  otp?: string;
+};

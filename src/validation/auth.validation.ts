@@ -34,11 +34,9 @@ export const registerValidation = z
         }
         return value;
       },
-      z
-        .string()
-        .refine((date) => dayjs(date).isBefore(dayjs()), {
-          message: "The date of birth must be in the past.",
-        })
+      z.string().refine((date) => dayjs(date).isBefore(dayjs()), {
+        message: "The date of birth must be in the past.",
+      })
     ),
     password: z
       .string()
@@ -64,10 +62,29 @@ export const changePasswordValidation = z
       .string()
       .nonempty("The field is required.")
       .min(6, { message: "Password must be six charecters." }),
-      oldPassword: z
+    oldPassword: z
       .string()
       .nonempty("The field is required.")
       .min(6, { message: "Password must be six charecters." }),
+    confirmPassword: z.string().nonempty("The field is required"),
+  })
+  .refine((data: any) => data.password == data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+export const otpValidation = z.object({
+  otp: z
+    .string()
+    .nonempty("The field is required.")
+    .min(6, { message: "OTP must be 6-Digits" }),
+});
+export const resetPasswordValidation = z
+  .object({
+    password: z
+      .string()
+      .nonempty("The field is required.")
+      .min(6, { message: "Password must be six charecters." }),
+
     confirmPassword: z.string().nonempty("The field is required"),
   })
   .refine((data: any) => data.password == data.confirmPassword, {

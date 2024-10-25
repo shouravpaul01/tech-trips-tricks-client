@@ -3,14 +3,14 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import { ReactNode } from "react";
-// import ttt_zone_icon from "@/public/ttt-zone-logo.png";
+
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   console.log(pathname);
   return (
     <>
-      {pathname !== "/user_name" && (
+      {(pathname == "/login" || pathname == "/register") && (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center ">
           <div className="w-full md:max-w-4xl flex flex-col md:flex-row bg-white rounded-xl p-10 ">
             <div className="w-full md:w-1/2 flex items-center">
@@ -29,12 +29,12 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           </div>
         </div>
       )}
-      {pathname == "/user_name" && (
+      {(pathname == "/user_name" || pathname == "/find-account" || pathname == "/confirm-identity") && (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center ">
-          <div className="w-full md:max-w-xl bg-white rounded-xl p-6 ">
+          
             
             {children}
-          </div>
+        
         </div>
       )}
     </>

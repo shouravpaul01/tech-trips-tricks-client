@@ -47,7 +47,7 @@ export default function UserNamePage() {
   };
 
   return (
-    <div>
+    <div className="bg-white w-full md:max-w-md rounded-md p-5">
       <h1 className="text-2xl font-semibold">What Should we call you? </h1>
       <p className="text-gray-500">
         Your "user_name" is unique.You can change it later.

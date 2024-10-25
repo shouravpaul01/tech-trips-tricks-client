@@ -196,3 +196,18 @@ export const followBackUserReq = async (
     return error?.response?.data;
   }
 };
+export const getSingleUserByEmailReq = async (email:string): Promise<{
+  status: string;
+  message: string;
+  errorMessages:TErrorMessage[];
+  data: TUser;
+}> => {
+  try {
+    const data = await axiosInstance.get(`/users/single-user-by-email?email=${email}`);
+
+    return data.data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+};

@@ -8,3 +8,7 @@ export const updatePersonalInfoValidation=z.object({
     bio:z.string().max(300, { message: "Bio must be within 300 characters." }).optional(),
     address:z.string().optional(),
 })
+export const findAccountValidation=z.object({
+    email:z.string().nonempty("The field is required.").email("Enter a valid Email."),
+   
+})

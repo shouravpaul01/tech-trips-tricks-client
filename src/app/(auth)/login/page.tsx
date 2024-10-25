@@ -66,7 +66,7 @@ export default function LoginPage() {
         </div>
       </TTTForm>
 
-      <Link href="#" underline="always" showAnchorIcon className="ms-2 mt-2">
+      <Link   onClick={()=>router.push("/find-account")} underline="always" showAnchorIcon className="ms-2 mt-2">
         Forget Password
       </Link>
       <Button
