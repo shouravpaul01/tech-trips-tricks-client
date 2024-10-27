@@ -81,7 +81,8 @@ export default function MenuItems() {
         >
           Dashboard
         </ListboxItem>
-        <ListboxItem
+        {
+          user?.role=="Admin" ? <ListboxItem
           key="admin-dashboard"
           onClick={()=>router.push('/admin-dashboard')}
           classNames={{
@@ -93,7 +94,8 @@ export default function MenuItems() {
           </IconWrapper>}
         >
           Admin-Dashboard
-        </ListboxItem>
+        </ListboxItem>:<ListboxItem key={""} className="hidden"></ListboxItem>
+        }
       </Listbox>
     </div>
   );

@@ -1,10 +1,12 @@
 "use client";
 import TechEsthusiatsFollowCard from "@/src/app/(with-left-sidebar)/find-tech-enthusiasts/_components/TechEsthusiatsFollowCard";
-import { useGetSingleUser } from "@/src/hooks/UserHook";
+import { useGetSingleUser, useGetSingleUserById } from "@/src/hooks/UserHook";
 
 
-export default  function FollowingPage() {
-  const { data: user, isLoading } = useGetSingleUser();
+export default  function FollowingPage({params}:{params: { userId: string }}) {
+ 
+  const { userId } = params;
+  const { data: user, isLoading } = useGetSingleUserById(userId);
   const currentFollowingUser=user?.following?.map((user) => user._id)
   
 

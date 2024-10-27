@@ -3,7 +3,11 @@ import { subscrptionPlanOptions } from "@/src/constent";
 import { Card, CardBody } from "@nextui-org/card";
 import React from "react";
 import SubscriptionButton from "./_components/SubscriptionButton";
+import { Metadata } from "next";
 
+export const metadata:Metadata={
+  title:{absolute:"Premium"}
+}
 export default function PremiumPage() {
   
   return (

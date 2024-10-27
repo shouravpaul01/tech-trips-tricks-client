@@ -8,6 +8,7 @@ import Image from "next/image";
 import { getSingleUserByIdReq } from "@/src/services/UserService";
 import { blankImage } from "@/src/constent";
 import { ReactNode } from "react";
+import Link from "next/link";
 
 export default async function ProfileLayout({
   children,
@@ -19,6 +20,7 @@ export default async function ProfileLayout({
   const { userId } = params;
 
   const { data: user } = await getSingleUserByIdReq(userId);
+
   return (
     <div>
       <div className="relative">
@@ -61,6 +63,8 @@ export default async function ProfileLayout({
                 <VerifiedIcon width={20} height={20} />
               ) : (
                 <Button
+                  href="/premium"
+                  as={Link}
                   variant="bordered"
                   radius="full"
                   size="sm"

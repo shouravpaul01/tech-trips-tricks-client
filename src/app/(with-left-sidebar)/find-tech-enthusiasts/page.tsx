@@ -8,14 +8,18 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import TechEsthusiatsFollowCard from "./_components/TechEsthusiatsFollowCard";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTitle } from "@/src/hooks";
+
 
 export default function FindTechEnthusiastsPage() {
+  useTitle("Find Tech Esthusiats")
   const searchParams=useSearchParams()
   const search=searchParams.get("search") ? {label:"search",value:searchParams.get("search")} :null
   const { data: user } = useGetSingleUser();
-  const followingUserId = user?.following?.map((user) => user?._id) || [];
+  console.log(user)
+  const followingUserId = user?.following?.map((user) => user?._id).filter(Boolean) || [];
   const nonEQUser=[user?._id, ...followingUserId!]
-  const filterQuery = [{ label: "nonEQUser", value: nonEQUser },search]
+  const filterQuery = [{ label: "nonEQUser", value: nonEQUser },search].filter(Boolean)
   const [currentFollowingUser, setCurrentFollowingUser] = useState<
     (string | undefined)[]
   >([...nonEQUser]);
@@ -24,8 +28,9 @@ export default function FindTechEnthusiastsPage() {
     useGetAllUsersForInfinete({
       limit: 5,
       queryArgs:
-        filterQuery.length > 0 ? filterQuery : [],
+        filterQuery.length > 0 &&  filterQuery[0]?.value?.length ? filterQuery : [],
     });
+    console.log(filterQuery)
   const users = data?.pages.flatMap((item) => item.data) || [];
   isLoading && <TTTZLoading />;
   return (

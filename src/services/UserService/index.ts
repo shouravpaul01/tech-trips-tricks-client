@@ -22,7 +22,7 @@ export const getSingleUserReq = async (): Promise<{
 
     return data.data;
   } catch (error: any) {
-    console.log(error);
+    // console.log(error);
     return error?.response?.data;
   }
 };
@@ -32,11 +32,12 @@ export const getSingleUserByIdReq = async (userId:string): Promise<{
   data: TUser;
 }> => {
   try {
+    console.log(userId,"getSingleUserByIdReq")
     const data = await axiosInstance.get(`/users/single-user-by-id/${userId}`);
 
-    return data.data;
+    return data?.data;
   } catch (error: any) {
-    console.log(error);
+    // console.log(error);
     return error?.response?.data;
   }
 };
@@ -68,12 +69,12 @@ export const getAllUsersReq = async ({
   errorMessages: TErrorMessage[];
 }> => {
   const params = new URLSearchParams();
-
+console.log(queryArgs)
   limit && params.append("limit", JSON.stringify(limit));
   page && params.append("page", JSON.stringify(page));
   console.log(queryArgs?.length, "queryArgs");
   if (queryArgs?.length! > 0) {
-    queryArgs?.forEach((arg: any) => params.append(arg.label, arg.value));
+    queryArgs?.forEach((arg: any) => params.append(arg?.label, arg?.value));
   }
   const { data } = await axiosInstance.get(`/users?${params}`);
 
@@ -204,10 +205,9 @@ export const getSingleUserByEmailReq = async (email:string): Promise<{
 }> => {
   try {
     const data = await axiosInstance.get(`/users/single-user-by-email?email=${email}`);
-
-    return data.data;
+    return data?.data;
   } catch (error: any) {
-    console.log(error);
+    
     return error?.response?.data;
   }
 };

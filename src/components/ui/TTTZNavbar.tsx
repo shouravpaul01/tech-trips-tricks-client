@@ -93,8 +93,8 @@ export default function TTTZNavbar() {
                     color="secondary"
                     classNames={{ base: "font-bold" }}
                     startContent={<LogoutdIcon fill="#7828c8" />}
-                    onClick={() => {
-                      logoutUser(), setIsLoading(true), router.push("/login");
+                    onPress={async() => {
+                     await logoutUser(), setIsLoading(true), router.push("/login");
                     }}
                   >
                     Logout

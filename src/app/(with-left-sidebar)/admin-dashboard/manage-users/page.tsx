@@ -2,6 +2,7 @@
 import { EditIcon, InfoIcon, VerifiedIcon } from "@/src/components/icons";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
 import { noImage } from "@/src/constent";
+import { useTitle } from "@/src/hooks";
 import { useGetAllUsers, useUpdateUserActiveStatus, useUpdateUserRole } from "@/src/hooks/UserHook";
 import { TUpdateRoleQuery } from "@/src/types";
 import { Avatar } from "@nextui-org/avatar";
@@ -28,6 +29,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 
 export default function ManageUsersPage() {
+  useTitle("Manage-Users")
   const [page, setPage] = useState(1);
   const { data, isLoading } = useGetAllUsers({page});
   const { mutate: updateRole } = useUpdateUserRole();

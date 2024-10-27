@@ -4,6 +4,7 @@ import CommentForm from "@/src/components/form/comment/CommentForm";
 import CommentDetails from "@/src/components/ui/Comment/CommentDetails";
 import CommentLoading from "@/src/components/ui/CommentLoading";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
+import { useTitle } from "@/src/hooks";
 
 import { useGetSinglePost } from "@/src/hooks/PostHook";
 
@@ -12,6 +13,7 @@ export default function PostDetailsPage({
 }: {
   params: { postId: string };
 }) {
+  useTitle("Details")
   const { postId } = params;
 
   const { data: post, isLoading, isFetching } = useGetSinglePost(postId);
@@ -35,7 +37,6 @@ export default function PostDetailsPage({
           {post?.comments?.map((comment, index) => (
             <CommentDetails
               key={index}
-              profileImage={post?.user?.profileImage}
               comment={comment}
             />
           ))}

@@ -1,5 +1,4 @@
 "use client";
-
 import { premiumOrFreeOptions, techBlogCategories } from "@/src/constent";
 import { Checkbox, CheckboxGroup } from "@nextui-org/checkbox";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -10,67 +9,54 @@ import { toast } from "sonner";
 import { useGetSingleUser } from "@/src/hooks/UserHook";
 import { CustomCheckbox } from "./CustomCheckedbox";
 
-export default function FilterByCheckobx() {
+export default function FilterByCheckbox() {
   const { data: currentUser } = useGetSingleUser();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const initialCategories = searchParams.get("categories")?.split(",") || [];
   const contentType = searchParams.get("contentType")?.split(",") || [];
 
   // State to manage selected content type
-  const [selectedContentType, setSelectedContentType] = useState<string[]>(
-    contentType!
-  );
+  const [selectedContentType, setSelectedContentType] = useState<string[]>(contentType!);
+
   // State to manage selected categories
-  const [selectedCategories, setSelectedCategories] =
-    useState<string[]>(initialCategories);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategories);
 
   useEffect(() => {
     setSelectedCategories(initialCategories);
     setSelectedContentType(contentType!);
   }, [searchParams]);
 
-  const handleContentTypeFilter = async (value: string[]) => {
-    if (value.length === 0) {
-      router.push(`${pathname}`);
-      return;
-    }
+  // Helper function to update query parameters
+  const updateQueryParams = (newContentTypes: string[], newCategories: string[]) => {
+    const params = new URLSearchParams();
+
+    if (newContentTypes.length > 0) params.set("contentType", newContentTypes.join(","));
+    if (newCategories.length > 0) params.set("categories", newCategories.join(","));
+
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handleContentTypeFilter = (value: string[]) => {
     if (!currentUser?.isSubscribed && value.includes("Premium")) {
-      toast.error("This feature is available for Premium User.");
-      return;
-    }
-    if (!value) {
-      router.push(`${pathname}`);
+      toast.error("This feature is available for Premium Users.");
       return;
     }
     setSelectedContentType(value);
-    router.push(`${pathname}/?contentType=${value}`);
+    updateQueryParams(value, selectedCategories); // Update both content type and categories
   };
 
   const handleCategoriesFilter = (value: string[]) => {
     setSelectedCategories(value);
-
-    if (value.length === 0) {
-      router.push(`${pathname}`);
-      return;
-    }
-
-    router.push(`${pathname}/?categories=${value.join(",")}`);
+    updateQueryParams(selectedContentType, value); // Update both content type and categories
   };
 
   const handleRemove = (item: string) => {
-    const updatedCategories = selectedCategories.filter(
-      (category) => category !== item
-    );
-
+    const updatedCategories = selectedCategories.filter((category) => category !== item);
     setSelectedCategories(updatedCategories);
-
-    if (updatedCategories.length === 0) {
-      router.push("/");
-    } else {
-      router.push(`${pathname}/?categories=${updatedCategories.join(",")}`);
-    }
+    updateQueryParams(selectedContentType, updatedCategories); // Update both content type and categories
   };
 
   return (
@@ -97,23 +83,23 @@ export default function FilterByCheckobx() {
 
       <div>
         <p className="pb-3 shadow-sm">Content Type</p>
-
         <CheckboxGroup
           color="secondary"
           orientation="horizontal"
           className="mt-3"
-          value={selectedContentType} // Sync selected categories with checkboxes
+          value={selectedContentType} // Sync selected content types with checkboxes
           onChange={(value) => handleContentTypeFilter(value)}
         >
           {premiumOrFreeOptions?.map((option, index) => (
-            <CustomCheckbox value={option.value}>{option.key}</CustomCheckbox>
+            <CustomCheckbox key={index} value={option.value}>
+              {option.key}
+            </CustomCheckbox>
           ))}
         </CheckboxGroup>
       </div>
 
       <div>
         <p className="py-3 shadow-sm">Select Categories</p>
-
         <div className="my-2 h-[300px] overflow-y-auto">
           <CheckboxGroup
             color="secondary"

@@ -3,6 +3,7 @@ import TTTForm from "@/src/components/form/TTTZForm";
 import TTTZInput from "@/src/components/form/TTTZInput";
 import TTTZPasswordInput from "@/src/components/form/TTTZPasswordInput";
 import { ArrowForwardIcon } from "@/src/components/icons";
+import { useTitle } from "@/src/hooks";
 import { changePasswordReq, getCurrentuser, logoutUser } from "@/src/services/AuthService";
 import { TErrorMessage } from "@/src/types";
 import { changePasswordValidation } from "@/src/validation/auth.validation";
@@ -14,6 +15,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 export default function ChangePasswordPage() {
+  useTitle("Change-Password")
   const router=useRouter()
   const [errors,setErrors]=useState<TErrorMessage[]>()
   const handleChangePassword: SubmitHandler<FieldValues> = async (data) => {

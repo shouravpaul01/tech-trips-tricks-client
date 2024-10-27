@@ -23,6 +23,7 @@ export default function EditProfileModal({user}:{user:TUser}) {
       }}
       btnProps={{
         color: "secondary",
+        size:"sm",
         startContent: <EditIcon width={16} height={16} />,
       }}
       headerTitle="Edit Profile"

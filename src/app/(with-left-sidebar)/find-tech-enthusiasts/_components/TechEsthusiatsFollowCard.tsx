@@ -9,9 +9,11 @@ import {
 import { TUser } from "@/src/types";
 import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
+import  Link  from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useState } from "react";
+
 import { toast } from "sonner";
+import { useUser } from "@/src/context/user.provider";
 
 export default function TechEsthusiatsFollowCard({
   isFollowing,
@@ -26,6 +28,7 @@ export default function TechEsthusiatsFollowCard({
   currentFollowingUser?: (string | undefined)[];
   setCurrentFollowingUser?: (value: string[]) => void;
 }) {
+  const {user:currentUser}=useUser()
   const queryClient = useQueryClient();
 
   const handleFollowing = async (followingUserId: string) => {
@@ -75,7 +78,7 @@ export default function TechEsthusiatsFollowCard({
           src={user.profileImage || blankImage}
         />
         <div>
-          <p className="font-bold">{user.name}</p>
+          <Link href={`/profile/${user?.userId}`}  className="font-semibold hover:underline hover:text-blue-600">{user.name}</Link>
           <p className="font-semibold text-gray-400 -mt-1">@{user.userId}</p>
           <div className="flex gap-2 text-sm mt-2">
             <p>{user.following?.length} Following</p>
@@ -84,7 +87,7 @@ export default function TechEsthusiatsFollowCard({
         </div>
       </div>
       <div>
-        {isFollowing && (
+        {(isFollowing && currentUser?.userId !== user?.userId ) && (
           <Button
             color={
               currentFollowingUser?.includes(user._id) ? "default" : "secondary"
@@ -106,7 +109,7 @@ export default function TechEsthusiatsFollowCard({
             {currentFollowingUser?.includes(user._id) ? "Cencel" : " Follow"}
           </Button>
         )}
-        {isFollowers && (
+        {(isFollowers && currentUser?.userId == user?.userId && !currentUser?.userId ) &&  (
           <Button
             color={"secondary"}
             size="sm"

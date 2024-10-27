@@ -1,9 +1,11 @@
 "use client"
 import { PremiumIcon } from "@/src/components/icons";
+import { useTitle } from "@/src/hooks";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
 
 export default function PaymentCencelPage() {
+  useTitle("Cencel Payment")
   const router = useRouter();
   return (
     <div className="h-screen flex  flex-col gap-3 justify-center items-center">

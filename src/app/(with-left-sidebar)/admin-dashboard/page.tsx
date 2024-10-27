@@ -1,5 +1,6 @@
 "use client"
 import { PostIcon } from "@/src/components/icons";
+import { useTitle } from "@/src/hooks";
 import { useGetMonthlyPayments } from "@/src/hooks/SubscriptionHook";
 
 import {
@@ -58,8 +59,9 @@ const data = [
   },
 ];
 export default function AdminDashboardPage() {
+  useTitle("Admin-Dashboard")
   const {data} =useGetMonthlyPayments()
-  console.log(data)
+  
   return (
     <div className="mt-2">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -14,11 +14,14 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/src/context/user.provider";
+import { useTitle } from "@/src/hooks";
+
 
 
 
 
 export default function LoginPage() {
+ useTitle("Login")
   const [authError, setAuthError] = useState<string>("");
   const {setIsLoading}=useUser()
   const searchParams=useSearchParams()

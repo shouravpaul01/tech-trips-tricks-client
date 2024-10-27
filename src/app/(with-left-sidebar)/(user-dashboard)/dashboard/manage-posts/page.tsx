@@ -13,6 +13,7 @@ import CreatePostModal from "@/src/components/modals/CreatePostModal";
 import PostDetailsModal from "@/src/components/modals/PostDetailsModal";
 import TTTZLoading from "@/src/components/ui/TTTZLoading";
 import { useUser } from "@/src/context/user.provider";
+import { useTitle } from "@/src/hooks";
 
 import { useDeletePost, useGetAllPosts, useRestorePost } from "@/src/hooks/PostHook";
 import { Button } from "@nextui-org/button";
@@ -34,6 +35,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function ManagePostsPage() {
+  useTitle("Manage-Posts")
   const { user } = useUser();
 
   const [page, setPage] = useState(1);
