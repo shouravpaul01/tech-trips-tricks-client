@@ -17,6 +17,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import PrintPost from "../PrintPost";
 import { useReactToPrint } from "react-to-print";
+import Link from "next/link";
 
 export default function CommentWithUpDownVotes({
   post,
@@ -63,9 +64,9 @@ export default function CommentWithUpDownVotes({
 
   return (
     <div className="flex justify-between items-center w-full">
-      <div className="">
-        
-        {(post?.isUpvotedIP?.includes(ipAddress!) || !post?.isDownvotedIP?.includes(ipAddress!)) && (
+      <div className="w-1/3 ">
+        {(post?.isUpvotedIP?.includes(ipAddress!) ||
+          !post?.isDownvotedIP?.includes(ipAddress!)) && (
           <Button
             isIconOnly
             variant="light"
@@ -80,7 +81,8 @@ export default function CommentWithUpDownVotes({
             />
           </Button>
         )}
-        {(!post?.isUpvotedIP?.includes(ipAddress!) || post?.isDownvotedIP?.includes(ipAddress!)) && (
+        {(!post?.isUpvotedIP?.includes(ipAddress!) ||
+          post?.isDownvotedIP?.includes(ipAddress!)) && (
           <Button
             isIconOnly
             variant="light"
@@ -98,21 +100,22 @@ export default function CommentWithUpDownVotes({
           </Button>
         )}
       </div>
-      <Button
-        variant="light"
-        color="secondary"
-        size="sm"
-        radius="full"
-        className="text-sm"
-        startContent={<InfoIcon />}
-        onPress={() => router.push(`/details/${post?._id}`)}
-      >
-        Details
-      </Button>
+      <div className="w-1/3 text-center">
+        <Button
+          href={`/details/${post?._id}`}
+          as={Link}
+          variant="light"
+          color="secondary"
+          size="sm"
+          radius="full"
+          className="text-sm"
+          startContent={<InfoIcon />}
+        >
+          Details
+        </Button>
+      </div>
 
-     
-
-      <div className="">
+      <div className="w-1/3 text-end">
         <Button
           variant="light"
           color="secondary"
@@ -122,7 +125,7 @@ export default function CommentWithUpDownVotes({
           endContent={<AddCommentkIcon fill="#999999" />}
           onPress={modalDisclosure && modalDisclosure.onOpen}
         >
-          {post?.comments?.length>0 && post?.comments?.length} Comments
+          {post?.comments?.length > 0 && post?.comments?.length} Comments
         </Button>
       </div>
     </div>

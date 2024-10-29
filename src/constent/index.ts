@@ -57,3 +57,23 @@ export const subscrptionPlanOptions:TSubscrptionPlanOptions[]=[
     ]
   }
 ]
+export const teamInformations = [
+  {
+    image:
+      "https://res.cloudinary.com/dcrui4h7s/image/upload/v1726161621/dreams-trip-car-rental-reservation-system/o9ogwuhoadptb1kidzzd.webp",
+    name: "Mr. Shourav Paul",
+    designation: "CEO",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dcrui4h7s/image/upload/v1726175059/dreams-trip-car-rental-reservation-system/o5uwmcmian2fuhxlrilg.jpg",
+    name: "Radika Sen",
+    designation: "COO",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dcrui4h7s/image/upload/v1726175236/dreams-trip-car-rental-reservation-system/ecfa1j6ncy2k5pzzkrmg.jpg",
+    name: "Mr. Hasan Ulahh",
+    designation: "CFO",
+  },
+];

@@ -4,7 +4,7 @@ import { Checkbox, CheckboxGroup } from "@nextui-org/checkbox";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { XmarkIcon } from "../icons";
 import { Button } from "@nextui-org/button";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useGetSingleUser } from "@/src/hooks/UserHook";
 import { CustomCheckbox } from "./CustomCheckedbox";
@@ -19,25 +19,32 @@ export default function FilterByCheckbox() {
   const contentType = searchParams.get("contentType")?.split(",") || [];
 
   // State to manage selected content type
-  const [selectedContentType, setSelectedContentType] = useState<string[]>(contentType!);
+  const [selectedContentType, setSelectedContentType] = useState<string[]>(
+    contentType!
+  );
 
   // State to manage selected categories
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategories);
+  const [selectedCategories, setSelectedCategories] =
+    useState<string[]>(initialCategories);
 
-  useEffect(() => {
-    setSelectedCategories(initialCategories);
-    setSelectedContentType(contentType!);
-  }, [searchParams]);
 
-  // Helper function to update query parameters
-  const updateQueryParams = (newContentTypes: string[], newCategories: string[]) => {
-    const params = new URLSearchParams();
-
-    if (newContentTypes.length > 0) params.set("contentType", newContentTypes.join(","));
-    if (newCategories.length > 0) params.set("categories", newCategories.join(","));
-
-    router.push(`${pathname}?${params.toString()}`);
-  };
+    const createQueryString = useCallback(
+      (newContentTypes: string[], newCategories: string[]) => {
+        const params = new URLSearchParams(searchParams);
+        if (newContentTypes.length > 0) {
+          params.set("contentType", newContentTypes.join(","));
+        } else {
+          params.delete("contentType");
+        }
+        if (newCategories.length > 0) {
+          params.set("categories", newCategories.join(","));
+        } else {
+          params.delete("categories");
+        }
+        router.push(`${pathname}?${params.toString()}`);
+      },
+      [router, pathname, searchParams]
+    );
 
   const handleContentTypeFilter = (value: string[]) => {
     if (!currentUser?.isSubscribed && value.includes("Premium")) {
@@ -45,18 +52,20 @@ export default function FilterByCheckbox() {
       return;
     }
     setSelectedContentType(value);
-    updateQueryParams(value, selectedCategories); // Update both content type and categories
+    createQueryString(value, selectedCategories); // Update both content type and categories
   };
 
   const handleCategoriesFilter = (value: string[]) => {
     setSelectedCategories(value);
-    updateQueryParams(selectedContentType, value); // Update both content type and categories
+    createQueryString(selectedContentType, value); // Update both content type and categories
   };
 
   const handleRemove = (item: string) => {
-    const updatedCategories = selectedCategories.filter((category) => category !== item);
+    const updatedCategories = selectedCategories.filter(
+      (category) => category !== item
+    );
     setSelectedCategories(updatedCategories);
-    updateQueryParams(selectedContentType, updatedCategories); // Update both content type and categories
+    createQueryString(selectedContentType, updatedCategories); // Update both content type and categories
   };
 
   return (

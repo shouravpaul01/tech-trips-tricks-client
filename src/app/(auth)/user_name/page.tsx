@@ -16,16 +16,14 @@ import { useRouter } from "next/navigation";
 
 export default function UserNamePage() {
   const { user } = useUser();
-  
+
   const router = useRouter();
   const [userIdError, setUserIdError] = useState<TErrorMessage | {}>({});
-  const { mutate: handleUserId,isPending } = useMutation({
+  const { mutate: handleUserId, isPending } = useMutation({
     mutationKey: ["USER_NAME"],
     mutationFn: async (data: FieldValues) => await updateUserId(data),
     onSuccess: (data) => {
-    
       if (data?.status) {
-        
         router.push("/");
         toast.success(data?.message);
       }
@@ -42,60 +40,76 @@ export default function UserNamePage() {
     }
   };
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data)
+    console.log(data);
     handleUserId(data);
   };
 
   return (
-    <div className="bg-white w-full md:max-w-md rounded-md p-5">
-      <h1 className="text-2xl font-semibold">What Should we call you? </h1>
-      <p className="text-gray-500">
-        Your "user_name" is unique.You can change it later.
-      </p>
-      <TTTForm
-        onSubmit={onSubmit}
-        resolver={zodResolver(useIdValidation)}
-        defaultValues={{ email: user?.email, userId: user?.userId }}
-      >
-        <div className="space-y-2">
-          <TTTZInput name="email" type="email" inputProps={{className:"max-w-xs hidden"}} />
-          <TTTZInput
-            name="userId"
-            type="text"
-            inputProps={{variant:"underlined",label:"User Name",className:"max-w-xs "}}
-            
-            
-            onValueChange={(value) => handleUserIdInput(value)}
-          />
-          {Object.keys(userIdError).length > 0 && (
-            <p
-              className={`${(userIdError as TErrorMessage).path == "available" ? "text-red-400" : "text-green-500"}`}
-            >
-              {(userIdError as TErrorMessage).message}
-            </p>
-          )}
-        </div>
+   
+      <div className="bg-white w-full md:max-w-md rounded-md p-5">
+        <h1 className="text-2xl font-semibold">What Should we call you? </h1>
+        <p className="text-gray-500">
+          Your "user_name" is unique.You can change it later.
+        </p>
+        <TTTForm
+          onSubmit={onSubmit}
+          resolver={zodResolver(useIdValidation)}
+          defaultValues={{ email: user?.email, userId: user?.userId }}
+        >
+          <div className="space-y-2">
+            <TTTZInput
+              name="email"
+              type="email"
+              inputProps={{ className: "max-w-xs hidden" }}
+            />
+            <TTTZInput
+              name="userId"
+              type="text"
+              inputProps={{
+                variant: "underlined",
+                label: "User Name",
+                className: "max-w-xs ",
+              }}
+              onValueChange={(value) => handleUserIdInput(value)}
+            />
+            {Object.keys(userIdError).length > 0 && (
+              <p
+                className={`${(userIdError as TErrorMessage).path == "available" ? "text-red-400" : "text-green-500"}`}
+              >
+                {(userIdError as TErrorMessage).message}
+              </p>
+            )}
+          </div>
 
-        <div className="mt-5 flex gap-3">
-          <Button color="secondary" variant="bordered" radius="sm" onClick={()=> {router.push("/"),toast.success("Successfully Done.")}}>
-            Skip Now
-          </Button>
-          <Button
-            type="submit"
-            color="secondary"
-            variant="shadow"
-            radius="sm"
-            className=" text-white "
-            isDisabled={
-              (userIdError as TErrorMessage).path == "available" ? true : false
-            }
-            startContent={<ArrowForwardIcon />}
-            
-          >
-            Next
-          </Button>
-        </div>
-      </TTTForm>
-    </div>
+          <div className="mt-5 flex gap-3">
+            <Button
+              color="secondary"
+              variant="bordered"
+              radius="sm"
+              onClick={() => {
+                router.push("/"), toast.success("Successfully Done.");
+              }}
+            >
+              Skip Now
+            </Button>
+            <Button
+              type="submit"
+              color="secondary"
+              variant="shadow"
+              radius="sm"
+              className=" text-white "
+              isDisabled={
+                (userIdError as TErrorMessage).path == "available"
+                  ? true
+                  : false
+              }
+              startContent={<ArrowForwardIcon />}
+            >
+              Next
+            </Button>
+          </div>
+        </TTTForm>
+      </div>
+    
   );
 }

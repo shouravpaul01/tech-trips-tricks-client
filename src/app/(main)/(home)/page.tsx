@@ -6,6 +6,7 @@ import TTTZLoading from "@/src/components/ui/TTTZLoading";
 import { useGetAllPostsForInfinite } from "@/src/hooks/PostHook";
 import { useSearchParams } from "next/navigation";
 import { useGetSingleUser } from "@/src/hooks/UserHook";
+import { Label } from "recharts";
 
 const HomePage = () => {
   const { data: user } = useGetSingleUser();
@@ -32,8 +33,8 @@ const HomePage = () => {
   const contentTypeFilter =
     contentTypesQuery?.length > 0 ? contentTypesQuery : defaultContent;
 
-  const filter = [...categories, ...contentTypeFilter];
-  const limit = 2;
+  const filter = [...categories, ...contentTypeFilter,{label:"isDeleted",value:false}];
+  const limit = 5;
 
   const { data, hasNextPage, fetchNextPage, isLoading } =
     useGetAllPostsForInfinite({

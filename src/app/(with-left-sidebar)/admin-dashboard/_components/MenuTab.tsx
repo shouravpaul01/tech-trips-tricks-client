@@ -1,12 +1,12 @@
 "use client"
 import { DashboardIcon, UserGroupIcon } from "@/src/components/icons";
-import { Chip } from "@nextui-org/chip";
 import { Tab, Tabs } from "@nextui-org/tabs";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 
 export default function MenuTab() {
-    const router=useRouter()
+    
     const pathname=usePathname()
 
   return (
@@ -23,11 +23,12 @@ export default function MenuTab() {
           tabContent: "group-data-[selected=true]:text-secondary ",
         }}
         selectedKey={pathname}
-        onSelectionChange={(key:any)=>router.push(key)}
+      
       >
         <Tab
           key="/admin-dashboard"
-          
+          href="/admin-dashboard"
+          as={Link}
           title={
             <div className="flex items-center space-x-2 ">
               <DashboardIcon fill="#7828c8"/>
@@ -39,6 +40,8 @@ export default function MenuTab() {
         />
         <Tab
           key="/admin-dashboard/manage-users"
+           href="/admin-dashboard/manage-users"
+           as={Link}
           title={
             <div className="flex items-center space-x-2">
               <UserGroupIcon />

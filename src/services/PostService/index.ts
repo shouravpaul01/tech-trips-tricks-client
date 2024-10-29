@@ -35,9 +35,14 @@ export const getAllPost = async ({
   
   limit && params.append("limit", JSON.stringify(limit));
   page && params.append("page", JSON.stringify(page));
-  console.log(queryArgs?.length, "queryArgs");
+  
   if (queryArgs?.length! > 0) {
-    queryArgs?.forEach((arg: any) => params.append(arg.label, arg.value));
+    queryArgs?.forEach((arg: any) => {
+      if (!!arg?.value) {
+        params.append(arg.label, arg.value)
+      }
+      
+    });
   }
   const res = await fetch(`${envConfig.baseApi}/posts?${params}`, {
     cache: "no-store",

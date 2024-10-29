@@ -75,6 +75,7 @@ export  const useGetAllPosts=({
   limit?: number;
   queryArgs?: TQueryArg[];
 }) =>{
+
   return useQuery({
     queryKey: ["allPosts",page,queryArgs],
     queryFn: async () => {

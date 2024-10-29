@@ -49,7 +49,6 @@ import {
 } from "react-share";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Avatar } from "@nextui-org/avatar";
-import { Chip } from "@nextui-org/chip";
 import FollowingDetailsTooltipCard from "../ui/FollowingDetailsTooltipCard";
 import Link from "next/link";
 

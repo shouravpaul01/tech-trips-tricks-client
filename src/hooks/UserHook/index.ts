@@ -19,11 +19,11 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-export const useGetAllUsers = ({ page }: { page: number }) => {
+export const useGetAllUsers = ({ page,queryArgs }: { page: number,queryArgs:TQueryArg[] }) => {
   return useQuery({
-    queryKey: ["users"],
+    queryKey: ["users",queryArgs],
     queryFn: async () => {
-      const res = await getAllUsersReq({ page });
+      const res = await getAllUsersReq({ page,queryArgs });
       if (res?.errorMessages?.length > 0) {
         toast.error("Post not found.");
       }

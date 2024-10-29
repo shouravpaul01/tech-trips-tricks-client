@@ -1,6 +1,6 @@
 "use server";
 
-import envConfig from "@/src/config/envConfig";
+
 import {
   TErrorMessage,
   TQueryArg,
@@ -32,7 +32,7 @@ export const getSingleUserByIdReq = async (userId:string): Promise<{
   data: TUser;
 }> => {
   try {
-    console.log(userId,"getSingleUserByIdReq")
+   
     const data = await axiosInstance.get(`/users/single-user-by-id/${userId}`);
 
     return data?.data;

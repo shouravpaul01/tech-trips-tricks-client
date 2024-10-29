@@ -1,21 +1,16 @@
 "use client";
-import { Button } from "@nextui-org/button";
-import { Input } from "@nextui-org/input";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
   NavbarMenu,
-  NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { BarIcon, LogoutdIcon, SearchIcon } from "../icons";
+import {  useState } from "react";
+import { BarIcon, LogoutdIcon } from "../icons";
 import { Avatar } from "@nextui-org/avatar";
-import { motion } from "framer-motion";
 import MenuItems from "./MenuItems";
 import { useUser } from "@/src/context/user.provider";
 import { blankImage } from "@/src/constent";
@@ -25,13 +20,15 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { logoutUser } from "@/src/services/AuthService";
 import SearchInput from "./SearchInput";
 import CreatePostButton from "@/src/app/(main)/_components/CreatePostButton";
 
 export default function TTTZNavbar() {
   const router = useRouter();
+  const searchParams=useSearchParams()
+  const search=searchParams.get("search") || ""
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setIsLoading } = useUser();
   const handleSearch = (searchTerm: string) => {
@@ -108,7 +105,7 @@ export default function TTTZNavbar() {
           <div className=" flex flex-col  h-screen ">
           {/* Scrollable Menu Items */}
           <div className="w-full mb-4">
-                <SearchInput handleSearch={handleSearch} />
+                <SearchInput handleSearch={handleSearch} defaultValue={search} />
               </div>
           <div className="h-[85%] overflow-y-auto">
             <MenuItems />

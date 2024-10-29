@@ -1,13 +1,13 @@
 "use client";
 import { Listbox, ListboxItem } from "@nextui-org/listbox";
-import { DashboardIcon, GroupAddIcon, HomeIcon, PremiumIcon, ProfileIcon } from "../icons";
+import { AboutIcon, DashboardIcon, GroupAddIcon, HomeIcon, PremiumIcon, ProfileIcon } from "../icons";
 import { IconWrapper } from "./IconWrapper";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/src/context/user.provider";
+import Link from "next/link";
 
 
 export default function MenuItems() {
-  const router=useRouter()
   const {user}=useUser()
 
   const iconClasses =
@@ -17,8 +17,9 @@ export default function MenuItems() {
     <div className="font-semibold">
       <Listbox color="secondary" variant="flat"  aria-label="Listbox menu with icons">
         <ListboxItem
-        onClick={()=>router.push("/")}
           key="Home"
+          href={"/"}
+          as={Link}
           classNames={{
             
             title: "font-semibold text-md flex items-center",
@@ -31,7 +32,8 @@ export default function MenuItems() {
         </ListboxItem>
         <ListboxItem
           key="find-tech-enthusiasts"
-          onClick={()=>router.push(`/find-tech-enthusiasts`)}
+          href={"/find-tech-enthusiasts"}
+          as={Link}
           classNames={{
             
             title: "font-semibold text-md flex items-center",
@@ -44,7 +46,8 @@ export default function MenuItems() {
         </ListboxItem>
         <ListboxItem
           key="Premium"
-          onClick={()=>router.push(`/premium`)}
+          href={"/premium"}
+          as={Link}
           classNames={{
             
             title: "font-semibold text-md flex items-center",
@@ -57,7 +60,9 @@ export default function MenuItems() {
         </ListboxItem>
         <ListboxItem
           key="Profile"
-          onClick={()=>router.push(`/profile/${user?.userId}`)}
+          href={`/profile/${user?.userId}`}
+          as={Link}
+         
           classNames={{
             
             title: "font-semibold text-md flex items-center",
@@ -69,8 +74,24 @@ export default function MenuItems() {
           Profile
         </ListboxItem>
         <ListboxItem
+          key="About"
+          href={"/about"}
+          as={Link}
+         
+          classNames={{
+            
+            title: "font-semibold text-md flex items-center",
+          }}
+          startContent={<IconWrapper className="bg-primary/10 text-primary">
+            <AboutIcon fill="#D16D6A" className={iconClasses} />
+          </IconWrapper>}
+        >
+          About us
+        </ListboxItem>
+        <ListboxItem
           key="dashboard"
-          onClick={()=>router.push('/dashboard')}
+          href={"/dashboard"}
+          as={Link}
           classNames={{
             
             title: "font-semibold text-md flex items-center",
@@ -84,7 +105,8 @@ export default function MenuItems() {
         {
           user?.role=="Admin" ? <ListboxItem
           key="admin-dashboard"
-          onClick={()=>router.push('/admin-dashboard')}
+          href={"/admin-dashboard"}
+          as={Link}
           classNames={{
             
             title: "font-semibold text-md flex items-center",

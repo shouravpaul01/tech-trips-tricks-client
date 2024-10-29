@@ -107,3 +107,8 @@ export type TResetDetails = {
   email: string;
   otp?: string;
 };
+export type TTeamInfo={
+  name:string,
+  image:string,
+  designation:string
+}

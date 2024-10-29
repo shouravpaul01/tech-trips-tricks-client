@@ -70,6 +70,7 @@ export default function ConfirmIdentityPage() {
     }
   };
   return (
+   
     <div className="bg-white w-full md:max-w-md rounded-md p-5">
       {tab == "reset_password" ? (
         <div>

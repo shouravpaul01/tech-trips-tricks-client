@@ -7,6 +7,7 @@ import TTTZLoading from "@/src/components/ui/TTTZLoading";
 import { useTitle } from "@/src/hooks";
 
 import { useGetSinglePost } from "@/src/hooks/PostHook";
+import { useGetSingleUser } from "@/src/hooks/UserHook";
 
 export default function PostDetailsPage({
   params,
@@ -15,7 +16,9 @@ export default function PostDetailsPage({
 }) {
   useTitle("Details")
   const { postId } = params;
-
+  const { data: user } = useGetSingleUser();
+  const followingUserId = user?.following?.map((user) => user?._id) || [];
+  const followersUserId = user?.followers?.map((user) => user?._id) || [];
   const { data: post, isLoading, isFetching } = useGetSinglePost(postId);
 
   if (isLoading && isFetching) {
@@ -32,6 +35,8 @@ export default function PostDetailsPage({
             classNames: { footer: "flex-col border-y" },
           }}
           post={post!}
+          followersUserId={followersUserId}
+          followingUserId={followingUserId}
         />
         <div className="mb-32">
           {post?.comments?.map((comment, index) => (

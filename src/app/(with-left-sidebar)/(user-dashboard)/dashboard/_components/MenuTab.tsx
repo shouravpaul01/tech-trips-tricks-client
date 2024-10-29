@@ -1,11 +1,11 @@
 "use client"
-import { DashboardIcon, EyeFilledIcon, EyeSlashFilledIcon, PasswordIcon, PostIcon } from "@/src/components/icons";
+import { DashboardIcon,PasswordIcon, PostIcon } from "@/src/components/icons";
 import { Tab, Tabs } from "@nextui-org/tabs";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 
 export default function MenuTab() {
-    const router=useRouter()
     const pathname=usePathname()
 
   return (
@@ -23,11 +23,12 @@ export default function MenuTab() {
         }}
         
         selectedKey={pathname}
-        onSelectionChange={(key:any)=>router.push(key)}
+        
       >
         <Tab
           key="/dashboard"
-          
+          href="/dashboard"
+          as={Link}
           title={
             <div className="flex items-center space-x-2 ">
               <DashboardIcon fill="#7828c8"/>
@@ -39,7 +40,8 @@ export default function MenuTab() {
         />
         <Tab
           key="/dashboard/manage-posts"
-          
+          href="/dashboard/manage-posts"
+          as={Link}
           title={
             <div className="flex items-center space-x-2">
               <PostIcon />
@@ -52,6 +54,8 @@ export default function MenuTab() {
         />
         <Tab
           key="/dashboard/change-password"
+          href="/dashboard/change-password"
+          as={Link}
           title={
             <div className="flex items-center space-x-2">
               <PasswordIcon />
