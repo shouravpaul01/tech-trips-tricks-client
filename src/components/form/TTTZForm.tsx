@@ -22,11 +22,11 @@ export default function TTTForm({
   errors,
 }: IProps) {
   const formConfig: IFormConfig = {};
-  if (!!defaultValues) {
+  if (defaultValues) {
     formConfig["defaultValues"] = defaultValues;
   }
   //Handle client side validation errors using zod
-  if (!!resolver) {
+  if (resolver) {
     formConfig["resolver"] = resolver;
   }
   const methods = useForm(formConfig);

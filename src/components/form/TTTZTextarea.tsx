@@ -20,7 +20,7 @@ export default function TTTZTextArea({
     <Textarea
       {...register(name)}
       {...textAreaProps}
-      errorMessage={errors[name] ? (errors[name].message as string) : ""}
+      errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
       isInvalid={!!errors[name]}
       
     />

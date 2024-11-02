@@ -22,7 +22,7 @@ export const getSingleUserReq = async (): Promise<{
 
     return data.data;
   } catch (error: any) {
-    // console.log(error);
+
     return error?.response?.data;
   }
 };
@@ -69,10 +69,10 @@ export const getAllUsersReq = async ({
   errorMessages: TErrorMessage[];
 }> => {
   const params = new URLSearchParams();
-console.log(queryArgs)
+
   limit && params.append("limit", JSON.stringify(limit));
   page && params.append("page", JSON.stringify(page));
-  console.log(queryArgs?.length, "queryArgs");
+  
   if (queryArgs?.length! > 0) {
     queryArgs?.forEach((arg: any) => params.append(arg?.label, arg?.value));
   }

@@ -1,10 +1,13 @@
 import { TTeamInfo } from "@/src/types";
+import { MotionConfig } from "framer-motion";
 import Image from "next/image";
-
+import { motion } from "framer-motion";
 const TeamInformationCard = ({ info }: { info: TTeamInfo }) => {
   return (
     <div className="text-center relative shadow-small rounded-md ">
-     
+    <motion.div initial={{ opacity: 0, y: -30 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.5 }}>
         <Image
           src="https://res.cloudinary.com/dcrui4h7s/image/upload/v1726161626/dreams-trip-car-rental-reservation-system/adyp4b82il76fzdhdgq6.png"
           alt="image-border"
@@ -22,6 +25,7 @@ const TeamInformationCard = ({ info }: { info: TTeamInfo }) => {
           objectFit="cover" // Keeps aspect ratio while covering
         />
       </div>
+      </motion.div >
       <h3 className="text-xl font-bold mt-8">{info.name}</h3>
       <p className="text-sm text-gray-600 mb-5">{info.designation}</p>
     </div>

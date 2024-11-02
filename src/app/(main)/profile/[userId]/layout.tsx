@@ -9,6 +9,7 @@ import { getSingleUserByIdReq } from "@/src/services/UserService";
 import { blankImage } from "@/src/constent";
 import { ReactNode } from "react";
 import Link from "next/link";
+import { Avatar } from "@nextui-org/avatar";
 
 export default async function ProfileLayout({
   children,
@@ -25,7 +26,7 @@ export default async function ProfileLayout({
     <div>
       <div className="relative">
         <div className="w-full h-[200px]">
-          {!!user?.coverImage ? (
+          {user?.coverImage ? (
             <Image
               src={user?.coverImage}
               alt="Cover Image"
@@ -37,13 +38,8 @@ export default async function ProfileLayout({
           )}
         </div>
         <div className=" absolute -bottom-14 left-5">
-          <Image
-            src={user?.profileImage || blankImage}
-            alt="profile image"
-            width={112}
-            height={112}
-            className="rounded-full outline outline-4 outline-white "
-          />
+        <Avatar src={user?.profileImage || blankImage} className="w-20 h-20 text-large " isBordered />
+         
         </div>
       </div>
       <div className="px-4">

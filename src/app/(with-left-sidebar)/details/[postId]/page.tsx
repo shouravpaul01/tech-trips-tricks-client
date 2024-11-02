@@ -28,13 +28,13 @@ export default function PostDetailsPage({
     <>
       <div className="relative md:px-4 py-3">
         <PostCard
-          isModalShow={false}
           cardProps={{
             radius: "none",
             shadow: "none",
             classNames: { footer: "flex-col border-y" },
           }}
           post={post!}
+          isModalOpen={false}
           followersUserId={followersUserId}
           followingUserId={followingUserId}
         />
@@ -45,6 +45,7 @@ export default function PostDetailsPage({
               comment={comment}
             />
           ))}
+          {post?.comments?.length==0 && <p className="text-gray-400 text-center py-2">No comments</p>}
           {!post && <CommentLoading />}
         </div>
       </div>

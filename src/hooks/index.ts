@@ -3,6 +3,6 @@ import { useEffect } from "react"
 
 export const useTitle=(title:string)=>{
     useEffect(()=>{
-        document.title=`${title}`
+        document.title=title ?`${title} | TTT-Zone`:"TTT-Zone"
     },[title])
 }

@@ -22,7 +22,7 @@ export default function PersonalInfoUpdate({user}:{user:TUser}) {
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
 
-  const { mutate: handleUpdateUser, isPending } = useMutation({
+  const { mutate: handleUpdateUser } = useMutation({
     mutationKey: ["UPDATE_USER"],
     mutationFn: async (data: FieldValues) => await updateUser(data),
     onSuccess: (data) => {

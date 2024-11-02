@@ -34,8 +34,8 @@ export const useCreatePost = (
         toast.success(data?.message);
         queryClient.invalidateQueries({queryKey:["posts",3,[]]})
       }
-      if (!!data?.errorMessages) {
-        setErrors([...data?.errorMessages]);
+      if (data?.errorMessages && Array.isArray(data?.errorMessages)) {
+        setErrors(data?.errorMessages);
       }
     },
     
@@ -91,11 +91,13 @@ export  const useGetAllPosts=({
   });
 }
 export const useGetSinglePost = (postId: string) => {
+
   const queryClient = useQueryClient();
   return useQuery({
     queryKey: ["single-posts", postId],
     queryFn: async () => {
       const res = await getSinglePost(postId);
+     
       if (res?.errorMessages?.length > 0) {
         toast.error("Post not found.");
         queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -118,8 +120,8 @@ export const useUpdatePost = (setErrors: (errors: TErrorMessage[]) => void) => {
           queryKey: ["single-posts", data.data._id],
         });
       }
-      if (!!data?.errorMessages) {
-        setErrors([...data?.errorMessages]);
+      if (data?.errorMessages && Array.isArray(data?.errorMessages)) {
+        setErrors(data?.errorMessages);
       }
     },
   });
@@ -132,7 +134,7 @@ export const useRemoveImageFromPost = (
     mutationKey: ["REMOVE_IMAGE"],
     mutationFn: async (data: FieldValues) => await removeImageFromPost(data),
     onSuccess: (data) => {
-      console.log(data);
+ 
       if (data?.status) {
         toast.success(data?.message);
         queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -140,8 +142,8 @@ export const useRemoveImageFromPost = (
           queryKey: ["single-posts", data.data._id],
         });
       }
-      if (!!data?.errorMessages) {
-        setErrors([...data?.errorMessages]);
+      if (data?.errorMessages &&  Array.isArray(data?.errorMessages)) {
+        setErrors(data?.errorMessages);
       }
     },
   });
@@ -160,8 +162,7 @@ export const useDeletePost = () => {
           queryKey: ["single-posts", data.data._id],
         });
       }
-      if (!!data?.errorMessages) {
-      }
+     
     },
   });
 };
@@ -179,8 +180,7 @@ export const useRestorePost = () => {
           queryKey: ["single-posts", data.data._id],
         });
       }
-      if (!!data?.errorMessages) {
-      }
+      
     },
   });
 };

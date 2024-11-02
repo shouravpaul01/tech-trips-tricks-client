@@ -16,26 +16,23 @@ import { createCommentValidation } from "@/src/validation/comment.validation";
 export default function CommentForm({ postId }: { postId: string }) {
   const { user } = useUser();
   const queryClient = useQueryClient();
-  const [isResetForm,setIsResetForm]=useState(false)
+  const [isResetForm, setIsResetForm] = useState(false);
   const { mutate: handleCreateComment } = useMutation({
     mutationKey: ["COMMENT"],
     mutationFn: async (data: FieldValues) => await createComment(data),
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status) {
         queryClient.invalidateQueries({ queryKey: ["single-posts"] });
         queryClient.invalidateQueries({ queryKey: ["posts"] });
         toast.success(data.message);
-        setIsResetForm(true)
-      }
-      if (!!data?.errorMessages) {
+        setIsResetForm(true);
       }
     },
   });
   const handleComment: SubmitHandler<FieldValues> = (data) => {
     data.post = postId;
     data.user = user?._id;
-    console.log(data);
+
     handleCreateComment(data);
   };
   return (
@@ -44,12 +41,16 @@ export default function CommentForm({ postId }: { postId: string }) {
         <Avatar src={user?.profileImage} />
       </div>
       <div className="w-full">
-        <TTTForm onSubmit={handleComment} resolver={zodResolver(createCommentValidation)} reset={isResetForm}>
+        <TTTForm
+          onSubmit={handleComment}
+          resolver={zodResolver(createCommentValidation)}
+          reset={isResetForm}
+        >
           <TTTZTextArea
             name="text"
             textAreaProps={{
               variant: "faded",
-              placeholder:"Write your comment...",
+              placeholder: "Write your comment...",
               endContent: (
                 <div className="mt-auto">
                   <Button

@@ -15,7 +15,7 @@ export default function TTTZSelect({ name, selectProps, options }: IProps) {
   return (
     <Select
       {...register(name)}
-      errorMessage={errors[name] ? (errors[name].message as string) : ""}
+      errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
       isInvalid={!!errors[name]}
       {...selectProps}
     >

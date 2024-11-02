@@ -60,6 +60,7 @@ export default function CommentDetails({
   
   return (
     <>
+    
       <div className="flex gap-2 mt-2">
         <div>
           <Avatar src={comment.user.profileImage || blankImage} />
@@ -70,38 +71,42 @@ export default function CommentDetails({
          <CommentViewAndEditAndDelete comment={comment} />
          </div>
 
-          <Button
-            isIconOnly
-            variant="light"
-            color="secondary"
-            radius="full"
-            size="sm"
-            onPress={() => handleUpvote(comment?._id!)}
-          >
-            <ThumbUpkIcon
-              fill={
-                comment?.isUpvotedIP?.includes(ipAddress!)
-                  ? "#EA33F7"
-                  : "#999999"
-              }
-            />
-          </Button>
-          <Button
-            isIconOnly
-            variant="light"
-            color="secondary"
-            radius="full"
-            size="sm"
-            onPress={() => handleDownvote(comment?._id!)}
-          >
-            <ThumbDownkIcon
-              fill={
-                comment?.isDownvotedIP?.includes(ipAddress!)
-                  ? "#EA33F7"
-                  : "#999999"
-              }
-            />
-          </Button>
+         {(comment?.isUpvotedIP?.includes(ipAddress!) ||
+            !comment?.isDownvotedIP?.includes(ipAddress!)) && (
+            <Button
+              isIconOnly
+              variant="light"
+              color="secondary"
+              radius="full"
+              onPress={() => handleUpvote(comment?._id!)}
+            >
+              <ThumbUpkIcon
+                fill={
+                  comment?.isUpvotedIP?.includes(ipAddress!)
+                    ? "#EA33F7"
+                    : "#999999"
+                }
+              />
+            </Button>
+          )}
+          {(!comment?.isUpvotedIP?.includes(ipAddress!) ||
+            comment?.isDownvotedIP?.includes(ipAddress!)) && (
+            <Button
+              isIconOnly
+              variant="light"
+              color="secondary"
+              radius="full"
+              onPress={() => handleDownvote(comment?._id!)}
+            >
+              <ThumbDownkIcon
+                fill={
+                  comment?.isDownvotedIP?.includes(ipAddress!)
+                    ? "#EA33F7"
+                    : "#999999"
+                }
+              />
+            </Button>
+          )}
         </div>
       </div>
     </>

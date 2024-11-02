@@ -16,7 +16,7 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
         <div className="w-[290px] hidden md:flex flex-col fixed h-screen border-e p-2">
           {/* Scrollable Menu Items */}
 
-          <div className="h-[80%] overflow-y-auto">
+          <div className="h-[80%] overflow-y-auto ">
             <MenuItems />
           </div>
 

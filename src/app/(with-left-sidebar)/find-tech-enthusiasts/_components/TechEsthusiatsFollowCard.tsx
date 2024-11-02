@@ -75,7 +75,7 @@ export default function TechEsthusiatsFollowCard({
           isBordered
           radius="sm"
           className="w-20 h-20 text-large"
-          src={user.profileImage || blankImage}
+          src={user?.profileImage || blankImage}
         />
         <div>
           <Link href={`/profile/${user?.userId}`}  className="font-semibold hover:underline hover:text-blue-600">{user.name}</Link>
@@ -109,7 +109,7 @@ export default function TechEsthusiatsFollowCard({
             {currentFollowingUser?.includes(user._id) ? "Cencel" : " Follow"}
           </Button>
         )}
-        {(isFollowers && currentUser?.userId == user?.userId && !currentUser?.userId ) &&  (
+        {(isFollowers && currentUser?.userId !== user?.userId  ) &&  (
           <Button
             color={"secondary"}
             size="sm"

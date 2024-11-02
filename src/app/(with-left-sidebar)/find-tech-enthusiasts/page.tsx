@@ -16,7 +16,7 @@ export default function FindTechEnthusiastsPage() {
   const searchParams=useSearchParams()
   const search=searchParams.get("search") ? {label:"search",value:searchParams.get("search")} :null
   const { data: user } = useGetSingleUser();
-  console.log(user)
+
   const followingUserId = user?.following?.map((user) => user?._id).filter(Boolean) || [];
   const nonEQUser=[user?._id, ...followingUserId!]
   const filterQuery = [{ label: "nonEQUser", value: nonEQUser },search].filter(Boolean)
@@ -30,7 +30,7 @@ export default function FindTechEnthusiastsPage() {
       queryArgs:
         filterQuery.length > 0 &&  filterQuery[0]?.value?.length ? filterQuery : [],
     });
-    console.log(filterQuery)
+
   const users = data?.pages.flatMap((item) => item.data) || [];
   isLoading && <TTTZLoading />;
   return (

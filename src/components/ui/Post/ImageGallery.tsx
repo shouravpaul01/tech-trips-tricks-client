@@ -14,7 +14,7 @@ import Image from "next/image";
 
 export default function ImageGallery({ images }: { images: string[] }) {
   const onInit = () => {
-    console.log("lightGallery has been initialized");
+    
   };
   return (
     <LightGallery

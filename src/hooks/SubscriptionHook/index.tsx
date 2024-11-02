@@ -18,7 +18,7 @@ export default function useCreateSubscription() {
           toast.success("Please complete the payment.");
         }
       }
-      if (!!data?.errorMessages) {
+      if (data?.errorMessages?.length>0) {
         toast.success(data?.errorMessages[0]?.message);
       }
     },

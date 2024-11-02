@@ -19,7 +19,7 @@ export default function UserNamePage() {
 
   const router = useRouter();
   const [userIdError, setUserIdError] = useState<TErrorMessage | {}>({});
-  const { mutate: handleUserId, isPending } = useMutation({
+  const { mutate: handleUserId } = useMutation({
     mutationKey: ["USER_NAME"],
     mutationFn: async (data: FieldValues) => await updateUserId(data),
     onSuccess: (data) => {
@@ -27,7 +27,7 @@ export default function UserNamePage() {
         router.push("/");
         toast.success(data?.message);
       }
-      if (!!data?.errorMessages) {
+      if (data?.errorMessages) {
         setUserIdError(data.errorMessages[0]);
       }
     },
@@ -40,7 +40,7 @@ export default function UserNamePage() {
     }
   };
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+   
     handleUserId(data);
   };
 
@@ -72,7 +72,7 @@ export default function UserNamePage() {
               }}
               onValueChange={(value) => handleUserIdInput(value)}
             />
-            {Object.keys(userIdError).length > 0 && (
+            {Object.keys(userIdError)?.length > 0 && (
               <p
                 className={`${(userIdError as TErrorMessage).path == "available" ? "text-red-400" : "text-green-500"}`}
               >

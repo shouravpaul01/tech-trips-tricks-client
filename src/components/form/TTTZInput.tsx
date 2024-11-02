@@ -26,7 +26,7 @@ inputProps
     <Input
       {...register(name)}
       type={type}
-      errorMessage={errors[name] ? (errors[name].message as string) : ""}
+      errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
       isInvalid={!!errors[name]}
       {...inputProps}
       onValueChange={onValueChange}

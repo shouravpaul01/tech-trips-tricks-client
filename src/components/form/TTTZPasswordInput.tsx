@@ -29,7 +29,7 @@ export default function TTTZPasswordInput({
   return (
     <Input
     {...register(name)}
-    errorMessage={errors[name]?(errors[name].message as string):""}
+    errorMessage={errors[name]?(errors[name]?.message as string):""}
     isInvalid={!!errors[name]}
     label={label}
     variant={variant}

@@ -39,16 +39,16 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center ">
       <div className="w-full md:max-w-4xl flex flex-col md:flex-row bg-white rounded-xl shadow-small p-10 ">
-        <div className="w-full md:w-1/2 flex items-center">
-          <div className="">
+        <div className="w-full md:w-1/2 flex items-center justify-center">
+          
             <Image
               src="/ttt-zone-logo.png"
-              width={400}
-              height={400}
-              alt="icon"
+              width={300}
+              height={300}
+              alt="ttt-zone-logo"
               priority={false}
             />
-          </div>
+          
         </div>
         <div className="border border-dashed border-secondary-200 hidden md:block"></div>
         <div className="w-full md:w-1/2">
@@ -58,6 +58,7 @@ export default function LoginPage() {
             <TTTForm
               onSubmit={onSubmit}
               resolver={zodResolver(loginValidation)}
+              defaultValues={{email:"admin@gmail.com",password:"111111"}}
             >
               <div className="space-y-2">
                 <TTTZInput

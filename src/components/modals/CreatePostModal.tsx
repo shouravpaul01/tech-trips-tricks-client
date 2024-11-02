@@ -37,12 +37,13 @@ export default function CreatePostModal({
   Disclosure: UseDisclosureProps | any;
   postId?: string;
 }) {
-  const { isOpen, onClose, onOpenChange } = Disclosure || useDisclosure();
+
+  const { isOpen, onClose, onOpenChange } = Disclosure;
   const [errors, setErrors] = useState<TErrorMessage[]>([]);
   const [imagesData, setImagesData] = useState<
     { file: File; preview: string }[]
   >([]);
-  const { data: post, isLoading, isSuccess } = useGetSinglePost(postId!);
+  const { data: post, isLoading } = useGetSinglePost(postId!);
   const { mutate: createPost } = useCreatePost(onClose, setErrors);
   const { mutate: updatePost } = useUpdatePost(setErrors);
   const { mutate: removeImage } = useRemoveImageFromPost(setErrors);

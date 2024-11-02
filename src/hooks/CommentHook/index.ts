@@ -18,9 +18,7 @@ export  const useUpdateComment=(setIsCommentEdit:(value:boolean)=>void)=> {
         toast.success(data?.message);
 
       }
-      if (!!data?.errorMessages) {
-        
-      }
+      
     },
   });
 };
@@ -37,9 +35,7 @@ export  const useDeleteComment=()=> {
         toast.success(data?.message);
 
       }
-      if (!!data?.errorMessages) {
-        
-      }
+      
     },
   });
 };

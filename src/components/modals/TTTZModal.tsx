@@ -20,7 +20,7 @@ type TProps = {
   children: ReactNode;
   footerContent?: ReactNode;
   isModalClose?: boolean;
-  Disclosure?:UseDisclosureProps | any
+ 
 };
 export default function TTTZModal({
   headerTitle,
@@ -29,11 +29,11 @@ export default function TTTZModal({
   children,
   footerContent,
   modalProps,
-  Disclosure,
-  isModalClose = false,
+  
+  
 
 }: TProps) {
-  const { isOpen, onOpen, onOpenChange, onClose } = Disclosure || useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   return (
     <>

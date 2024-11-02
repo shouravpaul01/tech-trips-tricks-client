@@ -26,7 +26,7 @@ export default function TTTZDatePicker({
       render={({ field }) => (
         <DatePicker
           {...field}
-          errorMessage={errors[name] ? (errors[name].message as string) : ""}
+          errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
           isInvalid={!!errors[name]}
           label={label}
           size={size}

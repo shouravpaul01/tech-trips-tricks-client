@@ -54,7 +54,7 @@ export default function TTTZImageInput({
         />
       </label>
       {errors[name] && (
-        <p className="text-red-400 text-sm">{errors[name].message as string}</p>
+        <p className="text-red-400 text-sm">{errors[name]?.message as string}</p>
       )}
     </>
   );

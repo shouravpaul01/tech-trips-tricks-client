@@ -1,5 +1,5 @@
 "use client";
-import { blankImage, noImage } from "@/src/constent";
+import { blankImage } from "@/src/constent";
 import { TPost } from "@/src/types";
 import {
   Card,
@@ -8,16 +8,13 @@ import {
   CardHeader,
   CardProps,
 } from "@nextui-org/card";
-import Image from "next/image";
 import CommentWithUpDownVotes from "../ui/Comment/CommentWithUpDownVotes";
 import { useDisclosure } from "@nextui-org/modal";
-import PostDetailsModal from "../modals/PostDetailsModal";
 import {
   DeleteIcon,
   EditIcon,
   MoreIcon,
   PDFIcon,
-  PersonAddIcon,
   PremiumIcon,
   ShareIcon,
 } from "../icons";
@@ -26,7 +23,7 @@ import PostContentText from "../ui/Post/PostContentText";
 import { Button } from "@nextui-org/button";
 import { useUser } from "@/src/context/user.provider";
 import CreatePostModal from "../modals/CreatePostModal";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dropdown,
   DropdownItem,
@@ -41,7 +38,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/popover";
 import {
   FacebookIcon,
   FacebookShareButton,
-  FacebookShareCount,
   LinkedinIcon,
   LinkedinShareButton,
   TwitterIcon,
@@ -54,32 +50,35 @@ import Link from "next/link";
 
 export default function PostCard({
   cardProps,
-  isModalShow = true,
+  isModalOpen = true,
   post,
   followingUserId,
   followersUserId
 ,
 }: {
   cardProps: CardProps;
-  isModalShow?: boolean;
+  isModalOpen?: boolean;
   post: TPost;
   followingUserId?:string[]
   followersUserId?:string[]
 }) {
-
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-
+  const [baseUrl, setBaseUrl] = useState("");
   const editModalDisclosure = useDisclosure();
-  const detailsDisclosure = useDisclosure();
+
+  const { user } = useUser();
+  const [postId, setPostId] = useState<string>("");
+  const { mutate: handleDeletePost } = useDeletePost();
+  const userMatched = post?.user._id === user?._id;
   const printRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
     contentRef: printRef,
     documentTitle: `TTTZDoc`,
   });
-  const { user } = useUser();
-  const [postId, setPostId] = useState<string>("");
-  const { mutate: handleDeletePost } = useDeletePost();
-  const userMatched = post?.user._id === user?._id;
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
 
   return (
     <>
@@ -138,18 +137,18 @@ export default function PostCard({
                             </p>
                             <div className="flex flex-wrap justify-center gap-2 my-3">
                               <FacebookShareButton
-                                url={`${baseUrl}/details/${post._id}`}
+                                url={`${baseUrl}/details/${post?._id}`}
                               >
                                 <FacebookIcon size={32} round />
                               </FacebookShareButton>
                               <LinkedinShareButton
-                                url={`${baseUrl}/details/${post._id}`}
+                                url={`${baseUrl}/details/${post?._id}`}
                                 source={baseUrl}
                               >
                                 <LinkedinIcon size={32} round />
                               </LinkedinShareButton>
                               <TwitterShareButton
-                                url={`${baseUrl}/details/${post._id}`}
+                                url={`${baseUrl}/details/${post?._id}`}
                               >
                                 <TwitterIcon size={32} round />
                               </TwitterShareButton>
@@ -173,8 +172,9 @@ export default function PostCard({
                     <DropdownSection>
                       <DropdownItem
                         key="Edit"
+                        
                         onPress={() => {
-                          setPostId(post._id!);
+                          setPostId(post?._id!);
                           editModalDisclosure.onOpen();
                         }}
                         startContent={
@@ -185,7 +185,7 @@ export default function PostCard({
                       </DropdownItem>
                       <DropdownItem
                         key="Delete"
-                        onPress={() => handleDeletePost(post._id)}
+                        onPress={() => handleDeletePost(post?._id)}
                         startContent={
                           <DeleteIcon width={16} height={16} fill="#7828c8" />
                         }
@@ -206,7 +206,7 @@ export default function PostCard({
           <PostContentText content={post?.content} />
           {post?.images?.length > 0 && (
             <div className="max-w-xl mx-auto">
-              <ImageGallery images={post.images} />
+              <ImageGallery images={post?.images} />
             </div>
           )}
         </CardBody>
@@ -214,15 +214,11 @@ export default function PostCard({
         <CardFooter>
           <CommentWithUpDownVotes
             post={post}
-            modalDisclosure={detailsDisclosure}
+            isModalOpen={isModalOpen}
+
           />
 
-          {isModalShow && (
-            <PostDetailsModal
-              postId={post?._id}
-              Disclosure={detailsDisclosure}
-            />
-          )}
+          
         </CardFooter>
       </Card>
       <CreatePostModal Disclosure={editModalDisclosure} postId={postId} />
@@ -231,17 +227,7 @@ export default function PostCard({
           <PrintPost post={post} />
         </div>
       </div>
-      {/* <Popover placement="right">
-      <PopoverTrigger>
-        <Button>Open Popover</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <div className="px-1 py-2">
-          <div className="text-small font-bold">Popover Content</div>
-          <div className="text-tiny">This is the popover content</div>
-        </div>
-      </PopoverContent>
-    </Popover> */}
+     
     </>
   );
 }

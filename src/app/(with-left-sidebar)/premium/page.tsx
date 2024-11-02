@@ -51,7 +51,7 @@ export default function PremiumPage() {
                     </span>
                   </div>
 
-                  <ul role="list" className="mb-8 space-y-4 text-left">
+                  <ul  className="mb-8 space-y-4 text-left">
                     {item?.features.map((feature, index) => (
                       <li key={index} className="flex items-center space-x-3">
                         <CheckIcon />

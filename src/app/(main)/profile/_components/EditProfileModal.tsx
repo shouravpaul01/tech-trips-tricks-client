@@ -7,6 +7,7 @@ import PersonalInfoUpdate from "./PersonalInfoUpdate";
 import { TUser } from "@/src/types";
 
 
+
 export default function EditProfileModal({user}:{user:TUser}) {
   
   const defaultContent =

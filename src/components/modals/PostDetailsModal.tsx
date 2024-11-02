@@ -5,20 +5,21 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  useDisclosure,
   UseDisclosureProps,
 } from "@nextui-org/modal";
 import CommentForm from "../form/comment/CommentForm";
 import CommentDetails from "../ui/Comment/CommentDetails";
 import CommentWithUpDownVotes from "../ui/Comment/CommentWithUpDownVotes";
 import CommentLoading from "../ui/CommentLoading";
-import { useGetSinglePost} from "@/src/hooks/PostHook";
+import { useGetSinglePost } from "@/src/hooks/PostHook";
 import PostContentText from "../ui/Post/PostContentText";
 import ImageGallery from "../ui/Post/ImageGallery";
 import TTTZLoading from "../ui/TTTZLoading";
 import { useState } from "react";
 import { Button } from "@nextui-org/button";
 import { MoreIcon, XmarkIcon } from "../icons";
-
+import { Skeleton } from "@nextui-org/skeleton";
 
 export default function PostDetailsModal({
   Disclosure,
@@ -29,7 +30,7 @@ export default function PostDetailsModal({
 }) {
   const { isOpen, onOpenChange } = Disclosure;
   const [showAllComments, setShowAllComments] = useState(false);
-  const { data: post,isLoading, isFetching } = useGetSinglePost(postId);
+  const { data: post, isLoading, isFetching } = useGetSinglePost(postId);
 
   return (
     <Modal
@@ -38,17 +39,23 @@ export default function PostDetailsModal({
       scrollBehavior="inside"
       size="2xl"
       classNames={{ footer: "flex-col" }}
-      closeButton={<Button isIconOnly size="sm"><XmarkIcon fill="#00000"/></Button>}
+      closeButton={
+        <Button isIconOnly size="sm">
+          <XmarkIcon fill="#00000" />
+        </Button>
+      }
     >
       <ModalContent>
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              {post?.user?.name}'s Post
+             {isLoading ? <Skeleton className="h-3 w-32 rounded-lg"/>:`${post?.user?.name}'s Post`} 
             </ModalHeader>
             <ModalBody>
               <>
-              {(isLoading && isFetching) && <TTTZLoading className="h-[400px]"/>}
+                {isLoading && isFetching && (
+                  <TTTZLoading className="h-[400px]" />
+                )}
                 <PostContentText content={post?.content!} />
                 {post?.images?.length! > 0 && (
                   <div>
@@ -58,18 +65,29 @@ export default function PostDetailsModal({
                 <div className="border-y-1">
                   <CommentWithUpDownVotes post={post!} />
                 </div>
-                {(showAllComments?post?.comments:post?.comments.slice(0,10))?.map((comment:any, index:number) => (
-                  <CommentDetails
-                    key={index}
-                   
-                    comment={comment}
-                  />
+                {(showAllComments
+                  ? post?.comments
+                  : post?.comments.slice(0, 10)
+                )?.map((comment: any, index: number) => (
+                  <CommentDetails key={index} comment={comment} />
                 ))}
-                {
-                  !showAllComments && post?.comments?.length!>10 && <div>
-                  <Button variant="light" color="secondary" size="sm" startContent={<MoreIcon fill="#999999"/>} className="ms-8" onPress={()=>setShowAllComments(true)}>More Comments</Button>
+                {!showAllComments && post?.comments?.length! > 10 && (
+                  <div>
+                    <Button
+                      variant="light"
+                      color="secondary"
+                      size="sm"
+                      startContent={<MoreIcon fill="#999999" />}
+                      className="ms-8"
+                      onPress={() => setShowAllComments(true)}
+                    >
+                      More Comments
+                    </Button>
                   </div>
-                }
+                )}
+                {post?.comments?.length == 0 && (
+                  <p className="text-gray-400 text-center py-2">No comments</p>
+                )}
                 {isFetching && <CommentLoading />}
               </>
             </ModalBody>

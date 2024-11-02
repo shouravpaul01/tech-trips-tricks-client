@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function MenuTabs({user}:{user:TUser}) {
   const router=useRouter()
   const pathname=usePathname()
-  console.log(user,"MenuTabs")
+ 
 
   return (
     <div className="flex w-full flex-col">

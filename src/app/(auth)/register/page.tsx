@@ -11,7 +11,6 @@ import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import { registerValidation } from "@/src/validation/auth.validation";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-
 import { registerUser } from "@/src/services/AuthService";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
@@ -34,8 +33,8 @@ export default function RegisterPage() {
         setIsLoading(true);
         router.push(`/user_name`);
       }
-      if (!!data?.errorMessages) {
-        setErrors([...data?.errorMessages]);
+      if (data?.errorMessages?.length>0) {
+        setErrors(data?.errorMessages);
       }
     },
   });
@@ -46,17 +45,17 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center ">
       <div className="w-full md:max-w-4xl flex flex-col md:flex-row bg-white rounded-xl shadow-small p-10 ">
-        <div className="w-full md:w-1/2 flex items-center">
-          <div className="">
-            <Image
-              src="/ttt-zone-logo.png"
-              width={400}
-              height={400}
-              alt="icon"
-              priority={false}
-            />
-          </div>
-        </div>
+      <div className="w-full md:w-1/2 flex items-center justify-center">
+          
+          <Image
+            src="/ttt-zone-logo.png"
+            width={300}
+            height={300}
+            alt="ttt-zone-logo"
+            priority={false}
+          />
+        
+      </div>
         <div className="border border-dashed border-secondary-200 hidden md:block"></div>
         <div className="w-full md:w-1/2">
           <div className=" ps-0 md:ps-10">
@@ -133,6 +132,6 @@ export default function RegisterPage() {
           </div>
         </div>
       </div>
-</div>
+    </div>
   );
 }

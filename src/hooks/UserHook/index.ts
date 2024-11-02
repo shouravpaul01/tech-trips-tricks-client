@@ -68,7 +68,7 @@ export const useUpdateUserRole = () => {
         toast.success(data.message);
         queryClient.invalidateQueries({ queryKey: ["users"] });
       }
-      if (!!data?.errorMessages) {
+      if (data?.errorMessages?.length>0) {
         toast.success(data?.errorMessages[0]?.message);
       }
     },
@@ -85,7 +85,7 @@ export const useUpdateUserActiveStatus = () => {
         toast.success(data.message);
         queryClient.invalidateQueries({ queryKey: ["users"] });
       }
-      if (!!data?.errorMessages) {
+      if (data?.errorMessages?.length>0) {
         toast.success(data?.errorMessages[0]?.message);
       }
     },

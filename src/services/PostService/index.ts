@@ -12,7 +12,7 @@ export const createPost = async (bodyData: FieldValues) => {
     revalidateTag("posts");
     return data;
   } catch (error: any) {
-    console.log(error);
+    
     return error?.response?.data;
   }
 };
@@ -38,7 +38,7 @@ export const getAllPost = async ({
   
   if (queryArgs?.length! > 0) {
     queryArgs?.forEach((arg: any) => {
-      if (!!arg?.value) {
+      if (arg?.value) {
         params.append(arg.label, arg.value)
       }
       
@@ -58,7 +58,7 @@ export const getSinglePost = async (
   data: TPost;
   errorMessages: TErrorMessage[];
 }> => {
-  console.log(postId, "server");
+  
   const res = await fetch(`${envConfig.baseApi}/posts/single-post/${postId}`, {
     cache: "no-store",
   });
@@ -74,7 +74,7 @@ export const updatePost = async (updateData: FieldValues) => {
     revalidateTag("posts");
     return data;
   } catch (error: any) {
-    console.log(error);
+  
     return error?.response?.data;
   }
 };
@@ -86,7 +86,7 @@ export const removeImageFromPost = async (updateData: FieldValues) => {
     revalidateTag("posts");
     return data;
   } catch (error: any) {
-    console.log(error);
+   
     return error?.response?.data;
   }
 };
@@ -107,7 +107,7 @@ export const upvoteUpdate = async (updateData: FieldValues) => {
 
     return data;
   } catch (error: any) {
-    console.log(error);
+    
     return error?.response?.data;
   }
 };
@@ -119,7 +119,7 @@ export const downvoteUpdate = async (updateData: FieldValues) => {
 
     return data;
   } catch (error: any) {
-    console.log(error);
+   
     return error?.response?.data;
   }
 };

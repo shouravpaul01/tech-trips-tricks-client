@@ -9,7 +9,7 @@ import {
   ThumbUpkIcon,
 } from "../../icons";
 import { TPost } from "@/src/types";
-import { UseDisclosureProps } from "@nextui-org/modal";
+import { useDisclosure, UseDisclosureProps } from "@nextui-org/modal";
 import getClientIp from "@/src/utils/getClientIp";
 import { toast } from "sonner";
 import { downvoteUpdate, upvoteUpdate } from "@/src/services/PostService";
@@ -18,18 +18,20 @@ import { useRouter } from "next/navigation";
 import PrintPost from "../PrintPost";
 import { useReactToPrint } from "react-to-print";
 import Link from "next/link";
+import PostDetailsModal from "../../modals/PostDetailsModal";
 
 export default function CommentWithUpDownVotes({
   post,
-  modalDisclosure,
+  isModalOpen = true,
 }: {
   post: TPost;
-  modalDisclosure?: UseDisclosureProps;
+  isModalOpen?: boolean;
 }) {
-  const router = useRouter();
-
-  const queryClient = useQueryClient();
+  const [postId, setPostId] = useState<string>("");
   const [ipAddress, setIpAddress] = useState();
+  const detailsDisclosure = useDisclosure();
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     const fetchIpAddress = async () => {
       const ip = await getClientIp();
@@ -63,71 +65,79 @@ export default function CommentWithUpDownVotes({
   };
 
   return (
-    <div className="flex justify-between items-center w-full">
-      <div className="w-1/3 ">
-        {(post?.isUpvotedIP?.includes(ipAddress!) ||
-          !post?.isDownvotedIP?.includes(ipAddress!)) && (
+    <>
+      <div className="flex justify-between items-center w-full">
+        <div className="w-1/3 ">
+          {(post?.isUpvotedIP?.includes(ipAddress!) ||
+            !post?.isDownvotedIP?.includes(ipAddress!)) && (
+            <Button
+              isIconOnly
+              variant="light"
+              color="secondary"
+              radius="full"
+              onPress={() => handleUpvote(post?._id!)}
+            >
+              <ThumbUpkIcon
+                fill={
+                  post?.isUpvotedIP?.includes(ipAddress!)
+                    ? "#EA33F7"
+                    : "#999999"
+                }
+              />
+            </Button>
+          )}
+          {(!post?.isUpvotedIP?.includes(ipAddress!) ||
+            post?.isDownvotedIP?.includes(ipAddress!)) && (
+            <Button
+              isIconOnly
+              variant="light"
+              color="secondary"
+              radius="full"
+              onPress={() => handleDownvote(post?._id!)}
+            >
+              <ThumbDownkIcon
+                fill={
+                  post?.isDownvotedIP?.includes(ipAddress!)
+                    ? "#EA33F7"
+                    : "#999999"
+                }
+              />
+            </Button>
+          )}
+        </div>
+        <div className="w-1/3 text-center">
           <Button
-            isIconOnly
+            href={`/details/${post?._id}`}
+            as={Link}
             variant="light"
             color="secondary"
+            size="sm"
             radius="full"
-            onPress={() => handleUpvote(post?._id!)}
+            className="text-sm"
+            startContent={<InfoIcon />}
           >
-            <ThumbUpkIcon
-              fill={
-                post?.isUpvotedIP?.includes(ipAddress!) ? "#EA33F7" : "#999999"
-              }
-            />
+            Details
           </Button>
-        )}
-        {(!post?.isUpvotedIP?.includes(ipAddress!) ||
-          post?.isDownvotedIP?.includes(ipAddress!)) && (
-          <Button
-            isIconOnly
-            variant="light"
-            color="secondary"
-            radius="full"
-            onPress={() => handleDownvote(post?._id!)}
-          >
-            <ThumbDownkIcon
-              fill={
-                post?.isDownvotedIP?.includes(ipAddress!)
-                  ? "#EA33F7"
-                  : "#999999"
-              }
-            />
-          </Button>
-        )}
-      </div>
-      <div className="w-1/3 text-center">
-        <Button
-          href={`/details/${post?._id}`}
-          as={Link}
-          variant="light"
-          color="secondary"
-          size="sm"
-          radius="full"
-          className="text-sm"
-          startContent={<InfoIcon />}
-        >
-          Details
-        </Button>
-      </div>
+        </div>
 
-      <div className="w-1/3 text-end">
-        <Button
-          variant="light"
-          color="secondary"
-          size="sm"
-          radius="full"
-          className="text-sm"
-          endContent={<AddCommentkIcon fill="#999999" />}
-          onPress={modalDisclosure && modalDisclosure.onOpen}
-        >
-          {post?.comments?.length > 0 && post?.comments?.length} Comments
-        </Button>
+        <div className="w-1/3 text-end">
+          <Button
+            variant="light"
+            color="secondary"
+            size="sm"
+            radius="full"
+            className="text-sm"
+            endContent={<AddCommentkIcon fill="#999999" />}
+            isDisabled={!isModalOpen}
+            onPress={() => {
+              setPostId(post._id), detailsDisclosure.onOpen();
+            }}
+          >
+            {post?.comments?.length > 0 && post?.comments?.length} Comments
+          </Button>
+        </div>
       </div>
-    </div>
+      <PostDetailsModal Disclosure={detailsDisclosure} postId={postId} />
+    </>
   );
 }
