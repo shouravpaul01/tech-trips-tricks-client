@@ -31,7 +31,7 @@ export default function FindTechEnthusiastsPage() {
         filterQuery.length > 0 &&  filterQuery[0]?.value?.length ? filterQuery : [],
     });
 
-  const users = data?.pages.flatMap((item) => item.data) || [];
+  const users = data?.pages?.flatMap((item) => item?.data) || [];
   isLoading && <TTTZLoading />;
   return (
     <div className="p-4">

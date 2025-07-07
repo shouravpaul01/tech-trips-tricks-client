@@ -7,6 +7,8 @@ import { useGetAllPostsForInfinite } from "@/src/hooks/PostHook";
 import { useSearchParams } from "next/navigation";
 import { useGetSingleUser } from "@/src/hooks/UserHook";
 import { Label } from "recharts";
+import { array } from "zod";
+import PostCardSkeleton from "@/src/components/ui/PostCardSkeleton";
 
 const HomePage = () => {
   const { data: user } = useGetSingleUser();
@@ -54,7 +56,10 @@ const HomePage = () => {
         loader={<TTTZLoading />}
         endMessage={
           isLoading ? (
-            <TTTZLoading />
+            <div  className="space-y-5">
+            {[...Array(5)].map((_,index)=><PostCardSkeleton />)}
+            </div>
+           
           ) : (
             <p className="text-sm text-gray-500 font-semibold text-center mt-3">
               No More

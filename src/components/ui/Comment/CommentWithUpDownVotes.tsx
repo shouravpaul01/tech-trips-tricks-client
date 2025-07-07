@@ -67,10 +67,11 @@ export default function CommentWithUpDownVotes({
   return (
     <>
       <div className="flex justify-between items-center w-full">
-        <div className="w-1/3 ">
-          {(post?.isUpvotedIP?.includes(ipAddress!) ||
-            !post?.isDownvotedIP?.includes(ipAddress!)) && (
-            <Button
+        <div className="w-1/3 flex">
+          
+           <div className="flex items-center">
+           {post?.isUpvotedIP?.length>0 && <span className="text-gray-500">{post?.isUpvotedIP?.length}</span>} 
+             <Button
               isIconOnly
               variant="light"
               color="secondary"
@@ -85,10 +86,11 @@ export default function CommentWithUpDownVotes({
                 }
               />
             </Button>
-          )}
-          {(!post?.isUpvotedIP?.includes(ipAddress!) ||
-            post?.isDownvotedIP?.includes(ipAddress!)) && (
-            <Button
+           </div>
+          
+          <div className="flex items-center">
+             {post?.isDownvotedIP?.length >0 && <span className="text-gray-500">{post?.isDownvotedIP?.length}</span>} 
+               <Button
               isIconOnly
               variant="light"
               color="secondary"
@@ -103,7 +105,9 @@ export default function CommentWithUpDownVotes({
                 }
               />
             </Button>
-          )}
+          </div>
+          
+         
         </div>
         <div className="w-1/3 text-center">
           <Button

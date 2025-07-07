@@ -24,22 +24,11 @@ export default function FindTechEnthusiasts() {
 
   const { data: user } = useGetSingleUser();
 
-  const { data: users, isLoading: isUsersLoading } = useGetAllUsers({
-    page: 5,
-  });
 
-  console.log(users, user, "kkk");
 
-  const handleFollowing = async (followingUserId: string) => {
-    const res = await followingUserReq(followingUserId);
-    if (res.status && res.data) {
-      queryClient.invalidateQueries({ queryKey: ["find-users"] });
-      toast.success(res.message);
-    }
-    if (!res.status && res?.errorMessages) {
-      toast.error(res.errorMessages[0].message);
-    }
-  };
+
+
+
 
   const handleFollowBack = async (followingUserId: string) => {
     const res = await followBackUserReq(followingUserId);
@@ -68,7 +57,7 @@ export default function FindTechEnthusiasts() {
           View More
         </Button>
       </div>
-      {user?.followers?.map((user, index) => (
+      {user?.followers?.slice(0,2).map((user, index) => (
         <div className="p-2 rounded-md  space-y-2">
           <div className="flex  gap-3">
             <Avatar
