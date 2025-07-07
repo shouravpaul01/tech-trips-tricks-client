@@ -6,16 +6,15 @@ import { useFormContext } from "react-hook-form";
 interface IProps {
   name: string;
   type?: string;
- 
-  inputProps?:InputProps
-  onValueChange?: (value: string) => void
+
+  inputProps?: InputProps;
+  onValueChange?: (value: string) => void;
 }
 export default function TTTZInput({
   name,
   type = "text",
-  
   onValueChange,
-inputProps
+  inputProps,
 }: IProps) {
   const {
     register,
@@ -30,8 +29,6 @@ inputProps
       isInvalid={!!errors[name]}
       {...inputProps}
       onValueChange={onValueChange}
-    
-   
     />
   );
 }

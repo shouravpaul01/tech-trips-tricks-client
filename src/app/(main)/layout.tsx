@@ -3,6 +3,7 @@ import MenuItems from "@/src/components/ui/MenuItems";
 import FilterByCheckobx from "@/src/components/ui/FilterByCheckobx";
 import CreatePostButton from "./_components/CreatePostButton";
 import TTTZNavbar from "@/src/components/ui/TTTZNavbar";
+import FindTechEnthusiasts from "./_components/FindTechEnthusiasts";
 
 const Mainlayout = ({ children }: { children: ReactNode }) => {
   
@@ -35,7 +36,7 @@ const Mainlayout = ({ children }: { children: ReactNode }) => {
         {/* Right Sidebar fixed */}
         <div className="w-full md:w-[290px] md:ms-[862px] hidden md:flex flex-col fixed h-screen  border-s ">
           <div className="p-4 ">
-            
+            <FindTechEnthusiasts />
               <FilterByCheckobx />
             
           </div>

@@ -109,7 +109,7 @@ export default function FilterByCheckbox() {
 
       <div>
         <p className="py-3 shadow-sm">Select Categories</p>
-        <div className="my-2 h-[300px] overflow-y-auto">
+        <div className="my-2 max-h-[220px]  overflow-y-auto">
           <CheckboxGroup
             color="secondary"
             value={selectedCategories} // Sync selected categories with checkboxes

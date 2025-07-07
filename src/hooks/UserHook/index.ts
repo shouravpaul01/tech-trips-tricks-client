@@ -19,7 +19,7 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-export const useGetAllUsers = ({ page,queryArgs }: { page: number,queryArgs:TQueryArg[] }) => {
+export const useGetAllUsers = ({ page,queryArgs }: { page: number,queryArgs?:TQueryArg[] }) => {
   return useQuery({
     queryKey: ["users",queryArgs],
     queryFn: async () => {
@@ -98,7 +98,7 @@ export const useGetSingleUser = () => {
     queryFn: async () => {
       const res = await getSingleUserReq();
 
-      return res?.data;
+      return res?.data || {};
     },
   });
 };
