@@ -12,6 +12,7 @@ interface IProps {
   size?: "sm" | "md" | "lg";
   isRequired?: boolean;
   placeholder?: string;
+  props?:any
 }
 export default function TTTZPasswordInput({
   name,
@@ -21,6 +22,7 @@ export default function TTTZPasswordInput({
   size = "md",
   isRequired = false,
   placeholder,
+props
 }: IProps) {
     const [isVisible, setIsVisible] = useState(false);
 
@@ -34,6 +36,7 @@ export default function TTTZPasswordInput({
     label={label}
     variant={variant}
     placeholder={placeholder}
+    {...props}
     endContent={
       <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
         {isVisible ? (

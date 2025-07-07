@@ -16,10 +16,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/src/context/user.provider";
 import { useTitle } from "@/src/hooks";
 import Image from "next/image";
+import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/popover";
+import { Snippet } from "@nextui-org/snippet";
 
 export default function LoginPage() {
   useTitle("Login");
   const [authError, setAuthError] = useState<string>("");
+
   const { setIsLoading } = useUser();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -40,31 +43,33 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center ">
       <div className="w-full md:max-w-4xl flex flex-col md:flex-row bg-white rounded-xl shadow-small p-10 ">
         <div className="w-full md:w-1/2 flex items-center justify-center">
-          
-            <Image
-              src="/ttt-zone-logo.png"
-              width={300}
-              height={300}
-              alt="ttt-zone-logo"
-              priority={false}
-            />
-          
+          <Image
+            src="/ttt-zone-logo.png"
+            width={300}
+            height={300}
+            alt="ttt-zone-logo"
+            priority={false}
+          />
         </div>
         <div className="border border-dashed border-secondary-200 hidden md:block"></div>
         <div className="w-full md:w-1/2">
           <div className=" ps-0 md:ps-10">
+        
             <h1 className="text-2xl font-semibold">Login </h1>
             {authError && <p className="text-red-400">{authError}</p>}
             <TTTForm
               onSubmit={onSubmit}
               resolver={zodResolver(loginValidation)}
-              defaultValues={{email:"admin@gmail.com",password:"111111"}}
             >
               <div className="space-y-2">
                 <TTTZInput
                   name="email"
                   type="email"
-                  inputProps={{ variant: "underlined", label: "Email" }}
+                  inputProps={{
+                    variant: "underlined",
+                    label: "Email",
+                   
+                  }}
                 />
 
                 <TTTZPasswordInput
@@ -103,9 +108,51 @@ export default function LoginPage() {
             >
               Create Account
             </Button>
+            <div className="flex gap-3 mt-4">
+              <Popover placement="bottom" showArrow={true}>
+                <PopoverTrigger>
+                  <Button
+                type="submit"
+                color="success"
+                variant="flat"
+                radius="sm"
+                size="sm"
+                
+              >
+                User Credentials
+              </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="px-1 py-2 space-y-2">
+                    <div className="text-small ">Email : <Snippet size="sm" hideSymbol>emon@gmail.com</Snippet></div>
+                    <div className="text-small ">Password : <Snippet size="sm" hideSymbol>111111</Snippet></div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+               <Popover placement="bottom" showArrow={true}>
+                <PopoverTrigger>
+                  <Button
+                type="submit"
+                color="success"
+                variant="flat"
+                radius="sm"
+                size="sm"
+                
+              >
+                Admin Credentials
+              </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="px-1 py-2 space-y-2">
+                    <div className="text-small ">Email : <Snippet size="sm" hideSymbol>admin@gmail.com</Snippet></div>
+                    <div className="text-small ">Password : <Snippet size="sm" hideSymbol>111111</Snippet></div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
         </div>
       </div>
-      </div>
+    </div>
   );
 }
